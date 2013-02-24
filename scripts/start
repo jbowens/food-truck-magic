@@ -1,2 +1,7 @@
 #!/bin/sh
-node ./src/server.js
+verified=./scripts/verify-js
+if $verified
+then
+    echo "Starting server..."
+    node ./src/server.js
+fi
