@@ -1,0 +1,9 @@
+{
+    "db": {
+        "dbname": "foodtruckmagic",
+        "host": "foodtruckler.com",
+        "user": "foodtruck",
+        "password": "magic"
+    }
+
+}
