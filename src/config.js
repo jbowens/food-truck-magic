@@ -15,11 +15,13 @@ var Config = Object.create({
          * Import config settings from the global config file.
          */
         fs.readFile('../config.json', 'utf8', function (err, data) {
+ 
+            var jsonData = JSON.parse(data); 
             if(err) {
                 console.log(err);
             } else {
                 for(var k in data) {
-                    this.data[k] = data[k];
+                    this.data[k] = jsonData[k];
                 }
             }
         });
@@ -41,9 +43,23 @@ var Config = Object.create({
         this.initialized = true;
 
         if( callback ) {
-            callback();
+            callback(this);
         }
 
+    },
+    
+    /*
+     * Retrieves the given config property. It will lazily initialize the
+     * object if necessary.
+     */
+    get: function(key) {
+        if( this.initialized ) {
+            return this.data[key];
+        } else {
+            this.init(function(config) {
+                return config.data[key];
+            });
+        }
     }
 
 });
