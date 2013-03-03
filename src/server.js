@@ -1,9 +1,8 @@
-/**
+/*
  * Food trucks, brah.
  */
 "use strict";
 
-var db = require("any-db");
 var express = require("express");
 
 var app = express();
