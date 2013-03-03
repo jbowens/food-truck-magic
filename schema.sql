@@ -4,7 +4,7 @@ CREATE TABLE trucks (
     twitterName VARCHAR(255),
     twitterid BIGINT,
     phone VARCHAR(20),
-    lastSeen timestamp without timezone,
+    lastSeen timestamp without time zone,
     open boolean,
     currLocationId INTEGER NOT NULL REFERENCES locations(locationid)
 );
