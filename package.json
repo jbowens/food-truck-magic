@@ -9,11 +9,13 @@
         "colors": ">= 0.6.0",
         "uglify-js": ">= 2.2.5",
         "connect": ">= 2.7.3",
-        "async": ">= 0.2.5"
+        "async": ">= 0.2.5",
+        "any-db": ">= 0.3.6",
+        "pg": ">= 0.13.1"
     },
 
     "devDependencies": {
-        "jslint": ">= 0.1.9"
+        "jshint": ">= 1.0.0"
     },
 
     "scripts": {

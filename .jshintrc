@@ -1,0 +1,14 @@
+{
+
+    "node"          : true,
+
+    // Custom globals
+    "predef"        : [
+        "define",
+        "require"
+    ],
+
+    "es5"           : true,
+    "globalstrict"  : true,
+    "strict"        : false
+}
