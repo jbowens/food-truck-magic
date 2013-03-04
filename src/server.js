@@ -8,6 +8,7 @@ var db = require('./db.js').Database;
 var config = require('./config.js').Config;
 
 var app = express();
+var routes = require('./routes.js');
 
 var port = 8080;
 
@@ -29,3 +30,5 @@ config.init(function() {
         console.log('- Server listening on port ' + port);
     });
 });
+
+routes.setupRoutes(app);
