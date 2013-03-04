@@ -3,14 +3,24 @@
  */
 "use strict";
 
-var express = require("express");
+var express = require('express');
+var db = require('./db.js').Database;
+var config = require('./config.js').Config;
 
 var app = express();
 
 var port = 8080;
 
-app.use("/public", express.static(__dirname + '/public'));
+config.init(function() {
+    app.use('/public', express.static(__dirname + '/public'));
 
-app.listen(port, function () {
-    console.log('- Server listening on port ' + port);
+    db.init();
+
+    app.listen(port, function () {
+        db.get(function(err, conn) {
+            console.log('got a db connection!!!!!');
+            db.release(conn);
+        });
+        console.log('- Server listening on port ' + port);
+    });
 });

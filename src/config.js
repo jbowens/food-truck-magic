@@ -9,57 +9,27 @@ var Config = Object.create({
     initialized: false,
     data: {},
 
-    loadGlobalConfigFile: function(callback) {
+    init: function(callback) {
         
+        var _this = this; 
         /*
          * Import config settings from the global config file.
          */
-        fs.readFile('../config.json', 'utf8', function (err, data) {
- 
-            var jsonData = JSON.parse(data); 
+        fs.readFile('./config.json', 'utf8', function (err, data) {
+            var jsonData = JSON.parse(data);
             if(err) {
-                console.log(err);
+                console.error(err);
             } else {
-                for(var k in data) {
-                    this.data[k] = jsonData[k];
+                for(var k in jsonData) {
+                    _this.data[k] = jsonData[k];
                 }
             }
+
+            callback();
         });
 
-        if( callback ) {
-            callback();
-        }
-
-    },
-
-    /*
-     * Initializes the global configuration data and calls the given
-     * callback when finished.
-     */
-    init: function(callback) {
-     
-        this.loadGlobalConfigFile();
-
-        this.initialized = true;
-
-        if( callback ) {
-            callback(this);
-        }
-
-    },
-    
-    /*
-     * Retrieves the given config property. It will lazily initialize the
-     * object if necessary.
-     */
-    get: function(key) {
-        if( this.initialized ) {
-            return this.data[key];
-        } else {
-            this.init(function(config) {
-                return config.data[key];
-            });
-        }
     }
 
 });
+
+exports.Config = Config;
