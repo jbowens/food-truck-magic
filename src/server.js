@@ -6,9 +6,9 @@
 var express = require('express');
 var db = require('./db.js').Database;
 var config = require('./config.js').Config;
+var routes = require('./routes.js');
 
 var app = express();
-var routes = require('./routes.js');
 
 var port = 8080;
 
