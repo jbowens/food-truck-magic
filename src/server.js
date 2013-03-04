@@ -19,7 +19,12 @@ config.init(function() {
     app.listen(port, function () {
         db.get(function(err, conn) {
             console.log('got a db connection!!!!!');
-            db.release(conn);
+            var sql = 'SELECT * from users';
+            conn.query(sql).on('row', function(row) {
+                console.log(row);
+            }).on('end', function() {
+                db.release(conn);
+            });
         });
         console.log('- Server listening on port ' + port);
     });

@@ -6,7 +6,6 @@ var fs = require('fs');
 
 var Config = Object.create({
  
-    initialized: false,
     data: {},
 
     init: function(callback) {
