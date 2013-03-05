@@ -4,9 +4,7 @@
  */
 
 exports.setupRoutes = function(app) {
-    app.get('*', function(request, response) {
-        response.writeHead(200, {'Content-Type' : 'text/html'});
-        response.write('Hello World!');
-        response.end();
+    app.get('/', function(request, response) {
+        response.render('index.ejs', {test : 'yolo'});
     });
 };

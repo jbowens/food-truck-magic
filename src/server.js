@@ -12,6 +12,16 @@ var app = express();
 
 var port = 8080;
 
+
+/* Configuration options for express */
+app.configure(function() {
+    app.set('view engine', 'ejs');
+    app.engine('ejs', require('ejs-locals')); // use ejs-locals for ejs templates
+    app.set('views', __dirname + '/views');
+    app.use(express.static(__dirname +'/public'));
+});
+
+
 config.init(function() {
     app.use('/public', express.static(__dirname + '/public'));
 
@@ -27,8 +37,9 @@ config.init(function() {
                 db.release(conn);
             });
         });
+
+        routes.setupRoutes(app);
         console.log('- Server listening on port ' + port);
     });
 });
 
-routes.setupRoutes(app);

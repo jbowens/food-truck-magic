@@ -1,24 +1,22 @@
 {
-    "name": "food-truck-magic",
-
-    "version": "0.0.1",
-
-    "dependencies": {
-        "express": ">= 3.1.0",
-        "underscore": ">= 1.4.4",
-        "colors": ">= 0.6.0",
-        "uglify-js": ">= 2.2.5",
-        "connect": ">= 2.7.3",
-        "async": ">= 0.2.5",
-        "any-db": ">= 0.3.6",
-        "pg": ">= 0.13.1"
-    },
-
-    "devDependencies": {
-        "jshint": ">= 1.0.0"
-    },
-
-    "scripts": {
-        "start": "./scripts/start"
-    }
+  "name": "food-truck-magic",
+  "version": "0.0.1",
+  "dependencies": {
+    "express": ">= 3.1.0",
+    "underscore": ">= 1.4.4",
+    "colors": ">= 0.6.0",
+    "uglify-js": ">= 2.2.5",
+    "connect": ">= 2.7.3",
+    "async": ">= 0.2.5",
+    "any-db": ">= 0.3.6",
+    "pg": ">= 0.13.1",
+    "ejs": ">= 0.8.3",
+    "ejs-locals": "~1.0.2"
+  },
+  "devDependencies": {
+    "jshint": ">= 1.0.0"
+  },
+  "scripts": {
+    "start": "./scripts/start"
+  }
 }
