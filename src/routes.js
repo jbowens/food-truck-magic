@@ -1,6 +1,5 @@
 /*
  * Routes homey.
- * Will eventually want to set up templating (maybe ejs?)
  */
 
 exports.setupRoutes = function(app) {
