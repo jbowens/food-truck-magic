@@ -23,8 +23,6 @@ app.configure(function() {
 
 
 config.init(function() {
-    app.use('/public', express.static(__dirname + '/public'));
-
     db.init();
 
     app.listen(port, function () {
