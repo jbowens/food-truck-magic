@@ -2,6 +2,8 @@
 verified=./scripts/verify-js
 if $verified
 then
+    echo "Compiling less..."
+    ./scripts/compile-less
     echo "Starting server..."
     node ./src/server.js
 fi

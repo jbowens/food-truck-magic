@@ -4,6 +4,7 @@
 "use strict";
 
 var express = require('express');
+var engine = require('ejs-locals');
 var db = require('./db.js').Database;
 var config = require('./config.js').Config;
 var routes = require('./routes.js');
@@ -15,8 +16,8 @@ var port = 8080;
 
 /* Configuration options for express */
 app.configure(function() {
+    app.engine('ejs', engine); // use ejs-locals for ejs templates
     app.set('view engine', 'ejs');
-    app.engine('ejs', require('ejs-locals')); // use ejs-locals for ejs templates
     app.set('views', __dirname + '/views');
     app.use(express.static(__dirname +'/public'));
 });
