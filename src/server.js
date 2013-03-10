@@ -33,7 +33,7 @@ app.configure(function() {
 config.init(function() {
     db.init();
 
-    app.listen(port, function () {
+    app.listen(port, function() {
         db.get(function(err, conn) {
             console.log('got a db connection!!!!!');
             var sql = 'SELECT * from users';

@@ -14,12 +14,12 @@ var Config = Object.create({
         /*
          * Import config settings from the global config file.
          */
-        fs.readFile('./config.json', 'utf8', function (err, data) {
+        fs.readFile('./config.json', 'utf8', function(err, data) {
             var jsonData = JSON.parse(data);
-            if(err) {
+            if (err) {
                 console.error(err);
             } else {
-                for(var k in jsonData) {
+                for (var k in jsonData) {
                     _this.data[k] = jsonData[k];
                 }
             }
