@@ -6,6 +6,7 @@
 var express = require('express');
 var engine = require('ejs-locals');
 var lessMiddleware = require('less-middleware');
+var args = require('optimist').argv;
 
 var db = require('./db.js').Database;
 var config = require('./config.js').Config;
@@ -13,8 +14,7 @@ var routes = require('./routes.js');
 
 var app = express();
 
-var port = 8080;
-
+var port = args.port ? args.port : 8080;
 
 /* Configuration options for express */
 app.configure(function() {

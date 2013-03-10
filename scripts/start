@@ -3,5 +3,5 @@ verified=./scripts/verify-js
 if $verified
 then
     echo "Starting server..."
-    node ./src/server.js
+    node ./src/server.js "$@"
 fi
