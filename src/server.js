@@ -26,7 +26,7 @@ app.configure(function() {
         compress: false,
         debug: true
     }));
-    app.use(express.static(__dirname +'/public'));
+    app.use('/public', express.static(__dirname +'/public'));
 });
 
 
