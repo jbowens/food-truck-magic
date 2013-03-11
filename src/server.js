@@ -18,6 +18,7 @@ var port = args.port ? args.port : 8080;
 
 /* Configuration options for express */
 app.configure(function() {
+    app.use(express.bodyParser());
     app.engine('ejs', engine);      // use ejs-locals for ejs templates
     app.set('view engine', 'ejs');
     app.set('views', __dirname + '/views');
