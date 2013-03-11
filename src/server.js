@@ -22,11 +22,11 @@ app.configure(function() {
     app.set('view engine', 'ejs');
     app.set('views', __dirname + '/views');
     app.use(lessMiddleware({        // compile less dynamically into css
-        src: __dirname +'/public',
+        src: __dirname + '/public',
         compress: false,
         debug: true
     }));
-    app.use('/public', express.static(__dirname +'/public'));
+    app.use(express.static(__dirname +'/public'));
 });
 
 
