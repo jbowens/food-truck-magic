@@ -1,4 +1,12 @@
 <% layout('boilerplate') %>
 
-<h1><%= truck.name %></h1>
+<% stylesheet('styles/truck.css') %>
+
+<h2><%= truck.name %></h2>
+
+<div id="truck-data">
+    <%if(truck.phone) { %>
+        <a href="tel:<%= truck.phone %>"><%= truck.phone %></a>
+    <% }%>
+</div>
 
