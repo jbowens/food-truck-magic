@@ -7,6 +7,7 @@ CREATE TABLE IF NOT EXISTS locations (
 CREATE TABLE IF NOT EXISTS trucks (
     id SERIAL PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
+    urlid VARCHAR(255) NOT NULL UNIQUE,
     twitterName VARCHAR(255),
     twitterid BIGINT,
     phone VARCHAR(20),

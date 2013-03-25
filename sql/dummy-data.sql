@@ -1,5 +1,5 @@
 -- Dummy trucks
-INSERT INTO trucks (name, phone, open) VALUES('Papa Jim''s', '401-555-5555', false);
+INSERT INTO trucks (name, urlid, phone, open) VALUES('Papa Jim''s', 'papa-jims', '401-555-5555', false);
 
 -- Dummy users
 INSERT INTO users (name, pass, email) VALUES('papajim', 'bestkoreanfoodeva', 'papajim@papajims.com');
