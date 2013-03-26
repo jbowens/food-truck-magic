@@ -1,0 +1,4 @@
+#!/bin/bash
+for i in $(find src -name *.less);
+    do ./node_modules/less/bin/lessc $i > $(echo $i | sed "s/\(.*\).less/\1.css/");
+done

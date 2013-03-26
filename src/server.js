@@ -5,7 +5,6 @@
 
 var express = require('express');
 var engine = require('ejs-locals');
-var lessMiddleware = require('less-middleware');
 var args = require('optimist').argv;
 
 var db = require('./db.js').Database;
@@ -22,11 +21,6 @@ app.configure(function() {
     app.engine('ejs', engine);      // use ejs-locals for ejs templates
     app.set('view engine', 'ejs');
     app.set('views', __dirname + '/views');
-    app.use(lessMiddleware({        // compile less dynamically into css
-        src: __dirname + '/public',
-        compress: false,
-        debug: true
-    }));
     app.use(express.static(__dirname +'/public'));
 });
 
