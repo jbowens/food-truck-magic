@@ -1,5 +1,5 @@
 /*
- * The route for the main truck page.
+ * The route for the /sign-up page.
  */
 var db = require('../db.js').Database;
 var fourOhFourRoute = require('./fourohfour.js').route;
