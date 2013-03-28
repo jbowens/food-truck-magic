@@ -1,0 +1,31 @@
+<% layout('boilerplate') %>
+
+<% stylesheet('/styles/sign-up.css') %>
+
+<h2>Sign up</h2>
+
+<form method="post" action="/sign-up" id="sign-up">
+
+    <div class="form-item">
+        <label for="signup_username">Username</label>
+        <input id="signup_username" type="text" name="name" />
+        <%if(noUsername) { %>
+            <div class="error">
+                You must provide a username!
+            </div>
+        <% }%>
+    </div>
+
+    <div class="form-item">
+        <label for="signup_pass">Password</label>
+        <input id="signup_pass" type="password" name="pass" />
+        <%if(noPassword) { %>
+            <div class="error">
+                You must provide a password!
+            </div>
+        <% }%>
+    </div>
+
+    <input type="submit" value="Sign up" />
+</form>
+
