@@ -6,7 +6,14 @@
 
 <div id="truck-data">
     <%if(truck.phone) { %>
-        <a href="tel:<%= truck.phone %>"><%= truck.phone %></a>
+        <span class="data-item phone">
+            Phone: <a href="tel:<%= truck.phone %>"><%= truck.phone %></a>
+        </span>
+    <% }%>
+    <%if(truck.website) { %>
+        <span class="data-item website">
+            Website: <a href="<%= truck.website %>" class="truck-website"><%= truck.website %></a>
+        </span>
     <% }%>
 </div>
 

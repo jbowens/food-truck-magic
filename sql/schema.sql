@@ -11,6 +11,7 @@ CREATE TABLE IF NOT EXISTS trucks (
     twitterName VARCHAR(255),
     twitterid BIGINT,
     phone VARCHAR(20),
+    website VARCHAR(255),
     lastSeen timestamp without time zone,
     open boolean NOT NULL,
     currLocationId INTEGER REFERENCES locations(locationid)
