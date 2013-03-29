@@ -132,7 +132,7 @@ exports.postRoute = function(request, response) {
             }
 
             // Log the user in by saving the userid to the session
-            req.session.userid = userid;
+            request.session.userid = userid;
 
             /* TODO: Send an email to the user? */
 
