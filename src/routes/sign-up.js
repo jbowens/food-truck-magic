@@ -24,8 +24,9 @@ function createUser(data, callback) {
         }
 
         // TODO: Hash the password
+        var hashedPassword = require('../hasher.js').hash(data.pass);
 
-        conn.query(SQL_INSERT_USER, [data.name, data.pass, data.email], function(err, res) {
+        conn.query(SQL_INSERT_USER, [data.name, hashedPassword, data.email], function(err, res) {
             db.release(conn);
 
             if(err) {
