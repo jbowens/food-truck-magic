@@ -96,7 +96,7 @@ exports.postRoute = function(request, response) {
             if(err) {
                 response.render('sign-up', data);
             } else {
-                /* TODO: Redirect */
+                response.redirect('/');
             }
         });
 
