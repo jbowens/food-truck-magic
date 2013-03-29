@@ -5,6 +5,7 @@ var _ = require('underscore');
 var db = require('../db.js').Database;
 var fourOhFourRoute = require('./fourohfour.js').route;
 var checkUsername = require('./api/check-username.js').checkUsername;
+var bailout = require('./fatalerror.js').bailout;
 
 /* SQL Queries */
 var SQL_INSERT_USER = "INSERT INTO users (name,pass,email) VALUES($1, $2, $3)";
@@ -71,9 +72,7 @@ exports.postRoute = function(request, response) {
     checkUsername(request.body.name, function(error, taken) {
         
         if(error) {
-            console.error(error);
-            // TODO: Figure out what to do here. Print an
-            // error message to the user?
+            bailout(request, response, error);
         }
 
         if(taken) {
@@ -86,6 +85,11 @@ exports.postRoute = function(request, response) {
             'pass': request.body.pass,
             'email': request.body.email
         }, function(error, created) {
+
+            if(error) {
+                bailout(request, response, error);           
+            }
+
             /* TODO: Set user session to log them in */
             /* TODO: Send an email to the user? */
 
