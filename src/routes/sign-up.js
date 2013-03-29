@@ -6,12 +6,38 @@ var db = require('../db.js').Database;
 var fourOhFourRoute = require('./fourohfour.js').route;
 var checkUsername = require('./api/check-username.js').checkUsername;
 
+/* SQL Queries */
+var SQL_INSERT_USER = "INSERT INTO users (name,pass,email) VALUES($1, $2, $3)";
+
 var defaultTemplateData = {
+    noEmail: false,
     noUsername: false,
     noPassword: false,
     usernameTaken: false,
     enteredUsername: null
 };
+
+function createUser(data, callback) {
+    db.get(function(err, conn) {
+        if(err) {
+            callback(err, null);
+        }
+
+        // TODO: Hash the password
+
+        conn.query(SQL_INSERT_USER, [data.name, data.pass, data.email], function(err, res) {
+            db.release(conn);
+
+            if(err) {
+                callback(err, null);
+            }
+            
+            console.log(res);
+            callback(null, res && res.hasOwnProperty("rowCount") && res.rowCount);
+
+        });
+    });
+}
 
 exports.route = function(request, response) {
     response.render('sign-up', defaultTemplateData);
@@ -20,6 +46,11 @@ exports.route = function(request, response) {
 exports.postRoute = function(request, response) {
     var data = _.clone(defaultTemplateData);
     var err = false;
+
+    if(!request.body.email) {
+        err = true;
+        data.noEmail = true;
+    }
 
     if(!request.body.name) {
         err = true;
@@ -49,15 +80,20 @@ exports.postRoute = function(request, response) {
             data.usernameTaken = true;
         }
  
-        /* TODO: Create user */
-        /* TODO: Set user session to log them in */
-        /* TODO: Send an email to the user? */
+        createUser({
+            'name': request.body.name,
+            'pass': request.body.pass,
+            'email': request.body.email
+        }, function(error, created) {
+            /* TODO: Set user session to log them in */
+            /* TODO: Send an email to the user? */
 
-        if(err) {
-            response.render('sign-up', data);
-        } else {
-            /* TODO: Redirect */
-        }
+            if(err) {
+                response.render('sign-up', data);
+            } else {
+                /* TODO: Redirect */
+            }
+        });
 
     });
  
