@@ -6,9 +6,6 @@ var db = require('../db.js').Database;
 var fourOhFourRoute = require('./fourohfour.js').route;
 var checkUsername = require('./api/check-username.js').checkUsername;
 
-/* SQL Queries */
-var SQL_CHECK_USERNAME = "SELECT id FROM users WHERE name LIKE $1 LIMIT 1";
-
 var defaultTemplateData = {
     noUsername: false,
     noPassword: false,
