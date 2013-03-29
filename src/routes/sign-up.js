@@ -9,7 +9,8 @@ var checkUsername = require('./api/check-username.js').checkUsername;
 var bailout = require('./fatalerror.js').bailout;
 
 /* SQL Queries */
-var SQL_INSERT_USER = "INSERT INTO users (name,pass,email) VALUES($1, $2, $3)";
+var SQL_INSERT_USER = 'INSERT INTO users (name,pass,email) VALUES($1, $2, $3)';
+var SQL_GET_ID = 'SELECT id FROM users WHERE name = $1 LIMIT 1';
 
 var defaultTemplateData = {
     noEmail: false,
@@ -31,14 +32,26 @@ function createUser(data, callback) {
         var hashedPassword = require('../hasher.js').hash(data.pass);
 
         conn.query(SQL_INSERT_USER, [data.name, hashedPassword, data.email], function(err, res) {
-            db.release(conn);
 
             if(err) {
+                db.release(conn);
                 callback(err, null);
             }
             
-            console.log(res);
-            callback(null, res && res.hasOwnProperty("rowCount") && res.rowCount);
+            if(res && res.hasOwnProperty('rowCount') && res.rowCount) {
+                // Insertion was successful. Get the id of the new user.
+                conn.query(SQL_GET_ID, [data.name], function(err, res) {
+                    db.release(conn);
+                    if(err || !res || !res.rows || ! res.rows[0]) {
+                        callback(err, null);
+                    } else {
+                        callback(null, res.rows[0].id);
+                    }
+                });
+            } else {
+                db.release(conn);
+                callback(null, null);
+            }
 
         });
     });
@@ -112,13 +125,15 @@ exports.postRoute = function(request, response) {
             'name': request.body.name,
             'pass': request.body.pass,
             'email': request.body.email
-        }, function(error, created) {
+        }, function(error, userid) {
 
             if(error) {
                 bailout(request, response, error);           
             }
 
-            /* TODO: Set user session to log them in */
+            // Log the user in by saving the userid to the session
+            req.session.userid = userid;
+
             /* TODO: Send an email to the user? */
 
             if(err) {
