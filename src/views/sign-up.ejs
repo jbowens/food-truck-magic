@@ -14,6 +14,11 @@
                 You must provide a username!
             </div>
         <% }%>
+        <%if(usernameTaken) { %>
+            <div class="error">
+                The username '<% enteredUsername %>' is already taken. 
+            </div>
+        <% }%>
     </div>
 
     <div class="form-item">
