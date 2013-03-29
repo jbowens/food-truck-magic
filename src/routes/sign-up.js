@@ -15,7 +15,9 @@ var defaultTemplateData = {
     noUsername: false,
     noPassword: false,
     usernameTaken: false,
-    enteredUsername: null
+    enteredUsername: null,
+    enteredPass: null,
+    enteredEmail: null
 };
 
 function createUser(data, callback) {
@@ -63,7 +65,13 @@ exports.postRoute = function(request, response) {
         data.noPassword = true;
     }
 
+    data.enteredEmail = request.body.email;
+    data.enteredPass = request.body.pass;
     data.enteredUsername = request.body.name;
+
+    // TODO: Validate the email
+    // TODO: Validate the username if we're going to put any restrictions
+    // on what constitutes a valid username
 
     // TODO: Do we care enough to check if the username is taken
     // in the same transaction as creating the user?

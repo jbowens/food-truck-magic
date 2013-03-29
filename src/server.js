@@ -3,6 +3,8 @@
  */
 "use strict";
 
+var SESSION_SECRET_KEY = 'ft_session';
+
 var express = require('express');
 var engine = require('ejs-locals');
 var args = require('optimist').argv;
@@ -18,6 +20,12 @@ var port = args.port ? args.port : 8080;
 /* Configuration options for express */
 app.configure(function() {
     app.use(express.bodyParser());
+    app.use(express.cookieParser());
+    app.use(express.session({
+        secret: SESSION_SECRET_KEY,
+        store: new express.session.MemoryStore({reapInterval: 30000})
+    }));
+
     app.engine('ejs', engine);      // use ejs-locals for ejs templates
     app.set('view engine', 'ejs');
     app.set('views', __dirname + '/views');
