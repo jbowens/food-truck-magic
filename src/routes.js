@@ -7,6 +7,7 @@ exports.setupRoutes = function(app) {
         response.render('index', {test : 'yolo'});
     });
 
+    app.get('/api/check-username/:username', require('./routes/api/check-username.js').route);
     app.post('/sign-up', require('./routes/sign-up.js').postRoute);
     app.get('/sign-up', require('./routes/sign-up.js').route);
     app.get('/truck/:truckidentifier', require('./routes/truck.js').route);

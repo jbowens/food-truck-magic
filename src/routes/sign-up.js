@@ -30,6 +30,11 @@ exports.postRoute = function(request, response) {
         data.noPassword = true;
     }
 
+    /* TODO: Validate username */
+    /* TODO: Create user */
+    /* TODO: Set user session to log them in */
+    /* TODO: Send an email to the user? */
+
     if(err) {
         response.render('sign-up', data);
     } else {
