@@ -4,7 +4,7 @@
 var _ = require('underscore');
 var db = require('../db.js').Database;
 var check = require('validator').check;
-var fourOhFourRoute = require('./fourohfour.js').route;
+var sanitize = require('validator').sanitize;
 var checkUsername = require('./api/check-username.js').checkUsername;
 var bailout = require('./fatalerror.js').bailout;
 
@@ -55,6 +55,8 @@ exports.route = function(request, response) {
 exports.postRoute = function(request, response) {
     var data = _.clone(defaultTemplateData);
     var err = false;
+    
+    request.body.name = sanitize(request.body.name).trim();
 
     if(!request.body.email) {
         err = true;
@@ -74,12 +76,14 @@ exports.postRoute = function(request, response) {
     data.enteredEmail = request.body.email;
     data.enteredPass = request.body.pass;
     data.enteredUsername = request.body.name;
-
-    try {
-        check(request.body.email).isEmail();
-    } catch(e) {
-        err = true;
-        data.badEmail = true;
+    
+    if(request.body.email) {
+        try {
+            check(request.body.email).isEmail();
+        } catch(e) {
+            err = true;
+            data.badEmail = true;
+        }
     }
 
     // TODO: Validate the username if we're going to put any restrictions
