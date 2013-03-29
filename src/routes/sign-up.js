@@ -3,6 +3,7 @@
  */
 var _ = require('underscore');
 var db = require('../db.js').Database;
+var check = require('validator').check;
 var fourOhFourRoute = require('./fourohfour.js').route;
 var checkUsername = require('./api/check-username.js').checkUsername;
 var bailout = require('./fatalerror.js').bailout;
@@ -15,6 +16,7 @@ var defaultTemplateData = {
     noUsername: false,
     noPassword: false,
     usernameTaken: false,
+    badEmail: false,
     enteredUsername: null,
     enteredPass: null,
     enteredEmail: null
@@ -40,6 +42,10 @@ function createUser(data, callback) {
 
         });
     });
+}
+
+function postErrorRoute(request, response, data) {
+    response.render('sign-up', data);
 }
 
 exports.route = function(request, response) {
@@ -69,12 +75,23 @@ exports.postRoute = function(request, response) {
     data.enteredPass = request.body.pass;
     data.enteredUsername = request.body.name;
 
-    // TODO: Validate the email
+    try {
+        check(request.body.email).isEmail();
+    } catch(e) {
+        err = true;
+        data.badEmail = true;
+    }
+
     // TODO: Validate the username if we're going to put any restrictions
     // on what constitutes a valid username
 
     // TODO: Do we care enough to check if the username is taken
     // in the same transaction as creating the user?
+
+    // If we hit a validation error, stop here.
+    if(err) {
+        return postErrorRoute(request, response, data);
+    }
 
     checkUsername(request.body.name, function(error, taken) {
         
@@ -101,7 +118,7 @@ exports.postRoute = function(request, response) {
             /* TODO: Send an email to the user? */
 
             if(err) {
-                response.render('sign-up', data);
+                postErrorRoute(request, response, data);
             } else {
                 response.redirect('/');
             }

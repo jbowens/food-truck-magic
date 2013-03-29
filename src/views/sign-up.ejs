@@ -14,6 +14,11 @@
                 You must provide an email address.
             </div>
         <% }%>
+        <%if(badEmail) { %>
+            <div class="error">
+                <code class="email"><%= enteredEmail %></code> is not a valid email address.
+            </div>
+        <% }%>
     </div>
 
     <div class="form-item">
@@ -26,7 +31,7 @@
         <% }%>
         <%if(usernameTaken) { %>
             <div class="error">
-                The username '<% enteredUsername %>' is already taken. 
+                The username '<%= enteredUsername %>' is already taken. 
             </div>
         <% }%>
     </div>
