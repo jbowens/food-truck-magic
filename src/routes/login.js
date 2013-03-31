@@ -54,7 +54,6 @@ var defaultTemplateData = {
  * engine.
  */
 function route(request, response, data) {
-    console.log('Displaying login page with data:', data);
     response.render('login', data);
 }
 
