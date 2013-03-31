@@ -1,0 +1,27 @@
+<% layout('boilerplate') %>
+
+<% stylesheet('/styles/login.css') %>
+
+<h2>Log in</h2>
+
+<%if(badLoginCredentials) { %>
+    <div class="error">
+        Invalid login credentials
+    </div>
+<% }%>
+
+<form method="post" action="/login" id="login">
+
+    <div class="form-item">
+        <label for="login_username">Username</label>
+        <input id="login_username" type="text" name="name" value="<%= enteredUsername %>" />
+    </div>
+
+    <div class="form-item">
+        <label for="login_pass">Password</label>
+        <input id="login_pass" type="password" name="pass" />
+    </div>
+
+    <input type="submit" value="Log in" />
+</form>
+
