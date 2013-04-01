@@ -1,4 +1,3 @@
-var userStore = require('../userstore.js').UserStore;
 var _ = require('underscore');
 
 var defaultTemplateData = {
