@@ -2,8 +2,8 @@
 
 <% stylesheet('/styles/index.css') %>
 
-<% if (test) { %>
-        <p> This is the index: <%=test %> </p>
+<% if (user) { %>
+        <p> Hello there, <%=user.name %> </p>
 <%  } %>
 
 <ul>
