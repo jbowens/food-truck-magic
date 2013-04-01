@@ -12,14 +12,8 @@ exports.route = function(request, response) {
         response.render('index', data);
     }
 
-    if (request.session.userid) {
-        userStore.getById(request.session.userid, function(user) {
-            data.user = user;
-            console.log(user);
-            renderPage();
-        });
-    } else {
-        renderPage();
+    if (request.session.user) {
+        data.user = request.session.user;
     }
-
+    renderPage();
 };

@@ -45,7 +45,7 @@ function createUser(data, callback) {
                     if(err || !res || !res.rows || ! res.rows[0]) {
                         callback(err, null);
                     } else {
-                        callback(null, res.rows[0].id);
+                        callback(null, res.rows[0]);
                     }
                 });
             } else {
@@ -125,14 +125,14 @@ exports.postRoute = function(request, response) {
             'name': request.body.name,
             'pass': request.body.pass,
             'email': request.body.email
-        }, function(error, userid) {
+        }, function(error, user) {
 
             if(error) {
                 bailout(request, response, error);           
             }
 
-            // Log the user in by saving the userid to the session
-            request.session.userid = userid;
+            // Log the user in by saving the user object to the session
+            request.session.user = user;
 
             /* TODO: Send an email to the user? */
 

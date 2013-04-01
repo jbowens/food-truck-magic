@@ -90,7 +90,7 @@ exports.postRoute = function(request, response) {
             return route(request, response, data);
         } else {
             // Legitimate login
-            request.session.userid = user.id;
+            request.session.user = user;
             response.redirect('/');
         }
 
