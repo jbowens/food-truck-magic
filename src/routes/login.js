@@ -41,7 +41,7 @@ function getUser(username, password, callback) {
 }
 
 /*
- * Fuck this templating engine.
+ * This templating engine is awesome.
  */
 var defaultTemplateData = {
     badLoginCredentials: false,
