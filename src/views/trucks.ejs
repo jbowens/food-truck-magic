@@ -1,0 +1,13 @@
+<% layout('boilerplate') %>
+
+<p> All Trucks </p>
+
+<ul>
+<% for (var i = 0; i < trucks.length; i++) {  %>
+    <li> 
+        <a href= <%= "truck/" + trucks[i].urlid %> >
+            <%= trucks[i].name %> 
+        </a>
+    </li>
+<% } %>
+</ul>
