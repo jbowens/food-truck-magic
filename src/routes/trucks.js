@@ -25,7 +25,7 @@ exports.route = function(request, response) {
     db.query(SQL_GET_TRUCKS, [], function(err, res) {
         if (err) {
             console.error(err);
-            return fourOhFourRuote(request, response);
+            return fourOhFourRoute(request, response);
         }
         data.allTrucks = res.rows;
 
@@ -34,7 +34,7 @@ exports.route = function(request, response) {
             db.query(SQL_GET_FOLLOWED, [data.user.id], function(err, res) {
                 if (err) {
                     console.error(err);
-                    return fourOhFourRuote(request, response);
+                    return fourOhFourRoute(request, response);
                 }
                 data.followedTrucks = res.rows;
                 response.render('trucks', data);
