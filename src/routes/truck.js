@@ -1,13 +1,21 @@
 /*
  * The route for the main truck page.
  */
+var _ = require('underscore');
 var db = require('../db.js').Database;
 var fourOhFourRoute = require('./fourohfour.js').route;
 
 /* SQL Queries */
 var SQL_GET_TRUCK_BY_IDENTIFIER = "SELECT * FROM trucks WHERE urlid = $1 LIMIT 1";
+var SQL_GET_FOLLOWS = "SELECT * FROM FOLLOWS WHERE userid = $1 AND truckid = $2";
+
+var defaultTemplateData = {
+    truck: null,
+    following: false
+};
 
 exports.route = function(request, response) {
+    var data = _.clone(defaultTemplateData);
     var truckurlid = request.params.truckidentifier;
 
     /* Get the truck from the database! */
@@ -19,9 +27,9 @@ exports.route = function(request, response) {
 
         conn.query(SQL_GET_TRUCK_BY_IDENTIFIER, [truckurlid], function(err, res) {
 
-            db.release(conn);
            
             if(err || !res.rows.length) {
+                db.release(conn);
                 if(err) {
                     console.error(err);
                 }
@@ -29,10 +37,30 @@ exports.route = function(request, response) {
                 return fourOhFourRoute(request, response);
             }
            
-            var truck = res.rows[0];
-            console.log(truck);
-            response.render('truck', {'truck': truck});
+            data.truck = res.rows[0];
             
+            /* We have our truck. Let's check if logged in and following */
+            if (request.session.user) {
+                var userId = request.session.user.id;
+                conn.query(SQL_GET_FOLLOWS, [userId, data.truck.id], function(err, res) {
+                    db.release(conn);
+                    if(err) {
+                        console.error(err);
+                        return fourOhFourRoute(request, response);
+                    }
+
+                    /* user is following this truck already */
+                    if (res.rows.length) {
+                        data.following = true;
+                    }
+
+                    response.render('truck', data);
+                });
+
+            } else {
+                db.release(conn);
+                response.render('truck', data);
+            }
         });
     });
 };
