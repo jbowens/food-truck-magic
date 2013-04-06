@@ -1,3 +1,11 @@
+CREATE TABLE IF NOT EXISTS uploads (
+    id SERIAL PRIMARY KEY,
+    filesize INT NOT NULL,
+    mime VARCHAR(255) NOT NULL,
+    name VARCHAR(255) NOT NULL,
+    dateUploaded timestamp without time zone
+);
+
 CREATE TABLE IF NOT EXISTS locations (
     locationid SERIAL PRIMARY KEY,
     geoPoint GEOGRAPHY(Point),

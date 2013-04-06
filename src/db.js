@@ -26,6 +26,11 @@ var Database = {
         this.connPool.acquire(callback);
     },
 
+    /* Acquires a connection and begins a transaction. */
+    begin: function(callback) {
+        this.connPool.begin(callback);
+    },
+
     release: function(conn) {
         this.connPool.release(conn);
     }
