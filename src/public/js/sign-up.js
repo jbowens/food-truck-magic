@@ -18,6 +18,7 @@ function updateUsernameError() {
         if(taken) {
             console.log(username, 'is taken');
             if($("#username-error").length) {
+                $("#username-error .username").text(username);
                 $("#username-error").show();
             } else {
                 var errordiv = $('<div class="error" id="username-error">The username \'<span class="username"></span>\' is already taken.</div>');
