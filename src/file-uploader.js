@@ -48,7 +48,7 @@ exports.handleUpload = function(file, callback) {
             /* Now that we've inserted the upload into the database, we need
                to move the file into permanent storage. */
             try {
-                fs.rename(file.path, __dirname + '../uploads/' + String.valueOf(uploadid), function (err) {
+                fs.rename(file.path, __dirname + '../uploads/' + uploadid.toString(), function (err) {
                     if(err) { throw err; }
                     file.uploadid = uploadid;
                     callback(null, uploadid);
