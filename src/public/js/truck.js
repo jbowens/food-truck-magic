@@ -20,7 +20,7 @@ var setupFollowButton = function() {
     truckUrl = truckUrl.substr(truckUrl.lastIndexOf('/') + 1);
 
     var $followButton = $('#follow');
-    foodTruckNS.truck.following = ($('meta[name="following"]')[0].content === "true");
+    foodTruckNS.truck.following = ($('meta[name="following"]')[0].content == 'true');
     updateFollowButtonText($followButton);
     $followButton.show();
 

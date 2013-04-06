@@ -43,7 +43,7 @@ var Database = {
     query: function(sql, params, callback) {
         this.connPool.query(sql, params, function(err, res) {
             if(err) { callback(err, null); }
-            callback(null, res.rows);
+            callback(null, res);
         });
     }
 

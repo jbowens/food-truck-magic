@@ -4,27 +4,39 @@
  *
  */
 var db = require('../db.js').Database;
-var SQL_INSERT_FOLLOWS = 'INSERT INTO follows userid = $1 AND truckid = $2';
-var SQL_DELETE_FOLLOWS = 'DELETE FROM follows WHERE userid = $1 AND truckid = $2;
+var bailout = require('./fatalerror.js').bailout;
+
+var SQL_INSERT_FOLLOWS = 'INSERT INTO follows (userid,truckid) VALUES($1, $2)';
+var SQL_DELETE_FOLLOWS = 'DELETE FROM follows WHERE userid = $1 AND truckid = $2';
+
 
 exports.postRoute = function(request, response) {
-    var setFollow = request.body.setFollow;
+    var setFollow = (request.body.setFollow == 'true');
     var truckId = request.body.truckId;
 
-    var responseJSON = {
+    var data = {
         error: ''
     };
 
     /* check if logged in */
     if (!request.session.user) {
-        responseJSON.error = 'You are not logged in';
+        data.error = 'You are not logged in';
+        response.json(data);
+        return;
     }
 
+    /* check if unfollowing or following */
+    var queryString = SQL_DELETE_FOLLOWS;
     if (setFollow) {
-
-    } else {
-
+        queryString = SQL_INSERT_FOLLOWS;
     }
-    
-    response.json(responseJSON);
+
+    /* actually follow / unfollow */
+    db.query(queryString, [request.session.user.id, truckId], function(err, res) {
+        if (err) {
+            /* oh god */
+            bailout(request, response, err);           
+        }
+        response.json(data);
+    });
 };
