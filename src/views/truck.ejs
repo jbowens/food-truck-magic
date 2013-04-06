@@ -1,5 +1,7 @@
 <% layout('boilerplate') %>
 
+<% block('metas', "<meta name='following' content='" + following + "'>") %>
+<% block('metas', "<meta name='truckid' content='" + truck.id + "'>") %>
 <% script('/js/truck.js') %>
 <% stylesheet('/styles/truck.css') %>
 
@@ -17,5 +19,5 @@
         </span>
     <% }%>
 
-    <button type="button" id="follow"> Follow this truck! </button>
+    <button type="button" id="follow" style="display:none;"></button>
 </div>

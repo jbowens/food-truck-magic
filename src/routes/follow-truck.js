@@ -4,10 +4,14 @@
  *
  */
 var db = require('../db.js').Database;
-var SQL_INSERT_FOLLOWS = 'INSERT INTO follows (userid,truckid) VALUES($1, $2)';
+var SQL_INSERT_FOLLOWS = 'INSERT INTO follows userid = $1 AND truckid = $2';
+var SQL_DELETE_FOLLOWS = 'DELETE FROM follows WHERE userid = $1 AND truckid = $2;
 
 exports.postRoute = function(request, response) {
-    responseJSON = {
+    var setFollow = request.body.setFollow;
+    var truckId = request.body.truckId;
+
+    var responseJSON = {
         error: ''
     };
 
@@ -16,7 +20,11 @@ exports.postRoute = function(request, response) {
         responseJSON.error = 'You are not logged in';
     }
 
-    /* check if already following */
+    if (setFollow) {
+
+    } else {
+
+    }
     
     response.json(responseJSON);
 };
