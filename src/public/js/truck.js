@@ -6,6 +6,9 @@ var foodTruckNS = foodTruckNS || {};
 foodTruckNS.truck = foodTruckNS.truck || { following: false};
 
 
+/*
+ * Helper function to update the follow button's text
+ */
 var updateFollowButtonText = function($button) {
     if (foodTruckNS.truck.following) {
         $button.html("Stop following this truck");
@@ -14,8 +17,11 @@ var updateFollowButtonText = function($button) {
     }
 };
 
+
+/* 
+ * setup click handlers for the follow button
+ */
 var setupFollowButton = function() {
-    /* get the trucks "urlid" */
     var truckUrl = window.location.href;
     truckUrl = truckUrl.substr(truckUrl.lastIndexOf('/') + 1);
 
@@ -26,6 +32,7 @@ var setupFollowButton = function() {
 
     var truckId = $('meta[name="truckid"]')[0].content;
 
+    /* setting up the click handler */
     $followButton.click(function() {
         $.ajax({
             type: 'POST',
@@ -36,9 +43,12 @@ var setupFollowButton = function() {
             },
             success: function(data) {
                 if (data.error) {
-                    alert(data.error);
+                    alert("Uh oh: " + data.error);
                 } else {
-                    alert('yay');
+                    /* on success, update follow button and following state */
+                    alert('Successfully followed/unfollowed');
+                    foodTruckNS.truck.following = !foodTruckNS.truck.following;
+                    updateFollowButtonText($followButton);
                 }
             }
         });

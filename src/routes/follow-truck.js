@@ -31,7 +31,7 @@ exports.postRoute = function(request, response) {
         queryString = SQL_INSERT_FOLLOWS;
     }
 
-    /* actually follow / unfollow */
+    /* actually follow/unfollow */
     db.query(queryString, [request.session.user.id, truckId], function(err, res) {
         if (err) {
             /* oh god */
