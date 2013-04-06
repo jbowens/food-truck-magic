@@ -1,12 +1,29 @@
 <% layout('boilerplate') %>
 
-<p> All Trucks </p>
+<% if (user) { %>
+    <h2> Followed Trucks </h2>
+
+    <ul> 
+    <% for (var i = 0; i < followedTrucks.length; i++) { %>
+        <li> 
+            <a href= <%= "truck/" + followedTrucks[i].urlid %> >
+                <%= followedTrucks[i].name %> 
+            </a>
+        </li>
+    <% } %>
+    </ul>
+
+<% } else { %>
+    <p> Log in to follow trucks!  </p>
+<% } %>
+
+<h2> All Trucks </h2>
 
 <ul>
-<% for (var i = 0; i < trucks.length; i++) {  %>
+<% for (var i = 0; i < allTrucks.length; i++) {  %>
     <li> 
-        <a href= <%= "truck/" + trucks[i].urlid %> >
-            <%= trucks[i].name %> 
+        <a href= <%= "truck/" + allTrucks[i].urlid %> >
+            <%= allTrucks[i].name %> 
         </a>
     </li>
 <% } %>

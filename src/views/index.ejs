@@ -5,11 +5,3 @@
 <% if (user) { %>
         <p> Hello there, <%=user.name %> </p>
 <%  } %>
-
-<% if (following) { %>
-    <ul>
-    <% for (var i = 0; i < following.length; i++) { %>
-        <li> <%= "truck id: " + following[i].truckid %> </li>
-    <% } %>
-    </ul>
-<% } %>
