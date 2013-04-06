@@ -33,6 +33,18 @@ var Database = {
 
     release: function(conn) {
         this.connPool.release(conn);
+    },
+
+    /* Performs the given query with the given parameters. When all
+     * results have been retrieved, the callback will be invoked. The
+     * first argument to the callback is an error, if any occurred. The
+     * second is an array of the resulting rows.
+     */
+    query: function(sql, params, callback) {
+        this.connPool.query(sql, params, function(err, res) {
+            if(err) { callback(err, null); }
+            callback(null, res.rows);
+        });
     }
 
 };
