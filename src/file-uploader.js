@@ -5,7 +5,7 @@ var db = require('./db.js').Database;
 var fs = require('fs');
 
 /* SQL Queries */
-var SQL_INSERT_UPLOAD = 'INSERT INTO uploads (filesize, mime, name, dateUploaded) VALUES($1, $2, $3, $4);';
+var SQL_INSERT_UPLOAD = 'INSERT INTO uploads (filesize, mime, name, dateUploaded) VALUES($1, $2, $3, now());';
 var SQL_GET_LAST_ID = 'SELECT lastval() AS uploadid;';
 
 /* Inserts the given req.files object into the
@@ -15,7 +15,7 @@ var SQL_GET_LAST_ID = 'SELECT lastval() AS uploadid;';
 function insertUpload(file, callback) {
     db.begin(function(err, tx) {
         if (err) { tx.end(); return callback(err, null); }
-        tx.query(SQL_INSERT_UPLOAD, function(err, res) {
+        tx.query(SQL_INSERT_UPLOAD, [file.size, file.type, file.name], function(err, res) {
             if(err) { tx.end(); return callback(err, null); }
             tx.query(SQL_GET_LAST_ID, function(err, res) {
                 tx.commit();
