@@ -13,7 +13,8 @@ exports.setupRoutes = function(app) {
     app.get('/login', require('./routes/login.js').route);
 
     app.get('/trucks', require('./routes/trucks.js').route);
-    app.get('/truck/:truckidentifier', require('./routes/truck.js').route);
+    app.get('/truck/:truckidentifier', require('./routes/truck.js').route); 
+    app.post('/truck/:truckidentifier/follow-truck', require('./routes/follow-truck.js').postRoute); 
 
     app.get('*', require('./routes/fourohfour.js').route);
     app.post('*', require('./routes/fourohfour.js').route);

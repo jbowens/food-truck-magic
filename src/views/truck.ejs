@@ -1,5 +1,6 @@
 <% layout('boilerplate') %>
 
+<% script('/js/truck.js') %>
 <% stylesheet('/styles/truck.css') %>
 
 <h2><%= truck.name %></h2>
@@ -15,5 +16,6 @@
             Website: <a href="<%= truck.website %>" class="truck-website"><%= truck.website %></a>
         </span>
     <% }%>
-</div>
 
+    <button type="button" id="follow"> Follow this truck! </button>
+</div>
