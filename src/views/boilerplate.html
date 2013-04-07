@@ -3,13 +3,14 @@
     <head>
         <title>Food Trucks brah</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <%- blocks.metas %>
+        {% blocks metas %} {% endblock %}
 
+        {% block stylesheets %}
         <link rel="stylesheet" href="/styles/base-style.css" />
-        <%- stylesheets %>
-
+        {% endblock %}
+        
         <script src="/js/include/jquery.js"></script>
-        <%- scripts %>
+        {% block scripts %} {% endblock %}
     </head>
     <body>
         <div id="container">
@@ -23,7 +24,7 @@
                     </ul>
                 </div>
                 <div id="content">
-                    <%- body %>
+                    {% block content %}{% endblock %}
                 </div>
             </div>
         </div>
