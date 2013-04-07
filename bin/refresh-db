@@ -1,0 +1,4 @@
+#!/bin/bash
+cat sql/drop-everything.sql | psql -h foodtruckler.com -U foodtruck foodtruckmagic
+cat sql/schema.sql | psql -h foodtruckler.com -U foodtruck foodtruckmagic
+cat sql/dummy-data.sql | psql -h foodtruckler.com -U foodtruck foodtruckmagic
