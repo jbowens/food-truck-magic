@@ -5,12 +5,11 @@
 var fs = require('fs');
 
 var Config = Object.create({
- 
+
     data: {},
 
     init: function(callback) {
-        
-        var _this = this; 
+        var _this = this;
         /*
          * Import config settings from the global config file.
          */

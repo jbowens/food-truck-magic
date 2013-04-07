@@ -1,9 +1,9 @@
 #!/bin/sh
-verified=./scripts/verify-js
+verified=./bin/verify-js
 if $verified
 then
     echo "Compiling less..."
-    ./scripts/compile-less
+    ./bin/compile-less
     echo "Starting server..."
     node ./src/server.js "$@"
 fi
