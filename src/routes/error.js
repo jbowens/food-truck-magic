@@ -8,7 +8,9 @@ var DEFAULT_ERROR_MSG = "An error occurred.";
  * error page with the given error message.
  */
 exports.errorout = function(request, response, errmsg) {
-    console.error(errobj);
+    if( ! errmsg ) {
+        errmsg = DEFAULT_ERROR_MSG;
+    }
     response.render('error', {msg: errmsg});
 };
 

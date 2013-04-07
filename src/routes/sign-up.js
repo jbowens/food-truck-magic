@@ -7,6 +7,7 @@ var check = require('validator').check;
 var sanitize = require('validator').sanitize;
 var checkUsername = require('./api/check-username.js').checkUsername;
 var bailout = require('./fatalerror.js').bailout;
+var errorout = require('./error.js').errorout;
 
 /* SQL Queries */
 var SQL_INSERT_USER = 'INSERT INTO users (name,pass,email) VALUES($1, $2, $3)';
@@ -62,10 +63,17 @@ function postErrorRoute(request, response, data) {
 }
 
 exports.route = function(request, response) {
+    if(request.session.user) {
+        return errorout(request, response, "You're already registered and logged in!");
+    }
     response.render('sign-up', defaultTemplateData);
 };
 
 exports.postRoute = function(request, response) {
+    if(request.session.user) {
+        return errorout(request, response, "You've already registered and logged in!");
+    }
+
     var data = _.clone(defaultTemplateData);
     var err = false;
     

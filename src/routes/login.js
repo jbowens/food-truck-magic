@@ -6,6 +6,7 @@ var db = require('../db.js').Database;
 var hash = require('../hasher.js').hash;
 var sanitize = require('validator').sanitize;
 var bailout = require('./fatalerror.js').bailout;
+var errorout = require('./error.js').errorout;
 
 /* SQL Queries */
 var SQL_GET_USER = 'SELECT * FROM users WHERE name = $1 AND pass = $2';
@@ -61,10 +62,19 @@ function route(request, response, data) {
  * The route for normal get requests to the login page.
  */
 exports.route = function(request, response) {
+    if(request.session.user) {
+        return errorout(request, response, "You're already logged in.");
+    }
+
     route(request, response, defaultTemplateData);
 };
 
 exports.postRoute = function(request, response) {
+    if(request.session.user) {
+        /* Already loggedi in. */
+        return errorout(request, response, "You're already logged in!");
+    }
+
     var data = _.clone(defaultTemplateData);
     var err = false;
     
