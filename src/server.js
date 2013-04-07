@@ -30,10 +30,10 @@ app.configure(function() {
     app.engine('.html', cons.swig);
     app.set('view engine', 'html');
     swig.init({
-        root: '/views/',
+        root: __dirname + '/views/',
         allowErrors : true
     });
-    app.set('views', '/views/');
+    app.set('views', __dirname + '/views/');
     app.use(express.static(__dirname +'/public'));
 });
 
