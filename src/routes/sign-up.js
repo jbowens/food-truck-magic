@@ -19,9 +19,9 @@ var defaultTemplateData = {
     noPassword: false,
     usernameTaken: false,
     badEmail: false,
-    enteredUsername: null,
-    enteredPass: null,
-    enteredEmail: null
+    enteredUsername: '',
+    enteredPass: '',
+    enteredEmail: ''
 };
 
 function createUser(data, callback) {
