@@ -6,7 +6,8 @@
 var SESSION_SECRET_KEY = 'ft_session';
 
 var express = require('express');
-var engine = require('ejs-locals');
+var cons = require('consolidate');
+var swig = require('swig');
 var args = require('optimist').argv;
 
 var db = require('./db.js').Database;
@@ -26,9 +27,13 @@ app.configure(function() {
         store: new express.session.MemoryStore({reapInterval: 30000})
     }));
 
-    app.engine('ejs', engine);      // use ejs-locals for ejs templates
-    app.set('view engine', 'ejs');
-    app.set('views', __dirname + '/views');
+    app.engine('.html', cons.swig);
+    app.set('view engine', 'html');
+    swig.init({
+        root: __dirname + '/views/',
+        allowErrors : true
+    });
+    app.set('views', __dirname + '/views/');
     app.use(express.static(__dirname +'/public'));
 });
 

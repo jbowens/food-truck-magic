@@ -1,20 +1,25 @@
-<% layout('boilerplate') %>
+{% extends 'boilerplate.html' %}
 
-<% stylesheet('/styles/login.css') %>
+{% block stylesheets %}
+{% parent %}
+<link rel="stylesheet" href="/styles/login.css" />
+{% endblock %}
+
+{% block content %}
 
 <h2>Log in</h2>
 
-<%if(badLoginCredentials) { %>
+{% if badLoginCredentials %}
     <div class="error">
         Invalid login credentials
     </div>
-<% }%>
+{% endif %}
 
 <form method="post" action="/login" id="login">
 
     <div class="form-item">
         <label for="login_username">Username</label>
-        <input id="login_username" type="text" name="name" value="<%= enteredUsername %>" />
+        <input id="login_username" type="text" name="name" value="{{ enteredUsername }}" />
     </div>
 
     <div class="form-item">
@@ -25,3 +30,4 @@
     <input type="submit" value="Log in" />
 </form>
 
+{% endblock %}
