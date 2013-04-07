@@ -13,17 +13,6 @@ var errorout = require('./error.js').errorout;
 var SQL_INSERT_USER = 'INSERT INTO users (name,pass,email) VALUES($1, $2, $3)';
 var SQL_GET_ID = 'SELECT id FROM users WHERE name = $1 LIMIT 1';
 
-var defaultTemplateData = {
-    noEmail: false,
-    noUsername: false,
-    noPassword: false,
-    usernameTaken: false,
-    badEmail: false,
-    enteredUsername: '',
-    enteredPass: '',
-    enteredEmail: ''
-};
-
 function createUser(data, callback) {
     db.get(function(err, conn) {
         if(err) {
@@ -63,19 +52,18 @@ function postErrorRoute(request, response, data) {
     response.render('sign-up', data);
 }
 
-exports.route = function(request, response) {
+exports.route = function(request, response, data) {
     if(request.session.user) {
-        return errorout(request, response, "You're already registered and logged in!");
+        return errorout(request, response, data, "You're already registered and logged in!");
     }
-    response.render('sign-up', defaultTemplateData);
+    response.render('sign-up', data);
 };
 
-exports.postRoute = function(request, response) {
+exports.postRoute = function(request, response, data) {
     if(request.session.user) {
-        return errorout(request, response, "You've already registered and logged in!");
+        return errorout(request, response, data, "You've already registered and logged in!");
     }
 
-    var data = _.clone(defaultTemplateData);
     var err = false;
     
     request.body.name = sanitize(request.body.name).trim();
@@ -137,7 +125,7 @@ exports.postRoute = function(request, response) {
         }, function(error, user) {
 
             if(error) {
-                bailout(request, response, error);           
+                bailout(request, response, data, error);           
             }
 
             // Log the user in by saving the user object to the session

@@ -42,40 +42,34 @@ function getUser(username, password, callback) {
 }
 
 /*
- * This templating engine is awesome.
- */
-var defaultTemplateData = {
-    badLoginCredentials: false,
-    enteredUsername: ''
-};
-
-/*
  * Handles actually displaying the page. This function takes in
  * the template data that should be passed on to the templating
  * engine.
  */
 function route(request, response, data) {
+    if( ! data.enteredUsername ) {
+        data.enteredUsername = '';
+    }
     response.render('login', data);
 }
 
 /*
  * The route for normal get requests to the login page.
  */
-exports.route = function(request, response) {
+exports.route = function(request, response, data) {
     if(request.session.user) {
-        return errorout(request, response, "You're already logged in.");
+        return errorout(request, response, data, "You're already logged in.");
     }
 
-    route(request, response, defaultTemplateData);
+    route(request, response, data);
 };
 
-exports.postRoute = function(request, response) {
+exports.postRoute = function(request, response, data) {
     if(request.session.user) {
         /* Already loggedi in. */
-        return errorout(request, response, "You're already logged in!");
+        return errorout(request, response, data, "You're already logged in!");
     }
 
-    var data = _.clone(defaultTemplateData);
     var err = false;
     
     if(!request.body.name || !request.body.pass) {
