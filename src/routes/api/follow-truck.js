@@ -26,7 +26,7 @@ exports.postRoute = function(request, response) {
     };
 
     /* only allow if user is logged in */
-    if (!request.session.user) {
+    if (!request.session.user || request.session.user.id != userId) {
         success = false;
         response.json(data);
         return;
