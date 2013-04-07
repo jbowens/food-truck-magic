@@ -1,0 +1,11 @@
+{% extends 'boilerplate.html' %}
+
+{% block stylesheets %}
+    {% parent %}
+{% endblock %}
+
+{% block content %}
+{% if user %}
+    <p>Hello there, {{ user.name }}</p>
+{% endif %}
+{% endblock %}
