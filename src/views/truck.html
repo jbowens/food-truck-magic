@@ -8,15 +8,20 @@
 {% block scripts %}
     {% parent %}
     <script type="text/javascript" src="/js/truck.js"></script>
-{% endblock %}
 
-{% block metas %}
-    {% parent %}
-    <meta name="following" content="{{following}}" />
-    <meta name="truckid" content="{{truck.id}}" />
-    {% if user %}
-        <meta name="userid" content="{{user.id}}" />
-    {% endif %}
+    <script type="text/javascript">
+        var foodTruckNS = foodTruckNS || {};
+        foodTruckNS.truck = foodTruckNS.truck || {};
+        foodTruckNS.truck.following = {{following}};
+        foodTruckNS.truck.truckid = {{truck.id}};
+        {% if user %}
+        foodTruckNS.truck.userid = {{user.id}};
+        {% endif %}
+
+        $(function() {
+            foodTruckNS.truck.setupFollowButton();
+        });
+    </script>
 {% endblock %}
 
 {% block content %}
