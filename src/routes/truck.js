@@ -10,6 +10,7 @@ var SQL_GET_TRUCK_BY_IDENTIFIER = "SELECT * FROM trucks WHERE urlid = $1 LIMIT 1
 var SQL_GET_FOLLOWS = "SELECT * FROM FOLLOWS WHERE userid = $1 AND truckid = $2";
 
 var defaultTemplateData = {
+    user: null,
     truck: null,
     following: false
 };
@@ -41,7 +42,8 @@ exports.route = function(request, response) {
             
             /* We have our truck. Let's check if logged in and following */
             if (request.session.user) {
-                var userId = request.session.user.id;
+                data.user  = request.session.user;
+                var userId = data.user.id;
                 conn.query(SQL_GET_FOLLOWS, [userId, data.truck.id], function(err, res) {
                     db.release(conn);
                     if(err) {

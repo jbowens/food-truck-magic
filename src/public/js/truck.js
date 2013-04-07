@@ -10,6 +10,7 @@ foodTruckNS.truck = foodTruckNS.truck || { following: false};
  * Helper function to update the follow button's text
  */
 foodTruckNS.truck.updateFollowButtonText = function($button) {
+    debugger;
     if (foodTruckNS.truck.following) {
         $button.html("Stop following this truck");
     } else {
@@ -31,30 +32,31 @@ foodTruckNS.truck.setupFollowButton = function() {
     $followButton.show();
 
     var truckId = $('meta[name="truckid"]')[0].content;
+    var userId = $('meta[name="userid"]')[0].content;
+
 
     /* setting up the click handler */
     $followButton.click(function() {
         $.ajax({
             type: 'POST',
-            url: '/truck/' + truckId + '/follow-truck',
+            url: '/api/follow-truck',
             data: {
-                setFollow : !foodTruckNS.truck.following, 
-                truckId : truckId
+                setFollow: !foodTruckNS.truck.following, 
+                truckId: truckId,
+                userId: userId
             },
             success: function(data) {
-                if (data.error) {
-                    alert("Uh oh: " + data.error);
-                } else {
-                    /* on success, update follow button and following state */
-                    alert('Successfully followed/unfollowed');
-                    foodTruckNS.truck.following = !foodTruckNS.truck.following;
-                    updateFollowButtonText($followButton);
-                }
+                /* on success, update follow button and following state */
+                alert('Successfully followed/unfollowed');
+                foodTruckNS.truck.following = !foodTruckNS.truck.following;
+                foodTruckNS.truck.updateFollowButtonText($followButton);
             }
         });
     });
 };
 
 $(function() {
-    foodTruckNS.truck.setupFollowButton();
+    if ($('#follow').length) {
+        foodTruckNS.truck.setupFollowButton();
+    }
 });
