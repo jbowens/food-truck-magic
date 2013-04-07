@@ -10,7 +10,6 @@ foodTruckNS.truck = foodTruckNS.truck || { following: false};
  * Helper function to update the follow button's text
  */
 foodTruckNS.truck.updateFollowButtonText = function($button) {
-    debugger;
     if (foodTruckNS.truck.following) {
         $button.html("Stop following this truck");
     } else {
