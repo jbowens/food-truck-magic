@@ -7,15 +7,15 @@
 
 {% block scripts %}
     {% parent %}
-    <script type="text/javascript" src="/js/truck.js">
+    <script type="text/javascript" src="/js/truck.js"></script>
 {% endblock %}
 
 {% block metas %}
     {% parent %}
-    <meta name="following" content="{{following}}">
-    <meta name="truckid" content="{{truck.id}}">
+    <meta name="following" content="{{following}}" />
+    <meta name="truckid" content="{{truck.id}}" />
     {% if user %}
-        <meta name="userid" content="{{user.id}}">
+        <meta name="userid" content="{{user.id}}" />
     {% endif %}
 {% endblock %}
 

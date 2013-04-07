@@ -1,0 +1,15 @@
+{% extends 'boilerplate.html' %}
+
+{% block 'stylesheets' %}
+{% parent %}
+<link rel="stylesheet" href="/styles/sign-up.css" />
+{% endblock %}
+
+{% block content %}
+<div id="fatal-error">
+    <h2>Whoooooooooooooops!</h2>
+
+    <p>We fucked up. Everything went very, very wrong while processing your
+    request. Try again?</p>
+</div>
+{% endblock %}
