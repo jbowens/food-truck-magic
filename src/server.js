@@ -29,7 +29,11 @@ app.configure(function() {
 
     app.engine('.html', cons.swig);
     app.set('view engine', 'html');
-    app.set('views', __dirname + '/views');
+    swig.init({
+        root: '/views/',
+        allowErrors : true
+    });
+    app.set('views', '/views/');
     app.use(express.static(__dirname +'/public'));
 });
 
