@@ -118,6 +118,10 @@ exports.postRoute = function(request, response, data) {
             data.usernameTaken = true;
         }
  
+        if(err) {
+            return postErrorRoute(request, response, data);
+        }
+
         createUser({
             'name': request.body.name,
             'pass': request.body.pass,
