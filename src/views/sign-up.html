@@ -16,7 +16,7 @@
 
     <div class="form-item">
         <label for="signup_email">Email</label>
-        <input id="signup_email" type="text" name="email" />
+        <input id="signup_email" type="text" name="email"{% if enteredEmail %} value="{{ enteredEmail }}"{%endif%} />
         {% if noEmail %}
             <div class="error">
                 You must provide an email address.

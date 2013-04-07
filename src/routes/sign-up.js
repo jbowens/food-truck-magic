@@ -102,8 +102,7 @@ exports.postRoute = function(request, response, data) {
     // TODO: Do we care enough to check if the username is taken
     // in the same transaction as creating the user?
 
-    // If we hit a validation error, stop here.
-    if(err) {
+    if(err && data.noUsername) {
         return postErrorRoute(request, response, data);
     }
 
