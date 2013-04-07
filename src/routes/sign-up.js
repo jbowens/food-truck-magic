@@ -46,7 +46,8 @@ function createUser(data, callback) {
                     if(err || !res || !res.rows || ! res.rows[0]) {
                         callback(err, null);
                     } else {
-                        callback(null, res.rows[0]);
+                        data.id = res.rows[0];
+                        callback(null, data);
                     }
                 });
             } else {
