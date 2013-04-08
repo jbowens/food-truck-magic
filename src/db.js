@@ -65,6 +65,8 @@ var Database = {
                 tx.query(SQL_GET_LAST_ID, [], function(err, res) {
                     if(err) { return callback(err, null); }
 
+                    tx.commit();
+
                     callback(null, res.rows[0].id);
                 });
             });
