@@ -12,6 +12,7 @@ var errorout = require('./error.js').errorout;
 /* SQL Queries */
 var SQL_INSERT_USER = 'INSERT INTO users (name,pass,email) VALUES($1, $2, $3)';
 var SQL_INSERT_TRUCK = 'INSERT INTO trucks (name, urlid, open) VALUES($1, $2, \'f\');';
+var SQL_INSERT_VENDOR = 'INSERT INTO vendors (userid, truckid) VALUES($1, $2);';
 var SQL_GET_ID = 'SELECT id FROM users WHERE name = $1 LIMIT 1';
 
 function createUser(data, callback) {
@@ -36,7 +37,7 @@ function createUser(data, callback) {
                     if(err || !res || !res.rows || ! res.rows[0]) {
                         callback(err, null);
                     } else {
-                        data.id = res.rows[0];
+                        data.id = res.rows[0].id;
                         callback(null, data);
                     }
                 });
@@ -53,7 +54,13 @@ function createTruck(data, callback) {
     /* TODO: This doesn't ensure that the urlid is duplicated (which would cause the sql
      * query to fail, but I really don't feel like doing that right now. */
     var urlid = data.truckname.replace(/\s+/g, '-').toLowerCase();
-    db.insertAndGetId(SQL_INSERT_TRUCK, [data.truckname, urlid], callback);
+    db.insertAndGetId(SQL_INSERT_TRUCK, [data.truckname, urlid], function(err, truckid) {
+        if(err) { callback(err, null); }
+
+        /* Insert the user as an admin of the truck. */
+        db.query(SQL_INSERT_VENDOR, [data.userid, truckid], callback);
+
+    });
 }
 
 function postErrorRoute(request, response, data) {
@@ -175,7 +182,8 @@ exports.postRoute = function(request, response, data) {
                 if(isTruck) {
                     /* Time to insert the truck. */
                     createTruck({
-                        truckname: request.body.name
+                        truckname: request.body.name,
+                        userid: user.id
                     }, function(error, truck) {
                         if(error) {
                             bailout(request, response, data, error);
