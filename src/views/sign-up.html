@@ -107,6 +107,16 @@
         {% endif %}
     </div>
 
+    <div class="form-item">
+        <label for="truck_name">Truck name</label>
+        <input id="truck_name" type="text" name="truckname" value="{{ truck.enteredTruckName }}" />
+        {% if truck.noTruckName %}
+        <div class="error">
+                You must provide your truck's name.
+            </div>
+        {% endif %}
+    </div>
+
     <input type="hidden" name="type" value="truck" />
     <input type="submit" value="Sign up" />
 </form>

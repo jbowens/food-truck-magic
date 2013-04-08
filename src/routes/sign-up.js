@@ -48,6 +48,11 @@ function createUser(data, callback) {
     });
 }
 
+function createTruck(data, callback) {
+    /* TODO: Implement. */
+    callback(new Error("not yet implemented", null));
+}
+
 function postErrorRoute(request, response, data) {
     response.render('sign-up', data);
 }
@@ -111,6 +116,16 @@ exports.postRoute = function(request, response, data) {
         }
     }
 
+    var isTruck = false;
+    if(request.body.type == 'truck') {
+        validationData.enteredTruckName = request.body.truckname;
+        if(!request.body.truckname) {
+            err = true;
+            validationData.noTruckName = true;
+        }
+        isTruck = true;
+    }
+
     // TODO: Validate the username if we're going to put any restrictions
     // on what constitutes a valid username
 
@@ -154,7 +169,19 @@ exports.postRoute = function(request, response, data) {
             if(err) {
                 postErrorRoute(request, response, data);
             } else {
-                response.redirect('/');
+                if(isTruck) {
+                    /* Time to insert the truck. */
+                    createTruck({
+                        name: request.body.name
+                    }, function(error, truck) {
+                        if(error) {
+                            bailout(request, response, data, error);
+                        }
+                        response.redirect('/edit-truck');
+                    });
+                } else {
+                    response.redirect('/');
+                }
             }
         });
 
