@@ -182,7 +182,7 @@ exports.postRoute = function(request, response, data) {
                 if(isTruck) {
                     /* Time to insert the truck. */
                     createTruck({
-                        truckname: request.body.name,
+                        truckname: request.body.truckname,
                         userid: user.id
                     }, function(error, truck) {
                         if(error) {
