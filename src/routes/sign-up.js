@@ -63,6 +63,21 @@ exports.postRoute = function(request, response, data) {
     if(request.session.user) {
         return errorout(request, response, data, "You've already registered and logged in!");
     }
+    if(request.body.type != 'eater' && request.body.type != 'truck') {
+        /* How the fuck did they get here? */
+        return response.redirect('/sign-up');
+    }
+
+    /* The client side needs to know which form to display the
+       validation errors on. */
+    var validationData = {};
+    if(request.body.type == 'eater') {
+        data.eater = validationData;
+        data.truck = {};
+    } else {
+        data.truck = validationData;
+        data.eater = {};
+    }
 
     var err = false;
     
@@ -70,29 +85,29 @@ exports.postRoute = function(request, response, data) {
 
     if(!request.body.email) {
         err = true;
-        data.noEmail = true;
+        validationData.noEmail = true;
     }
 
     if(!request.body.name) {
         err = true;
-        data.noUsername = true;
+        validationData.noUsername = true;
     }
 
     if(!request.body.pass) {
         err = true;
-        data.noPassword = true;
+        validationData.noPassword = true;
     }
 
-    data.enteredEmail = request.body.email;
-    data.enteredPass = request.body.pass;
-    data.enteredUsername = request.body.name;
+    validationData.enteredEmail = request.body.email;
+    validationData.enteredPass = request.body.pass;
+    validationData.enteredUsername = request.body.name;
     
     if(request.body.email) {
         try {
             check(request.body.email).isEmail();
         } catch(e) {
             err = true;
-            data.badEmail = true;
+            validationData.badEmail = true;
         }
     }
 
@@ -102,7 +117,7 @@ exports.postRoute = function(request, response, data) {
     // TODO: Do we care enough to check if the username is taken
     // in the same transaction as creating the user?
 
-    if(err && data.noUsername) {
+    if(err && validationData.noUsername) {
         return postErrorRoute(request, response, data);
     }
 
@@ -114,7 +129,7 @@ exports.postRoute = function(request, response, data) {
 
         if(taken) {
             err = true;
-            data.usernameTaken = true;
+            validationData.usernameTaken = true;
         }
  
         if(err) {
