@@ -1,0 +1,20 @@
+{% extends 'boilerplate.html' %}
+
+{% block stylesheets %}
+    {% parent %}
+    <style type="text/css">
+        #map-canvas {
+            height: 600px;
+        }
+    </style>
+{% endblock %}
+
+{% block scripts %}
+    {% parent %}
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA0uRmvgWbp3WBxVaCqf1WkZpu5nSibMpc&sensor=false"></script>
+    <script type="text/javascript" src="/js/mapview.js"></script>
+{% endblock %}
+
+{% block content %}
+<div id="map-canvas"></div>
+{% endblock %}
