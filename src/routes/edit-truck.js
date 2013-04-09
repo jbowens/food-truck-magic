@@ -1,5 +1,6 @@
 var _ = require('underscore');
-var db = require('../db.js').Database;
+var truckStore = require('../truckstore.js').TruckStore;
+var bailout = require('./fatalerror.js').bailout;
 var fourohfour = require('./fourohfour.js').route;
 
 exports.route = function(request, response, data) {
@@ -11,9 +12,18 @@ exports.route = function(request, response, data) {
         return fourohfour(request, response, data);
     }
 
+    truckStore.getTruckById(data.admin_truck, function(err, truck) {
+  
+        if(err) {
+            return bailout(request, response, data, err);
+        }
+
+        data.truck = truck;
+        renderPage();
+
+    });
+
     function renderPage() {
         response.render('edit-truck', data);
     }
-
-    renderPage();
 };
