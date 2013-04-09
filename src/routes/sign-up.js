@@ -58,7 +58,11 @@ function createTruck(data, callback) {
         if(err) { callback(err, null); }
 
         /* Insert the user as an admin of the truck. */
-        db.query(SQL_INSERT_VENDOR, [data.userid, truckid], callback);
+        db.query(SQL_INSERT_VENDOR, [data.userid, truckid], function(err, res) {
+            if(err) { callback(err ,null); }
+
+            callback(null, truckid);
+        });
 
     });
 }
@@ -184,10 +188,13 @@ exports.postRoute = function(request, response, data) {
                     createTruck({
                         truckname: request.body.truckname,
                         userid: user.id
-                    }, function(error, truck) {
+                    }, function(error, truckid) {
+                        
                         if(error) {
                             bailout(request, response, data, error);
                         }
+
+                        request.session.admin_truck = truckid;
                         response.redirect('/edit-truck');
                     });
                 } else {

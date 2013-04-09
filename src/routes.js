@@ -7,7 +7,8 @@ exports.setupRoutes = function(app) {
     var r = function(route) {
         return function(request, response) {
             var data = {
-                user: request.session.user
+                user: request.session.user,
+                admin_truck: request.session.admin_truck
             };
             route(request, response, data);
         };
@@ -22,7 +23,6 @@ exports.setupRoutes = function(app) {
     };
 
     get('/', './routes/index.js');
-    get('/api/check-username/:username', './routes/api/check-username.js');
     post('/sign-up', './routes/sign-up.js');
     get('/sign-up', './routes/sign-up.js');
     get('/logout', './routes/logout.js');
@@ -30,7 +30,9 @@ exports.setupRoutes = function(app) {
     get('/login', './routes/login.js');
     get('/trucks', './routes/trucks.js');
     get('/trucks/:truckidentifier', './routes/truck.js');
+    get('/edit-truck', './routes/edit-truck.js');
     post('/api/follow-truck', './routes/api/follow-truck.js');
+    get('/api/check-username/:username', './routes/api/check-username.js');
     get('*', './routes/fourohfour.js');
     post('*', './routes/fourohfour.js');
 
