@@ -7,7 +7,7 @@
 {% block content %}
 <h2>Manage {{my_truck.name}}</h2>
 
-<form method="post" id="edit-truck-details">
+<form method="post" id="edit-truck-details" class="standard">
 
     <div class="form-item">
         <label for="truck_name">Truck name</label>
@@ -16,7 +16,17 @@
 
     <div class="form-item">
         <label for="truck_website">Website</label>
-        <input type="text" id="truck_website" name="website" value="{{my_truck.website}}" />
+        <input type="text" id="truck_website" name="website" value="{% if my_truck.website %}{{my_truck.website}}{% endif %}" />
+    </div>
+
+    <div class="form-item">
+        <label for="truck_twitter">Twitter name</label>
+        <input type="text" id="truck_twitter" name="twitter" value="{% if my_truck.twitterName %}{{my_truck.twitterName}}{% endif %}" />
+    </div>
+
+    <div class="form-item">
+        <label for="truck_phone">Phone</label>
+        <input type="text" id="truck_phone" name="phone" value="{% if my_truck.phone %}{{my_truck.phone}}{% endif %}" />
     </div>
 
     <input type="submit" value="Save" />
