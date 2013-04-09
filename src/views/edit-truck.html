@@ -6,4 +6,19 @@
 
 {% block content %}
 <h2>Manage {{my_truck.name}}</h2>
+
+<form method="post" id="edit-truck-details">
+
+    <div class="form-item">
+        <label for="truck_name">Truck name</label>
+        <input type="text" id="truck_name" name="name" value="{{my_truck.name}}" />
+    </div>
+
+    <div class="form-item">
+        <label for="truck_website">Website</label>
+        <input type="text" id="truck_website" name="website" value="{{my_truck.website}}" />
+    </div>
+
+    <input type="submit" value="Save" />
+</form>
 {% endblock %}
