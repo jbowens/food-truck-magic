@@ -53,7 +53,7 @@ function createUser(data, callback) {
 function createTruck(data, callback) {
     /* TODO: This doesn't ensure that the urlid is duplicated (which would cause the sql
      * query to fail, but I really don't feel like doing that right now. */
-    var urlid = data.truckname.replace(/\s+/g, '-').toLowerCase();
+    var urlid = data.truckname.replace(/[^A-z]/g, '').replace(/\s+/g, '-').toLowerCase();
     db.insertAndGetId(SQL_INSERT_TRUCK, [data.truckname, urlid], function(err, truckid) {
         if(err) { callback(err, null); }
 
