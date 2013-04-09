@@ -52,8 +52,7 @@ function getUsersTruck(userid, callback) {
 
 function loadUserData(request, user, callback) {
     getUsersTruck(user.id, function(err, truckid) {
-        console.log("admin_truck = ", truckid);
-        request.session.admin_truck = truckid;
+        request.session.my_truck_id = truckid;
         callback(err);
     });
 }

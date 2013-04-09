@@ -10,10 +10,10 @@ exports.setupRoutes = function(app) {
         return function(request, response) {
             var data = {
                 user: request.session.user,
-                admin_truck: request.session.admin_truck
+                my_truck_id: request.session.my_truck_id
             };
-            if(request.session.admin_truck) {
-                truckStore.getTruckById(request.session.admin_truck, function(err, truck) {
+            if(request.session.my_truck_id && request.session.user) {
+                truckStore.getTruckById(request.session.my_truck_id, function(err, truck) {
                     data.my_truck = truck;
                     runRoute();
                 });

@@ -194,7 +194,7 @@ exports.postRoute = function(request, response, data) {
                             bailout(request, response, data, error);
                         }
 
-                        request.session.admin_truck = truckid;
+                        request.session.my_truck_id = truckid;
                         response.redirect('/edit-truck');
                     });
                 } else {
