@@ -16,7 +16,7 @@
 
     <div class="form-item">
         <label for="truck_website">Website</label>
-        <input type="text" id="truck_website" name="website" value="{{my_truck.website}}" />
+        <input type="text" id="truck_website" name="website" value="{{my_truck.website|default("")}}" />
     </div>
 
     <input type="submit" value="Save" />
