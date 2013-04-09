@@ -46,6 +46,11 @@
                 The username '<span class="username">{{ eater.enteredUsername }}</span>' is already taken. 
             </div>
         {% endif %}
+        {% if eater.usernamedBad %}
+            <div class="error">
+                Use only alphanumeric characters in your username.
+            </div>
+        {% endif %}
     </div>
 
     <div class="form-item">
@@ -93,6 +98,11 @@
         {% if truck.usernameTaken %}
             <div class="error username-error">
                 The username '<span class="username">{{ truck.enteredUsername }}</span>' is already taken. 
+            </div>
+        {% endif %}
+        {% if truck.usernameBad %}
+            <div class="error">
+                Use only alphanumeric characters in your username.
             </div>
         {% endif %}
     </div>

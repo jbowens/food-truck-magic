@@ -51,7 +51,7 @@ function createUser(data, callback) {
 }
 
 function createTruck(data, callback) {
-    /* TODO: This doesn't ensure that the urlid is duplicated (which would cause the sql
+    /* TODO: This doesn't ensure that the urlid isn't duplicated (which would cause the sql
      * query to fail, but I really don't feel like doing that right now. */
     var urlid = data.truckname.replace(/[^A-z]/g, '').replace(/\s+/g, '-').toLowerCase();
     db.insertAndGetId(SQL_INSERT_TRUCK, [data.truckname, urlid], function(err, truckid) {
@@ -140,8 +140,12 @@ exports.postRoute = function(request, response, data) {
         isTruck = true;
     }
 
-    // TODO: Validate the username if we're going to put any restrictions
-    // on what constitutes a valid username
+    try {
+        check(request.body.name).isAlphanumeric();
+    } catch(e) {
+        err = true;
+        validationData.usernameBad = true;
+    }
 
     // TODO: Do we care enough to check if the username is taken
     // in the same transaction as creating the user?
