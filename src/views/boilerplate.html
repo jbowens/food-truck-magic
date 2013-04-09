@@ -21,6 +21,9 @@
                             <li><a href="/edit-truck">Edit your truck</a></li>
                         {% endif %}
                         <li><a href="/trucks">Trucks</a></li>
+                        {% if my_truck %}
+                            <li><a href="/edit-truck">{{ my_truck.name }}</a></li>
+                        {% endif %}
                         {% if !user %}
                             <li><a href="/sign-up">Sign up</a></li>
                             <li><a href="/login">Log in</a></li>

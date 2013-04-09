@@ -1,3 +1,5 @@
+var truckStore = require('./truckstore.js').TruckStore;
+
 /*
  * Routes homey.
  */
@@ -10,7 +12,18 @@ exports.setupRoutes = function(app) {
                 user: request.session.user,
                 admin_truck: request.session.admin_truck
             };
-            route(request, response, data);
+            if(request.session.admin_truck) {
+                truckStore.getTruckById(request.session.admin_truck, function(err, truck) {
+                    data.my_truck = truck;
+                    runRoute();
+                });
+            } else {
+                runRoute();
+            }
+
+            function runRoute() {
+                route(request, response, data);
+            }
         };
     };
 
