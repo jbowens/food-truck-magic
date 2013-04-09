@@ -17,6 +17,9 @@
                 <div id="header">
                     <h1><a href="/">foodtruckler</a></h1>
                     <ul id="navigation">
+                        {% if admin_truck %}
+                            <li><a href="/edit-truck">Edit your truck</a></li>
+                        {% endif %}
                         <li><a href="/trucks">Trucks</a></li>
                         {% if !user %}
                             <li><a href="/sign-up">Sign up</a></li>
