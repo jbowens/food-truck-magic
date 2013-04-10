@@ -36,7 +36,7 @@
     <div class="form-item username-form-item">
         <label for="eater_signup_username">Username</label>
         <input id="eater_signup_username" class="signup_username" type="text" name="name" value="{{ eater.enteredUsername }}" />
-        {% if data.noUsername %}
+        {% if eater.noUsername %}
             <div class="error">
                 You must provide a username.
             </div>
