@@ -12,11 +12,21 @@
     <div class="form-item">
         <label for="truck_name">Truck name</label>
         <input type="text" id="truck_name" name="name" value="{{my_truck.name}}" />
+        {% if noName %}
+        <div class="error">
+            Your truck must have a name!
+        </div>
+        {% endif %}
     </div>
 
     <div class="form-item">
         <label for="truck_website">Website</label>
         <input type="text" id="truck_website" name="website" value="{{my_truck.website|default("")}}" /> 
+        {% if badWebsite %}
+        <div class="error">
+            <code class="url">{{enteredWebsite}}</code> is not a valid web address. Make sure your url begins with <code class="url">http://</code>.
+        </div>
+        {% endif %}
     </div>
 
     <div class="form-item">
