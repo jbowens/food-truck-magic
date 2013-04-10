@@ -70,19 +70,10 @@ exports.postRoute = function(request, response, data) {
     if(!_.isEqual(data.my_truck, newTruckData)) {
         truckStore.updateTruck(data.my_truck_id, newTruckData, function(err) {
             data.my_truck = newTruckData;
-            updateTruckName();
+            data.changesSaved = true;
+            renderPage(response, data);
         });
     } else {
-        updateTruckName();
-    }
-
-    function updateTruckName(err) {
-
-        if(request.body.name != data.my_truck.name) {
-            /* Update the truck name if necessary. */
-            /* TODO: Shit. */
-        }
-
         renderPage(response, data);
     }
 

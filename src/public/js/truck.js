@@ -43,7 +43,6 @@ foodTruckNS.truck.setupFollowButton = function() {
             },
             success: function(data) {
                 /* on success, update follow button and following state */
-                alert('Successfully followed/unfollowed');
                 foodTruckNS.truck.following = !foodTruckNS.truck.following;
                 foodTruckNS.truck.updateFollowButtonText($followButton);
             }

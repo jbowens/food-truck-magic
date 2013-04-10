@@ -10,6 +10,12 @@
 
 <form method="post" id="edit-truck-details" class="standard">
 
+    {% if changesSaved %}
+    <div class="success-message">
+        Changes saved
+    </div>
+    {% endif %}
+
     <div class="form-item">
         <label for="truck_name">Truck name</label>
         <input type="text" id="truck_name" name="name" value="{{my_truck.name}}" />
