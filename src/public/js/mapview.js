@@ -23,14 +23,11 @@ $(function() {
 
         /* add a test info window to the marker */
         var infowindow = new google.maps.InfoWindow({
-            content: "PAPA JIMS HOMEY"
+            content: "<a href='/trucks/papa-jims'>Papa Jim's</a>"
         });
 
-        google.maps.event.addListener(marker, 'mouseover', function() {
+        google.maps.event.addListener(marker, 'click', function() {
             infowindow.open(map,marker);
-        });
-        google.maps.event.addListener(marker, 'mouseout', function() {
-            infowindow.close(map,marker);
         });
     };
 
