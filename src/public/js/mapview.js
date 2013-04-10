@@ -23,11 +23,17 @@ $(function() {
 
         /* add a test info window to the marker */
         var infowindow = new google.maps.InfoWindow({
-            content: "<a href='/trucks/papa-jims'>Papa Jim's</a>"
+            content: "<a href='/trucks/papa-jims'>Papa Jim's</a>",
+            isOpen: false
         });
 
         google.maps.event.addListener(marker, 'click', function() {
-            infowindow.open(map,marker);
+            if (infowindow.isOpen) {
+                infowindow.close(map, marker);
+            } else {
+                infowindow.open(map, marker);
+            }
+            infowindow.isOpen = !infowindow.isOpen;
         });
     };
 
