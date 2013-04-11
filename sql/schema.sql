@@ -6,12 +6,6 @@ CREATE TABLE IF NOT EXISTS uploads (
     dateUploaded timestamp without time zone
 );
 
-CREATE TABLE IF NOT EXISTS locations (
-    locationid SERIAL PRIMARY KEY,
-    geoPoint GEOGRAPHY(Point),
-    textLoc VARCHAR(255)
-);
-
 CREATE TABLE IF NOT EXISTS trucks (
     id SERIAL PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
@@ -22,7 +16,8 @@ CREATE TABLE IF NOT EXISTS trucks (
     website VARCHAR(255),
     lastSeen timestamp without time zone,
     open boolean NOT NULL,
-    currLocationId INTEGER REFERENCES locations(locationid)
+    geoPoint GEOGRAPHY(Point),
+    textLoc VARCHAR(255)
 );
 
 CREATE TABLE IF NOT EXISTS users (
