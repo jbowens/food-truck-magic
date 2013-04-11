@@ -1,0 +1,10 @@
+{% extends 'boilerplate.html' %}
+
+{% block stylesheets %}
+    {% parent %}
+    <link rel="stylesheet" href="/styles/edit-truck-photos.css" />
+{% endblock %}
+
+{% block content %}
+<h2>{{my_truck.name}} Photos</h2>
+{% endblock %}
