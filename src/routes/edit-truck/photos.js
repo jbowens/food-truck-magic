@@ -1,6 +1,8 @@
 var _ = require('underscore');
 var bailout = require('../fatalerror.js').bailout;
+var errorout = require('../error.js').errorout;
 var fourohfour = require('../fourohfour.js').route;
+var handleUpload = require('../../file-uploader.js').handleUpload;
 
 function renderPage(response, data) {
     response.render('edit-truck-photos', data);
@@ -28,7 +30,14 @@ exports.postRoute = function(request, response, data) {
         return fourohfour(request, response, data);
     }
 
-    /* TODO: Everything. */
-    renderPage(response, data);
+    if(!request.files || !request.files.photo) {
+        return errorout(request, response, data,
+                "You forget to choose the photo you'd like to upload.");
+    }
+
+    handleUpload(request.files.photo, function(err, uploadid) {
+        /* TODO: lots of things. */
+        renderPage(response, data);
+    });
 
 };
