@@ -6,7 +6,7 @@ var foodTruckNS = foodTruckNS || {};
 foodTruckNS.mapview = foodTruckNS.mapview || {};
 
 foodTruckNS.mapview.initmap = function() {
-    /* create the map near */
+    /* create the map. For now centered at a random location near the CIT */
     var mapOptions = {
         center: new google.maps.LatLng(41.82, -71.40),
         zoom: 15,
