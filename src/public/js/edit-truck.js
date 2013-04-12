@@ -26,7 +26,9 @@ foodTruckNS.editTruck.setupOpenButton = function() {
         $openButton.click(function() {
             navigator.geolocation.getCurrentPosition(function(pos) {
                 var data = {
-                    setOpen: !foodTruckNS.editTruck.open
+                    setOpen: !foodTruckNS.editTruck.open,
+                    lon: 0,
+                    lat: 0
                 };
 
                 /* if currently closed and now opening, get the location */
@@ -39,8 +41,12 @@ foodTruckNS.editTruck.setupOpenButton = function() {
                     url: '/api/track-truck',
                     data: data,
                     success: function(data) {
-                        foodTruckNS.editTruck.open = !foodTruckNS.editTruck.open;
-                        foodTruckNS.editTruck.updateOpenButton($openButton);
+                        if (data.success) {
+                            foodTruckNS.editTruck.open = !foodTruckNS.editTruck.open;
+                            foodTruckNS.editTruck.updateOpenButton($openButton);
+                        } else {
+                            alert("FACKK");
+                        }
                     }
                 });
             });

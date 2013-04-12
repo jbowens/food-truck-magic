@@ -5,16 +5,16 @@
 var db = require('../../db.js').Database;
 var bailout = require('../fatalerror.js').bailout;
 
-var SQL_UPDATE_OPEN = "UPDATE trucks SET open = $1 WHERE id = $2";
-var SQL_UPDATE_LOC = "UPDATE trucks SET geoPoint = ST_GeometryFromText('POINT($1,$2)' WHERE id = $2";
+var SQL_UPDATE_OPEN = "UPDATE trucks SET open = $1, geoPoint = ST_PointFromText('POINT($2 $3)') WHERE id = $4";
 
 /*
  * Expects request.body to have the following:
- * setOpen - (optional) flag, true if opening truck, false otherwise
- * lat - (optional) latitude of truck's location
- * lon - (optional) longitude of truck's location
+ * setOpen - flag, true if opening truck, false otherwise
+ * lat - latitude of truck's location
+ * lon - longitude of truck's location
  */
 exports.postRoute = function(request, response, data) {
+    var SQL_UPDATE_OPEN = "UPDATE trucks SET open = $1, geoPoint = ST_PointFromText(";
     var returnData = {};
 
     if (!request.session.my_truck_id || !request.session.user) {
@@ -23,19 +23,16 @@ exports.postRoute = function(request, response, data) {
         return;
     }
 
-    if (request.body.setOpen) {
+    if (request.body.setOpen && request.body.lat && request.body.lon) {
         var setOpen = (request.body.setOpen == 'true');
+        SQL_UPDATE_OPEN += "'POINT(" + request.body.lat + " " + request.body.lon + ")') WHERE id = $2";
         db.query(SQL_UPDATE_OPEN, [setOpen, request.session.my_truck_id], function(err, res) {
-            if (!err) {
+            if (err) {
+                console.log(err);
+            } else {
                 returnData.success = true;
             }
-            response.json(data);
+            response.json(returnData);
         });
-    }
-
-    if (request.body.lat && request.body.lon) {
-        var lat = request.body.lat;
-        var lon = request.body.lon;
-        /* TODO: actually insert point into db */
     }
 };
