@@ -5,8 +5,6 @@
 var db = require('../../db.js').Database;
 var bailout = require('../fatalerror.js').bailout;
 
-var SQL_UPDATE_OPEN = "UPDATE trucks SET open = $1, geoPoint = ST_PointFromText('POINT($2 $3)') WHERE id = $4";
-
 /*
  * Expects request.body to have the following:
  * setOpen - flag, true if opening truck, false otherwise
@@ -14,7 +12,6 @@ var SQL_UPDATE_OPEN = "UPDATE trucks SET open = $1, geoPoint = ST_PointFromText(
  * lon - longitude of truck's location
  */
 exports.postRoute = function(request, response, data) {
-    var SQL_UPDATE_OPEN = "UPDATE trucks SET open = $1, geoPoint = ST_PointFromText(";
     var returnData = {};
 
     if (!request.session.my_truck_id || !request.session.user) {
@@ -25,6 +22,7 @@ exports.postRoute = function(request, response, data) {
 
     if (request.body.setOpen && request.body.lat && request.body.lon) {
         var setOpen = (request.body.setOpen == 'true');
+        var SQL_UPDATE_OPEN = "UPDATE trucks SET open = $1, geoPoint = ST_PointFromText(";
         SQL_UPDATE_OPEN += "'POINT(" + request.body.lat + " " + request.body.lon + ")') WHERE id = $2";
         db.query(SQL_UPDATE_OPEN, [setOpen, request.session.my_truck_id], function(err, res) {
             if (err) {
