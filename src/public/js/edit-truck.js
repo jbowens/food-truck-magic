@@ -23,18 +23,17 @@ foodTruckNS.editTruck.setupOpenButton = function() {
     /* For now, when pressed and opening, request geolocation.
      * TODO: Probably gonna want to move this somewhere else later */
     if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function(pos) { 
-            var data = {
-                setOpen: !foodTruckNS.editTruck.open,
-            };
+        $openButton.click(function() {
+            navigator.geolocation.getCurrentPosition(function(pos) {
+                var data = {
+                    setOpen: !foodTruckNS.editTruck.open
+                };
 
-            /* if currently closed and now opening, get the location */ 
-            if (!foodTruckNS.editTruck.open) {
-                data.lat = pos.coords.latitude;
-                data.lon = pos.coords.longitude;
-            }
-
-            $openButton.click(function() {
+                /* if currently closed and now opening, get the location */
+                if (!foodTruckNS.editTruck.open) {
+                    data.lat = pos.coords.latitude;
+                    data.lon = pos.coords.longitude;
+                }
                 $.ajax({
                     type: 'POST',
                     url: '/api/track-truck',
