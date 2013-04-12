@@ -18,19 +18,21 @@ foodTruckNS.mapview.initmap = function() {
     var geopoints = foodTruckNS.mapview.geopoints;
     for (var i = 0; i < geopoints.length; i++) {
         var geopoint = geopoints[i];
+
         /* parse the "POINT(xx.xx yy.yy)" string */
         var points = geopoint.point.split('(')[1];
         points = points.substring(0, points.length-1).split(' ');
         points[0] = parseFloat(points[0]);
         points[1] = parseFloat(points[1]);
 
-        /* actually add markers to the map */
+        /* add marker to the map */
         var marker = new google.maps.Marker({
             position: new google.maps.LatLng(points[0], points[1]),
             map: map,
             title: geopoint.name
         });
 
+        /* attach infowindow to the marker to link to the truck's page */
         var infowindow = new google.maps.InfoWindow({
             content: "<a href='/trucks/" + geopoint.urlid + "'>" + geopoint.name + "</a>",
             windowOpen: false
@@ -49,7 +51,6 @@ foodTruckNS.mapview.attachClickHandler = function(marker, infowindow, map) {
         }
         infowindow.windowOpen = !infowindow.windowOpen;
     });
-
 };
 
 /*
