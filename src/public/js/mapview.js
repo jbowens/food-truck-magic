@@ -34,15 +34,6 @@ foodTruckNS.mapview.initialize = function() {
         }
         infowindow.isOpen = !infowindow.isOpen;
     });
-    
-    /* testing html5 geolocation shit */
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function(p) { 
-            console.log(p);
-        });
-    } else {
-        alert(":(");
-    }
 };
 
 

@@ -50,6 +50,7 @@ exports.setupRoutes = function(app) {
     get('/mapview', './routes/mapview.js');
     post('/api/follow-truck', './routes/api/follow-truck.js');
     get('/api/check-username/:username', './routes/api/check-username.js');
+    post('/api/track-truck', './routes/api/track-truck.js');
     get('*', './routes/fourohfour.js');
     post('*', './routes/fourohfour.js');
 
