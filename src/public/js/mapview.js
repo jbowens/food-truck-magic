@@ -37,19 +37,32 @@ foodTruckNS.mapview.initmap = function() {
             content: "<a href='/trucks/" + geopoint.urlid + "'>" + geopoint.name + "</a>",
             windowOpen: false
         });
-        
+
         foodTruckNS.mapview.attachClickHandler(marker, infowindow, map);
     }
 };
 
 foodTruckNS.mapview.attachClickHandler = function(marker, infowindow, map) {
     google.maps.event.addListener(marker, 'click', function() {
-        if (infowindow.windowOpen) {
-            infowindow.close(map, marker);
+        if (foodTruckNS.mapview.activeWindow) {
+            foodTruckNS.mapview.activeWindow.close();
+            foodTruckNS.mapview.activeWindow.windowOpen = false;
+
+            if (foodTruckNS.mapview.activeWindow == infowindow) {
+                /* closing self */
+                foodTruckNS.mapview.activeWindow = null;
+            } else {
+                /* closing some other window, opening self */
+                infowindow.windowOpen = true;
+                infowindow.open(map, marker);
+                foodTruckNS.mapview.activeWindow = infowindow;
+            }
         } else {
+            /* no active window right now. set self to be it */
+            foodTruckNS.mapview.activeWindow = infowindow;
+            infowindow.windowOpen = true;
             infowindow.open(map, marker);
         }
-        infowindow.windowOpen = !infowindow.windowOpen;
     });
 };
 
@@ -58,5 +71,6 @@ foodTruckNS.mapview.attachClickHandler = function(marker, infowindow, map) {
  */
 foodTruckNS.mapview.init = function(geopoints) {
     foodTruckNS.mapview.geopoints = geopoints;
+    foodTruckNS.mapview.activeWindow = null;
     google.maps.event.addDomListener(window, 'load', foodTruckNS.mapview.initmap);
 };
