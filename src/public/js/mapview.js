@@ -34,8 +34,7 @@ foodTruckNS.mapview.initmap = function() {
 
         /* attach infowindow to the marker to link to the truck's page */
         var infowindow = new google.maps.InfoWindow({
-            content: "<a href='/trucks/" + geopoint.urlid + "'>" + geopoint.name + "</a>",
-            windowOpen: false
+            content: "<a href='/trucks/" + geopoint.urlid + "'>" + geopoint.name + "</a>"
         });
 
         foodTruckNS.mapview.attachClickHandler(marker, infowindow, map);
@@ -44,23 +43,21 @@ foodTruckNS.mapview.initmap = function() {
 
 foodTruckNS.mapview.attachClickHandler = function(marker, infowindow, map) {
     google.maps.event.addListener(marker, 'click', function() {
+
         if (foodTruckNS.mapview.activeWindow) {
             foodTruckNS.mapview.activeWindow.close();
-            foodTruckNS.mapview.activeWindow.windowOpen = false;
 
             if (foodTruckNS.mapview.activeWindow == infowindow) {
                 /* closing self */
                 foodTruckNS.mapview.activeWindow = null;
             } else {
                 /* closing some other window, opening self */
-                infowindow.windowOpen = true;
                 infowindow.open(map, marker);
                 foodTruckNS.mapview.activeWindow = infowindow;
             }
         } else {
             /* no active window right now. set self to be it */
             foodTruckNS.mapview.activeWindow = infowindow;
-            infowindow.windowOpen = true;
             infowindow.open(map, marker);
         }
     });
