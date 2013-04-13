@@ -47,7 +47,7 @@ exports.handleUpload = function(file, callback) {
             if(err) { console.error(err); return callback(err, null); }
             /* Now that we've inserted the upload into the database, we need
                to move the file into permanent storage. */
-            fs.rename(file.path, __dirname + '../uploads/' + uploadid.toString(), function (err) {
+            fs.rename(file.path, __dirname + '/../uploads/' + uploadid.toString(), function (err) {
                 if(err) { console.error(err); return callback(err, null); }
                 file.uploadid = uploadid;
                 callback(null, uploadid);
