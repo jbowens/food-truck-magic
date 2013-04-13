@@ -8,13 +8,16 @@ foodTruckNS.mapview = foodTruckNS.mapview || {};
 foodTruckNS.mapview.initmap = function() {
     /* create the map. For now centered at a random location near the CIT */
     var mapOptions = {
-        center: new google.maps.LatLng(41.82, -71.40),
+        center: foodTruckNS.mapview.defaultCenter,
         zoom: 15,
         mapTypeId: google.maps.MapTypeId.ROADMAP
     };
     var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
 
     /* add markers onto the map */
+    var totalLat = 0;
+    var totalLon = 0;
+
     var geopoints = foodTruckNS.mapview.geopoints;
     for (var i = 0; i < geopoints.length; i++) {
         var geopoint = geopoints[i];
@@ -38,6 +41,16 @@ foodTruckNS.mapview.initmap = function() {
         });
 
         foodTruckNS.mapview.attachClickHandler(marker, infowindow, map);
+
+        totalLat += points[0];
+        totalLon += points[1];
+    }
+
+    /* set the center of the map to be the middle of all geopoints */
+    if (geopoints.length > 0) {
+        totalLat = totalLat / geopoints.length;
+        totalLon = totalLon / geopoints.length;
+        map.setCenter(new google.maps.LatLng(totalLat, totalLon));
     }
 };
 
@@ -69,5 +82,6 @@ foodTruckNS.mapview.attachClickHandler = function(marker, infowindow, map) {
 foodTruckNS.mapview.init = function(geopoints) {
     foodTruckNS.mapview.geopoints = geopoints;
     foodTruckNS.mapview.activeWindow = null;
+    foodTruckNS.mapview.defaultCenter = new google.maps.LatLng(41.82, -71.40);
     google.maps.event.addDomListener(window, 'load', foodTruckNS.mapview.initmap);
 };
