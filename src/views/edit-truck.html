@@ -60,10 +60,16 @@
         <input type="text" id="truck_phone" name="phone" value="{{my_truck.phone|default("")}}" />
     </div>
 
+    <div clas="form-item">
+        <label for="truck_description">Description</label> 
+        <br/>
+        <textarea id="truck_description" name="description" maxlength=200>{{my_truck.description|default("")}}</textarea>
+    </div>
+
     <input type="submit" value="Save" />
 </form>
 
-<h2>{{my_truck.name}}' Status</h2>
+<h2>{{my_truck.name}}'s Status</h2>
 <button type="button" id="open-button" style="display:none;"></button>
 
 

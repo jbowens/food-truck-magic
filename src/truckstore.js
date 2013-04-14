@@ -3,7 +3,7 @@ var db = require('./db.js').Database;
 /* SQL YO */
 var SQL_GET_TRUCK_BY_ID = 'SELECT * FROM trucks WHERE id = $1;';
 var SQL_UPDATE_TRUCK_DATA = 'UPDATE trucks SET twitterName = $1, phone = $2, ' +
-                            'website = $3, name = $4 WHERE id = $5;';
+                            'website = $3, name = $4, description= $5 WHERE id = $6;';
 
 /* A store for truck objects.
  */
@@ -27,13 +27,15 @@ exports.TruckStore = {
      * - phone
      * - website
      * - name
+     * - description
      *
      * The callback only takes one argument, the error if any occurred.
      */
     updateTruck: function(truckid, newTruckData, callback) {
         db.query(SQL_UPDATE_TRUCK_DATA,
                 [newTruckData.twitterName, newTruckData.phone, 
-                 newTruckData.website, newTruckData.name, truckid],
+                 newTruckData.website, newTruckData.name, 
+                 newTruckData.description, truckid],
                 function(err, res) {
                     if(err) { console.error(err); }
                     callback(err);

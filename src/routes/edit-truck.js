@@ -59,6 +59,7 @@ exports.postRoute = function(request, response, data) {
     newTruckData.website = request.body.website;
     newTruckData.phone = request.body.phone;
     newTruckData.twitterName = request.body.twitterName;
+    newTruckData.description = request.body.description;
 
     if(err) {
         /* There was a validation error and we shouldn't try and save

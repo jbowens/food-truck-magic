@@ -19,10 +19,12 @@
         foodTruckNS.mapview = foodTruckNS.mapview || {};
         var geopoints = [];
         {% for geo in geodata %}
-            geopoints.push({});
-            geopoints[geopoints.length-1].point = "{{geo.st_astext}}";
-            geopoints[geopoints.length-1].urlid = "{{geo.urlid}}";
-            geopoints[geopoints.length-1].name = "{{geo.name}}";
+            var g = {};
+            g.point = "{{geo.st_astext}}";
+            g.urlid = "{{geo.urlid}}";
+            g.name = "{{geo.name}}";
+            g.description = "{{geo.description|default("")}}";
+            geopoints.push(g);
         {% endfor %}
 
         foodTruckNS.mapview.init(geopoints);

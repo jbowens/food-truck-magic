@@ -18,7 +18,8 @@ CREATE TABLE IF NOT EXISTS trucks (
     lastSeen timestamp without time zone,
     open boolean NOT NULL,
     geoPoint GEOGRAPHY(Point),
-    textLoc VARCHAR(255)
+    textLoc VARCHAR(255),
+    description VARCHAR(255),
 );
 
 CREATE TABLE IF NOT EXISTS users (
