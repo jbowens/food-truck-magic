@@ -3,9 +3,10 @@
 
 var db = require('./db.js').Database;
 var fs = require('fs');
+var path = require('path');
 
 /* SQL Queries */
-var SQL_INSERT_UPLOAD = 'INSERT INTO uploads (filesize, mime, name, dateUploaded) VALUES($1, $2, $3, now());';
+var SQL_INSERT_UPLOAD = 'INSERT INTO uploads (filesize, mime, name, ext, dateUploaded) VALUES($1, $2, $3, $4, now());';
 var SQL_GET_LAST_ID = 'SELECT lastval() AS uploadid;';
 
 /* Inserts the given req.files object into the
@@ -14,9 +15,11 @@ var SQL_GET_LAST_ID = 'SELECT lastval() AS uploadid;';
  */
 function insertUpload(file, callback) {
     db.begin(function(err, tx) {
-        if (err) { tx.end(); return callback(err, null); }
-        tx.query(SQL_INSERT_UPLOAD, [file.size, file.type, file.name], function(err, res) {
-            if(err) { tx.end(); return callback(err, null); }
+        if (err) { tx.rollback(); return callback(err, null); }
+
+        var ext = path.extname(file.name);
+        tx.query(SQL_INSERT_UPLOAD, [file.size, file.type, file.name, ext], function(err, res) {
+            if(err) { tx.rollback(); return callback(err, null); }
             tx.query(SQL_GET_LAST_ID, function(err, res) {
                 tx.commit();
                 if(err) { return callback(err, null); }
@@ -44,18 +47,14 @@ exports.handleUpload = function(file, callback) {
 
     try {
         insertUpload(file, function(err, uploadid) {
-            if(err) { return callback(err, null); }
+            if(err) { console.error(err); return callback(err, null); }
             /* Now that we've inserted the upload into the database, we need
                to move the file into permanent storage. */
-            try {
-                fs.rename(file.path, __dirname + '../uploads/' + uploadid.toString(), function (err) {
-                    if(err) { throw err; }
-                    file.uploadid = uploadid;
-                    callback(null, uploadid);
-                });
-            } catch(err) {
-                callback(err, null);
-            }
+            fs.rename(file.path, __dirname + '/../uploads/' + uploadid.toString(), function (err) {
+                if(err) { console.error(err); return callback(err, null); }
+                file.uploadid = uploadid;
+                callback(null, uploadid);
+            });
         });
 
     } catch(err) {

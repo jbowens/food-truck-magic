@@ -3,13 +3,8 @@ CREATE TABLE IF NOT EXISTS uploads (
     filesize INT NOT NULL,
     mime VARCHAR(255) NOT NULL,
     name VARCHAR(255) NOT NULL,
+    ext VARCHAR(255) NOT NULL,
     dateUploaded timestamp without time zone
-);
-
-CREATE TABLE IF NOT EXISTS locations (
-    locationid SERIAL PRIMARY KEY,
-    geoPoint GEOGRAPHY(Point),
-    textLoc VARCHAR(255)
 );
 
 CREATE TABLE IF NOT EXISTS trucks (
@@ -22,7 +17,9 @@ CREATE TABLE IF NOT EXISTS trucks (
     website VARCHAR(255),
     lastSeen timestamp without time zone,
     open boolean NOT NULL,
-    currLocationId INTEGER REFERENCES locations(locationid)
+    geoPoint GEOGRAPHY(Point),
+    textLoc VARCHAR(255),
+    description VARCHAR(255),
 );
 
 CREATE TABLE IF NOT EXISTS users (
@@ -40,4 +37,10 @@ CREATE TABLE IF NOT EXISTS vendors (
 CREATE TABLE IF NOT EXISTS follows (
     userid INTEGER NOT NULL REFERENCES users(id),
     truckid INTEGER NOT NULL REFERENCES trucks(id)
+);
+
+CREATE TABLE IF NOT EXISTS photos (
+    truckid INTEGER NOT NULL REFERENCES trucks(id),
+    uploadid INTEGER NOT NULL REFERENCES uploads(id),
+    description TEXT
 );

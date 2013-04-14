@@ -9,21 +9,17 @@ var fourOhFourRoute = require('./fourohfour.js').route;
 var SQL_GET_TRUCK_BY_IDENTIFIER = "SELECT * FROM trucks WHERE urlid = $1 LIMIT 1";
 var SQL_GET_FOLLOWS = "SELECT * FROM FOLLOWS WHERE userid = $1 AND truckid = $2";
 
-var defaultTemplateData = {
-    user: null,
-    truck: null,
-    following: false
-};
 
-exports.route = function(request, response) {
-    var data = _.clone(defaultTemplateData);
+exports.route = function(request, response, data) {
+    data.following = false;
+
     var truckurlid = request.params.truckidentifier;
 
     /* Get the truck from the database! */
     db.get(function(err, conn) {
         if(err) {
             console.error(err);
-            return fourOhFourRoute(request, response);
+            return fourOhFourRoute(request, response, data);
         }
 
         conn.query(SQL_GET_TRUCK_BY_IDENTIFIER, [truckurlid], function(err, res) {
@@ -35,7 +31,7 @@ exports.route = function(request, response) {
                     console.error(err);
                 }
                 /* If the truck doesn't exist or something fucked up, treat it as a 404. */
-                return fourOhFourRoute(request, response);
+                return fourOhFourRoute(request, response, data);
             }
            
             data.truck = res.rows[0];
@@ -48,7 +44,7 @@ exports.route = function(request, response) {
                     db.release(conn);
                     if(err) {
                         console.error(err);
-                        return fourOhFourRoute(request, response);
+                        return fourOhFourRoute(request, response, data);
                     }
 
                     /* user is following this truck already */

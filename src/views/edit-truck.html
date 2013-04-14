@@ -1,0 +1,76 @@
+{% extends 'boilerplate.html' %}
+
+{% block stylesheets %}
+    {% parent %}
+    <link rel="stylesheet" href="/styles/edit-truck.css" />
+{% endblock %}
+
+{% block scripts %}
+    {% parent %}
+    <script type="text/javascript" src="/js/edit-truck.js"></script>
+    <script>
+        var foodTruckNS = foodTruckNS || {};
+        foodTruckNS.editTruck = foodTruckNS.editTruck || {};
+        foodTruckNS.editTruck.open = {{my_truck.open}};
+
+        $(function() {
+            foodTruckNS.editTruck.init();
+        });
+    </script>
+{% endblock %}
+
+{% block content %}
+<h2>Manage {{my_truck.name}}</h2>
+
+<form method="post" id="edit-truck-details" class="standard">
+
+    {% if changesSaved %}
+    <div class="success-message">
+        Changes saved
+    </div>
+    {% endif %}
+
+    <div class="form-item">
+        <label for="truck_name">Truck name</label>
+        <input type="text" id="truck_name" name="name" value="{{my_truck.name}}" />
+        {% if noName %}
+        <div class="error">
+            Your truck must have a name!
+        </div>
+        {% endif %}
+    </div>
+
+    <div class="form-item">
+        <label for="truck_website">Website</label>
+        <input type="text" id="truck_website" name="website" value="{{my_truck.website|default("")}}" /> 
+        {% if badWebsite %}
+        <div class="error">
+            <code class="url">{{enteredWebsite}}</code> is not a valid web address. Make sure your url begins with <code class="url">http://</code>.
+        </div>
+        {% endif %}
+    </div>
+
+    <div class="form-item">
+        <label for="truck_twitter">Twitter name</label>
+        <input type="text" id="truck_twitter" name="twitterName" value="{{my_truck.twitterName|default("")}}" />
+    </div>
+
+    <div class="form-item">
+        <label for="truck_phone">Phone</label>
+        <input type="text" id="truck_phone" name="phone" value="{{my_truck.phone|default("")}}" />
+    </div>
+
+    <div clas="form-item">
+        <label for="truck_description">Description</label> 
+        <br/>
+        <textarea id="truck_description" name="description" maxlength=200>{{my_truck.description|default("")}}</textarea>
+    </div>
+
+    <input type="submit" value="Save" />
+</form>
+
+<h2>{{my_truck.name}}'s Status</h2>
+<button type="button" id="open-button" style="display:none;"></button>
+
+
+{% endblock %}

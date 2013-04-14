@@ -34,7 +34,7 @@ exports.checkUsername = function(username, callback) {
 
 };
 
-exports.route = function(request, response) {
+exports.route = function(request, response, data) {
 
     if(!request.params.username) {
         // Doesn't make sense if no username is given
@@ -47,7 +47,8 @@ exports.route = function(request, response) {
                     console.error(err);
                     fourOhFourRoute(request, response);
                 } else {
-                    response.json({'username_exists': usernameExists});
+                    data.username_exists = usernameExists;
+                    response.json(data);
                 }
 
             });

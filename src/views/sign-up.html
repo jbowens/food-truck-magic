@@ -10,50 +10,127 @@
 {% endblock %}
 
 {% block content %}
+
 <h2>Sign up</h2>
 
-<form method="post" action="/sign-up" id="sign-up">
+<div id="signup-forms">
+<div id="eater-signup">
+    <h3>as a food lover <span class="lolz">omnomnomnom</span></h3>
+<form method="post" action="/sign-up" class="sign-up standard">
 
     <div class="form-item">
-        <label for="signup_email">Email</label>
-        <input id="signup_email" type="text" name="email" />
-        {% if noEmail %}
+        <label for="eater_signup_email">Email</label>
+        <input id="eater_signup_email" class="signup_email" type="text" name="email"{% if eater.enteredEmail %} value="{{ eater.enteredEmail }}"{%endif%} />
+        {% if eater.noEmail %}
             <div class="error">
                 You must provide an email address.
             </div>
         {% endif %}
-        {% if badEmail %}
+        {% if eater.badEmail %}
             <div class="error">
-                <code class="email">{{ enteredEmail }}</code> is not a valid email address.
+                <code class="email">{{ eater.enteredEmail }}</code> is not a valid email address.
             </div>
         {% endif %}
     </div>
 
     <div class="form-item username-form-item">
-        <label for="signup_username">Username</label>
-        <input id="signup_username" type="text" name="name" />
-        {% if noUsername %}
+        <label for="eater_signup_username">Username</label>
+        <input id="eater_signup_username" class="signup_username" type="text" name="name" value="{{ eater.enteredUsername }}" />
+        {% if eater.noUsername %}
             <div class="error">
                 You must provide a username.
             </div>
         {% endif %}
-        {% if usernameTaken %}
-            <div class="error" id="username-error">
-                The username '<span class="username">{{ enteredUsername }}</span>' is already taken. 
+        {% if eater.usernameTaken %}
+            <div class="error username-error">
+                The username '<span class="username">{{ eater.enteredUsername }}</span>' is already taken. 
+            </div>
+        {% endif %}
+        {% if eater.usernamedBad %}
+            <div class="error">
+                Use only alphanumeric characters in your username.
             </div>
         {% endif %}
     </div>
 
     <div class="form-item">
-        <label for="signup_pass">Password</label>
-        <input id="signup_pass" type="password" name="pass" />
-        {% if noPassword %}
+        <label for="eater_signup_pass">Password</label>
+        <input id="eater_signup_pass" class="eater_signup_pass" type="password" name="pass" />
+        {% if eater.noPassword %}
             <div class="error">
                 You must provide a password.
             </div>
         {% endif %}
     </div>
 
+    <input type="hidden" name="type" value="eater" />
     <input type="submit" value="Sign up" />
 </form>
+</div>
+
+<div id="truck-signup">
+    <h3>as a food truck <span class="lolz">vroooom!</span></h3>
+<form method="post" action="/sign-up" class="sign-up standard">
+
+    <div class="form-item">
+        <label for="truck_signup_email">Email</label>
+        <input id="truck_signup_email" class="signup_email" type="text" name="email"{% if truck.enteredEmail %} value="{{ truck.enteredEmail }}"{%endif%} />
+        {% if truck.noEmail %}
+            <div class="error">
+                You must provide an email address.
+            </div>
+        {% endif %}
+        {% if truck.badEmail %}
+            <div class="error">
+                <code class="email">{{ truck.enteredEmail }}</code> is not a valid email address.
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="form-item username-form-item">
+        <label for="truck_signup_username">Username</label>
+        <input id="truck_signup_username" class="signup_username" type="text" name="name" value="{{ truck.enteredUsername }}" />
+        {% if truck.noUsername %}
+            <div class="error">
+                You must provide a username.
+            </div>
+        {% endif %}
+        {% if truck.usernameTaken %}
+            <div class="error username-error">
+                The username '<span class="username">{{ truck.enteredUsername }}</span>' is already taken. 
+            </div>
+        {% endif %}
+        {% if truck.usernameBad %}
+            <div class="error">
+                Use only alphanumeric characters in your username.
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="form-item">
+        <label for="truck_signup_pass">Password</label>
+        <input id="truck_signup_pass" class="signup_pass" type="password" name="pass" />
+        {% if truck.noPassword %}
+            <div class="error">
+                You must provide a password.
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="form-item">
+        <label for="truck_name">Truck name</label>
+        <input id="truck_name" type="text" name="truckname" value="{{ truck.enteredTruckName }}" />
+        {% if truck.noTruckName %}
+        <div class="error">
+                You must provide your truck's name.
+            </div>
+        {% endif %}
+    </div>
+
+    <input type="hidden" name="type" value="truck" />
+    <input type="submit" value="Sign up" />
+</form>
+</div>
+<div class="clear"></div>
+</div> <!-- /signup-forms -->
 {% endblock %}

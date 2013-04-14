@@ -5,7 +5,8 @@
     // Custom globals
     "predef"        : [
         "define",
-        "require"
+        "require",
+        "$"
     ],
 
     "es5"           : true,

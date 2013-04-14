@@ -10,6 +10,7 @@ var errorout = require('./error.js').errorout;
 
 /* SQL Queries */
 var SQL_GET_USER = 'SELECT * FROM users WHERE name = $1 AND pass = $2';
+var SQL_GET_USERS_TRUCK = 'SELECT truckid FROM vendors WHERE userid = $1';
 
 function getUser(username, password, callback) {
 
@@ -41,13 +42,20 @@ function getUser(username, password, callback) {
 
 }
 
-/*
- * This templating engine is awesome.
- */
-var defaultTemplateData = {
-    badLoginCredentials: false,
-    enteredUsername: ''
-};
+function getUsersTruck(userid, callback) {
+    db.query(SQL_GET_USERS_TRUCK, [userid], function(err, res) {
+        if(err) { return callback(err, null); }
+        
+        callback(null, res.rowCount ? res.rows[0].truckid : null);
+    });
+}
+
+function loadUserData(request, user, callback) {
+    getUsersTruck(user.id, function(err, truckid) {
+        request.session.my_truck_id = truckid;
+        callback(err);
+    });
+}
 
 /*
  * Handles actually displaying the page. This function takes in
@@ -55,27 +63,29 @@ var defaultTemplateData = {
  * engine.
  */
 function route(request, response, data) {
+    if( ! data.enteredUsername ) {
+        data.enteredUsername = '';
+    }
     response.render('login', data);
 }
 
 /*
  * The route for normal get requests to the login page.
  */
-exports.route = function(request, response) {
+exports.route = function(request, response, data) {
     if(request.session.user) {
-        return errorout(request, response, "You're already logged in.");
+        return errorout(request, response, data, "You're already logged in.");
     }
 
-    route(request, response, defaultTemplateData);
+    route(request, response, data);
 };
 
-exports.postRoute = function(request, response) {
+exports.postRoute = function(request, response, data) {
     if(request.session.user) {
-        /* Already loggedi in. */
-        return errorout(request, response, "You're already logged in!");
+        /* Already logged in. */
+        return errorout(request, response, data, "You're already logged in!");
     }
 
-    var data = _.clone(defaultTemplateData);
     var err = false;
     
     if(!request.body.name || !request.body.pass) {
@@ -101,7 +111,11 @@ exports.postRoute = function(request, response) {
         } else {
             // Legitimate login
             request.session.user = user;
-            response.redirect('/');
+            // Load additional user data that should be stored in the session.
+            loadUserData(request, user, function(err) {
+                if(err) console.error(err);
+                response.redirect('/');
+            });
         }
 
     });

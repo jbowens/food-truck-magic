@@ -16,7 +16,7 @@ var routes = require('./routes.js');
 
 var app = express();
 
-var port = args.port ? args.port : 8080;
+var port = args.port || 8080;
 
 /* Configuration options for express */
 app.configure(function() {

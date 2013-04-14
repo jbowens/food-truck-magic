@@ -11,18 +11,9 @@ var errorout = require('./error.js').errorout;
 
 /* SQL Queries */
 var SQL_INSERT_USER = 'INSERT INTO users (name,pass,email) VALUES($1, $2, $3)';
+var SQL_INSERT_TRUCK = 'INSERT INTO trucks (name, urlid, open) VALUES($1, $2, \'f\');';
+var SQL_INSERT_VENDOR = 'INSERT INTO vendors (userid, truckid) VALUES($1, $2);';
 var SQL_GET_ID = 'SELECT id FROM users WHERE name = $1 LIMIT 1';
-
-var defaultTemplateData = {
-    noEmail: false,
-    noUsername: false,
-    noPassword: false,
-    usernameTaken: false,
-    badEmail: false,
-    enteredUsername: null,
-    enteredPass: null,
-    enteredEmail: null
-};
 
 function createUser(data, callback) {
     db.get(function(err, conn) {
@@ -46,7 +37,7 @@ function createUser(data, callback) {
                     if(err || !res || !res.rows || ! res.rows[0]) {
                         callback(err, null);
                     } else {
-                        data.id = res.rows[0];
+                        data.id = res.rows[0].id;
                         callback(null, data);
                     }
                 });
@@ -59,63 +50,107 @@ function createUser(data, callback) {
     });
 }
 
+function createTruck(data, callback) {
+    /* TODO: This doesn't ensure that the urlid isn't duplicated (which would cause the sql
+     * query to fail, but I really don't feel like doing that right now. */
+    var urlid = data.truckname.replace(/[^A-z]/g, '').replace(/\s+/g, '-').toLowerCase();
+    db.insertAndGetId(SQL_INSERT_TRUCK, [data.truckname, urlid], function(err, truckid) {
+        if(err) { callback(err, null); }
+
+        /* Insert the user as an admin of the truck. */
+        db.query(SQL_INSERT_VENDOR, [data.userid, truckid], function(err, res) {
+            if(err) { callback(err ,null); }
+
+            callback(null, truckid);
+        });
+
+    });
+}
+
 function postErrorRoute(request, response, data) {
     response.render('sign-up', data);
 }
 
-exports.route = function(request, response) {
+exports.route = function(request, response, data) {
     if(request.session.user) {
-        return errorout(request, response, "You're already registered and logged in!");
+        return errorout(request, response, data, "You're already registered and logged in!");
     }
-    response.render('sign-up', defaultTemplateData);
+    response.render('sign-up', data);
 };
 
-exports.postRoute = function(request, response) {
+exports.postRoute = function(request, response, data) {
     if(request.session.user) {
-        return errorout(request, response, "You've already registered and logged in!");
+        return errorout(request, response, data, "You've already registered and logged in!");
+    }
+    if(request.body.type != 'eater' && request.body.type != 'truck') {
+        /* How the fuck did they get here? */
+        return response.redirect('/sign-up');
     }
 
-    var data = _.clone(defaultTemplateData);
+    /* The client side needs to know which form to display the
+       validation errors on. */
+    var validationData = {};
+    if(request.body.type == 'eater') {
+        data.eater = validationData;
+        data.truck = {};
+    } else {
+        data.truck = validationData;
+        data.eater = {};
+    }
+
     var err = false;
     
     request.body.name = sanitize(request.body.name).trim();
 
     if(!request.body.email) {
         err = true;
-        data.noEmail = true;
+        validationData.noEmail = true;
     }
 
     if(!request.body.name) {
         err = true;
-        data.noUsername = true;
+        validationData.noUsername = true;
     }
 
     if(!request.body.pass) {
         err = true;
-        data.noPassword = true;
+        validationData.noPassword = true;
     }
 
-    data.enteredEmail = request.body.email;
-    data.enteredPass = request.body.pass;
-    data.enteredUsername = request.body.name;
+    validationData.enteredEmail = request.body.email;
+    validationData.enteredPass = request.body.pass;
+    validationData.enteredUsername = request.body.name;
     
     if(request.body.email) {
         try {
             check(request.body.email).isEmail();
         } catch(e) {
             err = true;
-            data.badEmail = true;
+            validationData.badEmail = true;
         }
     }
 
-    // TODO: Validate the username if we're going to put any restrictions
-    // on what constitutes a valid username
+    var isTruck = false;
+    if(request.body.type == 'truck') {
+        validationData.enteredTruckName = request.body.truckname;
+        if(!request.body.truckname) {
+            err = true;
+            validationData.noTruckName = true;
+        }
+        isTruck = true;
+    }
+
+    try {
+        check(request.body.name).isAlphanumeric();
+    } catch(e) {
+        err = true;
+        validationData.usernameBad = true;
+    }
 
     // TODO: Do we care enough to check if the username is taken
     // in the same transaction as creating the user?
 
-    // If we hit a validation error, stop here.
-    if(err) {
+    if(err && validationData.noUsername) {
         return postErrorRoute(request, response, data);
     }
 
@@ -127,9 +162,13 @@ exports.postRoute = function(request, response) {
 
         if(taken) {
             err = true;
-            data.usernameTaken = true;
+            validationData.usernameTaken = true;
         }
  
+        if(err) {
+            return postErrorRoute(request, response, data);
+        }
+
         createUser({
             'name': request.body.name,
             'pass': request.body.pass,
@@ -137,7 +176,7 @@ exports.postRoute = function(request, response) {
         }, function(error, user) {
 
             if(error) {
-                bailout(request, response, error);           
+                bailout(request, response, data, error);           
             }
 
             // Log the user in by saving the user object to the session
@@ -148,7 +187,23 @@ exports.postRoute = function(request, response) {
             if(err) {
                 postErrorRoute(request, response, data);
             } else {
-                response.redirect('/');
+                if(isTruck) {
+                    /* Time to insert the truck. */
+                    createTruck({
+                        truckname: request.body.truckname,
+                        userid: user.id
+                    }, function(error, truckid) {
+                        
+                        if(error) {
+                            bailout(request, response, data, error);
+                        }
+
+                        request.session.my_truck_id = truckid;
+                        response.redirect('/edit-truck');
+                    });
+                } else {
+                    response.redirect('/');
+                }
             }
         });
 

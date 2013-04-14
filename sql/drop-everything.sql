@@ -1,6 +1,6 @@
-DROP TABLE follows;
-DROP TABLE vendors;
-DROP TABLE users;
-DROP TABLE trucks;
-DROP TABLE locations;
-DROP TABLE uploads;
+DROP TABLE follows CASCADE;
+DROP TABLE vendors CASCADE;
+DROP TABLE users CASCADE;
+DROP TABLE trucks CASCADE;
+DROP TABLE photos CASCADE;
+DROP TABLE uploads CASCADE;

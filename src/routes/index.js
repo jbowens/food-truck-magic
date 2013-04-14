@@ -1,14 +1,7 @@
 var _ = require('underscore');
 var db = require('../db.js').Database;
-var bailout = require('./fatalerror.js').bailout;
 
-var defaultTemplateData = {
-    user: null,
-};
-
-
-exports.route = function(request, response) {
-    var data = _.clone(defaultTemplateData);
+exports.route = function(request, response, data) {
     function renderPage() {
         response.render('index', data);
     }
@@ -16,5 +9,6 @@ exports.route = function(request, response) {
     if (request.session.user) {
         data.user = request.session.user;
     }
+
     renderPage();
 };

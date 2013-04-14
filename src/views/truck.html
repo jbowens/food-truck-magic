@@ -1,5 +1,7 @@
 {% extends 'boilerplate.html' %}
 
+{% block title %}{{ truck.name }}{% endblock %}
+
 {% block stylesheets %}
     {% parent %}
     <link rel="stylesheet" href="/styles/truck.css" />
@@ -8,19 +10,34 @@
 {% block scripts %}
     {% parent %}
     <script type="text/javascript" src="/js/truck.js"></script>
-{% endblock %}
 
-{% block metas %}
-    {% parent %}
-    <meta name="following" content="{{following}}" />
-    <meta name="truckid" content="{{truck.id}}" />
     {% if user %}
-        <meta name="userid" content="{{user.id}}" />
+    <script type="text/javascript">
+        var foodTruckNS = foodTruckNS || {};
+        foodTruckNS.truck = foodTruckNS.truck || {};
+        foodTruckNS.truck.following = {{following}};
+        foodTruckNS.truck.truckid = {{truck.id}};
+        foodTruckNS.truck.userid = {{user.id}};
+
+        $(function() {
+            foodTruckNS.truck.setupFollowButton();
+        });
+    </script>
     {% endif %}
+
 {% endblock %}
 
 {% block content %}
-<h2>{{ truck.name }}</h2>
+<h2>{{ truck.name }}
+    {% if truck.id == my_truck_id %} 
+        <span class="your_truck">This is your truck!</span>
+    {%endif%} 
+    {% if truck.open %} 
+        (open!) 
+    {% else %} 
+        (closed) 
+    {%endif%}
+</h2>
 
 <div id="truck-data">
     {% if truck.phone %}

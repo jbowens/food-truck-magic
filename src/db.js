@@ -5,6 +5,9 @@
 var anydb = require('any-db');
 var Config = require('./config.js').Config;
 
+/* SQL QUERIES, BRAH */
+var SQL_GET_LAST_ID = 'SELECT lastval() as id;';
+
 var Database = {
 
     connPool: null,
@@ -42,8 +45,32 @@ var Database = {
      */
     query: function(sql, params, callback) {
         this.connPool.query(sql, params, function(err, res) {
-            if(err) { callback(err, null); }
+            console.log(sql);
+            if(err) { return callback(err, null); }
             callback(null, res);
+        });
+    },
+
+    /* Performs the given insert query with the given parameters. Then,
+     * within the same transaction runs a lastval() query to get the id
+     * assigned to the inserted row. The first argument to the callback is
+     * an error, if any occurred. The second is the new id.
+     */
+    insertAndGetId: function(insertstmt, params, callback) {
+        this.begin(function(err, tx) {
+            if(err) { return callback(err, null); }
+
+            tx.query(insertstmt, params, function(err, res) {
+                if(err) { return callback(err, null); }
+
+                tx.query(SQL_GET_LAST_ID, [], function(err, res) {
+                    if(err) { return callback(err, null); }
+
+                    tx.commit();
+
+                    callback(null, res.rows[0].id);
+                });
+            });
         });
     }
 

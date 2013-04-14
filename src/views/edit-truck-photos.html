@@ -1,0 +1,27 @@
+{% extends 'boilerplate.html' %}
+
+{% block stylesheets %}
+    {% parent %}
+    <link rel="stylesheet" href="/styles/edit-truck-photos.css" />
+{% endblock %}
+
+{% block content %}
+<h2>{{my_truck.name}} Photos</h2>
+
+<div id="upload-new-photo">
+    <h3>Upload photo</h3>
+    <form method="post" enctype="multipart/form-data" class="standard">
+        <div class="form-item">
+            <label for="new_photo">Photo</label>
+            <input type="file" name="photo" id="new_photo" class="fupload" />
+        </div>
+        <div class="form-item">
+            <label for="photo_desc">Photo description
+                <span class="optional">(optional)</span>
+            </label>
+            <input type="text" name="desc" id="photo_desc" />
+        </div>
+        <input type="submit" class="submit" value="Upload" />
+    </form>
+</div>
+{% endblock %}
