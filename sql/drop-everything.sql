@@ -4,3 +4,4 @@ DROP TABLE users;
 DROP TABLE trucks;
 DROP TABLE locations;
 DROP TABLE uploads;
+DROP TABLE photos;
