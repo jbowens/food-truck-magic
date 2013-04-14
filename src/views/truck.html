@@ -1,0 +1,43 @@
+{% extends 'boilerplate.html' %}
+
+{% block stylesheets %}
+    {% parent %}
+    <link rel="stylesheet" href="/styles/truck.css" />
+{% endblock %}
+
+{% block scripts %}
+    {% parent %}
+    <script type="text/javascript" src="/js/truck.js"></script>
+{% endblock %}
+
+{% block metas %}
+    {% parent %}
+    <meta name="following" content="{{following}}" />
+    <meta name="truckid" content="{{truck.id}}" />
+    {% if user %}
+        <meta name="userid" content="{{user.id}}" />
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+<h2>{{ truck.name }}</h2>
+
+<div id="truck-data">
+    {% if truck.phone %}
+        <span class="data-item phone">
+            Phone: <a href="tel:{{ truck.phone }}">{{ truck.phone }}</a>
+        </span>
+    {% endif %}
+    {% if truck.website %}
+        <span class="data-item website">
+            Website: <a href="{{ truck.website }}" class="truck-website">{{ truck.website }}</a>
+        </span>
+    {% endif %}
+
+    {% if user %}
+        <button type="button" id="follow" style="display:none;"></button>
+    {% else %}
+        <span> (Log in to follow this truck) </span>
+    {% endif %}
+</div>
+{% endblock %}
