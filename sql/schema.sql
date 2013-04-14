@@ -36,3 +36,8 @@ CREATE TABLE IF NOT EXISTS follows (
     userid INTEGER NOT NULL REFERENCES users(id),
     truckid INTEGER NOT NULL REFERENCES trucks(id)
 );
+
+CREATE TABLE IF NOT EXISTS photos (
+    truckid INTEGER NOT NULL REFERENCES trucks(id),
+    uploadid INTEGER NOT NULL REFERENCES uploads(id)
+);
