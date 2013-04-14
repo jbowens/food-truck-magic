@@ -5,6 +5,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
         {% block stylesheets %}
+        <link rel="stylesheet" href="/styles/normalize.css" />
         <link rel="stylesheet" href="/styles/base-style.css" />
         {% endblock %}
         
@@ -13,29 +14,26 @@
         {% block scripts %} {% endblock %}
     </head>
     <body>
-        <div id="container">
-            <div id="page">
-                <div id="header">
-                    <h1><a href="/">foodtruckler</a></h1>
-                    <ul id="navigation">
-                        <li><a href="/trucks">Trucks</a></li>
-                        {% if my_truck %}
-                            <li><a href="/edit-truck">{{ my_truck.name }}</a></li>
-                        {% endif %}
-                        <li><a href="/mapview">The Truckler Map </a></li>
+        <div class="header-container">
+            <header class="wrapper clearfix">
+                <h1 class="title">Foodtruckler</h1>
+                <nav>
+                    <ul>
+                        <li><a href="/">Trucks</a></li>
+                        <li><a href="/mapview">Mapview</a></li>
                         {% if !user %}
-                            <li><a href="/sign-up">Sign up</a></li>
-                            <li><a href="/login">Log in</a></li>
+                        <li><a href="/login">Login</a></li>
                         {% else %}
-                            <li><a href="/logout">Logout</a></li>
+                        <li><a href="/logout">Logout</a></li>
                         {% endif %}
                     </ul>
-                </div>
-                <div id="content">
-                    {% block content %}{% endblock %}
-                </div>
-            </div>
+                </nav>
+            </header>
         </div>
-
+        <div class="main-container">
+            <div class="main wrapper clearfix">
+                {% block content %}{% endblock %}
+            </div> <!-- #main -->
+        </div> <!-- #main-container -->
     </body>
 </html>

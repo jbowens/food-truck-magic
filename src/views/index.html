@@ -2,10 +2,72 @@
 
 {% block stylesheets %}
     {% parent %}
+    <link rel="stylesheet" href="/styles/index.css" />
+{% endblock %}
+
+{% block scripts %}
+    {% parent %}
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA0uRmvgWbp3WBxVaCqf1WkZpu5nSibMpc&sensor=false"></script>
+
+    <script type="text/javascript" src="/js/mapview.js"></script>
+    <script type="text/javascript">
+        var foodTruckNS = foodTruckNS || {};
+        foodTruckNS.mapview = foodTruckNS.mapview || {};
+        var geopoints = [];
+        {% for geo in geodata %}
+            var g = {};
+            g.point = "{{geo.st_astext}}";
+            g.urlid = "{{geo.urlid}}";
+            g.name = "{{geo.name}}";
+            g.description = "{{geo.description|default("")}}";
+            geopoints.push(g);
+        {% endfor %}
+
+        foodTruckNS.mapview.init(geopoints);
+    </script>
 {% endblock %}
 
 {% block content %}
-{% if user %}
-    <p>Hello there, {{ user.name }}</p>
-{% endif %}
+    <article>
+        {% if user %}
+            <h2> Followed Trucks </h2>
+
+            {% if followedTrucks.length %}
+                <ul> 
+                {% for truck in followedTrucks %}
+                    <li> 
+                        <a href= "trucks/{{ truck.urlid }}" >
+                            {{ truck.name }}
+                        </a>
+                    </li>
+                {% endfor %}
+                </ul>
+            {% else %}
+                <p> You are following no trucks :( </p>
+            {% endif %}
+
+        {% else %}
+            <p> Log in to follow trucks! </p>
+        {% endif %}
+
+        <h2> All Trucks </h2>
+
+        <ul>
+        {% for truck in allTrucks %}
+            <li> 
+                <a href= "trucks/{{truck.urlid }}" >
+                    {{ truck.name }}
+                </a>
+            </li>
+        {% endfor %}
+        </ul>
+        
+        <footer>
+            <h3>footer</h3>
+        </footer>
+    </article>
+
+    <aside>
+        <div id="map-canvas"></div>
+    </aside>
 {% endblock %}

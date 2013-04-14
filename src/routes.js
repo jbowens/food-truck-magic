@@ -41,7 +41,6 @@ exports.setupRoutes = function(app) {
     get('/logout', './routes/logout.js');
     post('/login', './routes/login.js');
     get('/login', './routes/login.js');
-    get('/trucks', './routes/trucks.js');
     get('/trucks/:truckidentifier', './routes/truck.js');
     get('/edit-truck', './routes/edit-truck.js');
     post('/edit-truck', './routes/edit-truck.js');
