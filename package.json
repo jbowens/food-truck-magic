@@ -15,7 +15,8 @@
     "optimist": ">= 0.3.5",
     "validator": "",
     "consolidate": ">= 0.9",
-    "swig": ">= 0.13.5"
+    "swig": ">= 0.13.5",
+    "path": ""
   },
   "devDependencies": {
     "jshint": ">= 1.0.0"

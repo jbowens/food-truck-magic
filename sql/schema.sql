@@ -3,6 +3,7 @@ CREATE TABLE IF NOT EXISTS uploads (
     filesize INT NOT NULL,
     mime VARCHAR(255) NOT NULL,
     name VARCHAR(255) NOT NULL,
+    ext VARCHAR(255) NOT NULL,
     dateUploaded timestamp without time zone
 );
 
@@ -39,5 +40,6 @@ CREATE TABLE IF NOT EXISTS follows (
 
 CREATE TABLE IF NOT EXISTS photos (
     truckid INTEGER NOT NULL REFERENCES trucks(id),
-    uploadid INTEGER NOT NULL REFERENCES uploads(id)
+    uploadid INTEGER NOT NULL REFERENCES uploads(id),
+    description TEXT
 );
