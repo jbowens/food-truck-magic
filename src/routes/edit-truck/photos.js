@@ -4,6 +4,8 @@ var errorout = require('../error.js').errorout;
 var fourohfour = require('../fourohfour.js').route;
 var handleUpload = require('../../file-uploader.js').handleUpload;
 
+var SQL_INSERT_PHOTO = "INSERT INTO photos (truckid, uploadid, description) VALUES($1, $2, $3)";
+
 function renderPage(response, data) {
     response.render('edit-truck-photos', data);
 }
@@ -36,8 +38,17 @@ exports.postRoute = function(request, response, data) {
     }
 
     handleUpload(request.files.photo, function(err, uploadid) {
-        /* TODO: lots of things. */
-        renderPage(response, data);
+        if(err) {
+            return bailout(request, response, data, err);
+        }
+
+        db.query(SQL_INSERT_PHOTO, [data.my_truck.id,
+                                    uploadid,
+                                    request.body.desc || ""],
+                                    function(err, res) {
+                                        renderPage(response, data);
+                                    });
+
     });
 
 };
