@@ -4,6 +4,7 @@
 
 var foodTruckNS = foodTruckNS || {};
 foodTruckNS.mapview = foodTruckNS.mapview || {};
+var escapeHack = document.createElement('textarea');
 
 foodTruckNS.mapview.initmap = function() {
     /* create the map. For now centered at a random location near the CIT */
@@ -34,6 +35,13 @@ foodTruckNS.mapview.initmap = function() {
             map: map,
             title: geopoint.name
         });
+
+        if (!geopoint.description) {
+            geopoint.description = "";
+        }
+        /* hack to escape potential html in the description */
+        escapeHack.innerHTML = geopoint.description;
+        geopoint.description = escapeHack.innerHTML;
 
         /* attach infowindow to the marker to link to the truck's page */
         var infowindow = new google.maps.InfoWindow({
