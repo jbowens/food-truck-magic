@@ -9,7 +9,7 @@ foodTruckNS.mapview.initmap = function() {
     /* create the map. For now centered at a random location near the CIT */
     var mapOptions = {
         center: foodTruckNS.mapview.defaultCenter,
-        zoom: 15,
+        zoom: foodTruckNS.mapview.zoom,
         mapTypeId: google.maps.MapTypeId.ROADMAP
     };
     var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
@@ -77,12 +77,22 @@ foodTruckNS.mapview.attachClickHandler = function(marker, infowindow, map) {
     });
 };
 
-/*
- * Where geopoints is an array of objects { point : STRING, urlid: STRING }
- */
-foodTruckNS.mapview.init = function(geopoints) {
-    foodTruckNS.mapview.geopoints = geopoints;
-    foodTruckNS.mapview.activeWindow = null;
-    foodTruckNS.mapview.defaultCenter = new google.maps.LatLng(41.82, -71.40);
-    google.maps.event.addDomListener(window, 'load', foodTruckNS.mapview.initmap);
+foodTruckNS.mapview.init = function(zoomLevel) {
+    foodTruckNS.mapview.zoom = 15;
+    if (zoomLevel) {
+        foodTruckNS.mapview.zoom = zoomLevel;
+    }
+
+    /* get the geolocation data */
+    $.ajax({
+        type: 'GET',
+        url: '/api/get-geodata',
+        success: function(data) {
+            foodTruckNS.mapview.geopoints = data.geodata;
+            foodTruckNS.mapview.activeWindow = null;
+            foodTruckNS.mapview.defaultCenter = new google.maps.LatLng(41.82, -71.40);
+            foodTruckNS.mapview.initmap();
+        }
+    });
 };
+
