@@ -6,6 +6,13 @@ var foodTruckNS = foodTruckNS || {};
 foodTruckNS.mapview = foodTruckNS.mapview || {};
 var escapeHack = document.createElement('textarea');
 
+foodTruckNS.mapview.closeActiveWindow = function() {
+    if (foodTruckNS.mapview.activeWindow) {
+        foodTruckNS.mapview.activeWindow.close();
+        foodTruckNS.mapview.activeWindow = null;
+    }
+}
+
 foodTruckNS.mapview.initmap = function() {
     /* create the map. For now centered at a random location near the CIT */
     var mapOptions = {
@@ -61,6 +68,12 @@ foodTruckNS.mapview.initmap = function() {
         totalLon = totalLon / geopoints.length;
         map.setCenter(new google.maps.LatLng(totalLat, totalLon));
     }
+
+    /* make it so if a user clicks on the map, but not on
+     * a marker, close whatever window is currently open */
+    google.maps.event.addListener(map, 'click', function() {
+        foodTruckNS.mapview.closeActiveWindow();
+    });
 };
 
 foodTruckNS.mapview.attachClickHandler = function(marker, infowindow, map) {
@@ -100,6 +113,13 @@ foodTruckNS.mapview.init = function(zoomLevel) {
             foodTruckNS.mapview.activeWindow = null;
             foodTruckNS.mapview.defaultCenter = new google.maps.LatLng(41.82, -71.40);
             foodTruckNS.mapview.initmap();
+        }
+    });
+
+    /* On escape, close active marker window */
+    $(document).keyup(function(e) u
+        if (e.keyCode == 27) {
+            foodTruckNS.mapview.closeActiveWindow();
         }
     });
 };
