@@ -21,12 +21,13 @@ foodTruckNS.editTruck.setupOpenButton = function() {
     $openButton.show();
 
     var data = {
-        setOpen: !foodTruckNS.editTruck.open,
+        setOpen: null,
         lon: 0,
         lat: 0
     };
 
     $openButton.click(function() {
+        data.setOpen = !foodTruckNS.editTruck.open;
         if (!foodTruckNS.editTruck.open) {
             /* closed, now opening */
             if (!navigator.geolocation) {
