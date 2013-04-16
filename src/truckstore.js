@@ -4,6 +4,7 @@ var db = require('./db.js').Database;
 var SQL_GET_TRUCK_BY_ID = 'SELECT * FROM trucks WHERE id = $1;';
 var SQL_UPDATE_TRUCK_DATA = 'UPDATE trucks SET twitterName = $1, phone = $2, ' +
                             'website = $3, name = $4, description= $5 WHERE id = $6;';
+var SQL_GET_PHOTOS = 'SELECT uploads.* FROM photos LEFT JOIN uploads ON uploads.id = photos.uploadid WHERE photos.truckid = $1';
 
 /* A store for truck objects.
  */
@@ -39,6 +40,17 @@ exports.TruckStore = {
                 function(err, res) {
                     if(err) { console.error(err); }
                     callback(err);
+                });
+    },
+
+    /* Retrieves the photos of a truck.
+     */
+    getPhotos: function(truckid, callback) {
+        db.query(SQL_GET_PHOTOS,
+                [truckid],
+                function(err, res) {
+                    if(err) { console.error(err); callback(err, null); }
+                    callback(null, res.rows);
                 });
     }
 
