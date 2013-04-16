@@ -11,7 +11,7 @@ foodTruckNS.mapview.closeActiveWindow = function() {
         foodTruckNS.mapview.activeWindow.close();
         foodTruckNS.mapview.activeWindow = null;
     }
-}
+};
 
 foodTruckNS.mapview.initmap = function() {
     /* create the map. For now centered at a random location near the CIT */
@@ -117,7 +117,7 @@ foodTruckNS.mapview.init = function(zoomLevel) {
     });
 
     /* On escape, close active marker window */
-    $(document).keyup(function(e) u
+    $(document).keyup(function(e) {
         if (e.keyCode == 27) {
             foodTruckNS.mapview.closeActiveWindow();
         }
