@@ -44,7 +44,11 @@
 
         <ul>
         {% for truck in allTrucks %}
+        
             <li> 
+                {% if truck.uploadid %}
+                <img class="truck-thumbnail" src="/uploads/{{ truck.uploadid }}{{ truck.ext }}" alt="{{ truck.name }}" width="120" height="120" />
+                {% endif %}
                 <a href= "trucks/{{truck.urlid }}" >
                     {{ truck.name }}
                 </a>

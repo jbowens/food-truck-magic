@@ -35,6 +35,7 @@ app.configure(function() {
     });
     app.set('views', __dirname + '/views/');
     app.use(express.static(__dirname +'/public'));
+    app.use('/uploads', express.static(__dirname +'/../uploads'));
 });
 
 

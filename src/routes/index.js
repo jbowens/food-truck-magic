@@ -8,7 +8,9 @@ var db = require('../db.js').Database;
 var fourOhFourRoute = require('./fourohfour.js').route;
 
 /* SQL Queries */
-var SQL_GET_TRUCKS = 'SELECT * FROM trucks';
+var SQL_GET_TRUCKS = 'SELECT trucks.*, uploads.id AS uploadid, uploads.ext FROM trucks ' +
+                     'LEFT JOIN photos ON trucks.id = photos.truckid ' +
+                     'LEFT JOIN uploads ON photos.uploadid = uploads.id';
 var SQL_GET_FOLLOWED = 'SELECT trucks.* FROM follows INNER JOIN trucks on trucks.id = follows.truckid WHERE userid = $1';
 
 exports.route = function(request, response, data) {
