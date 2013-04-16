@@ -20,40 +20,47 @@ foodTruckNS.editTruck.setupOpenButton = function() {
     foodTruckNS.editTruck.updateOpenButton($openButton);
     $openButton.show();
 
-    /* For now, when pressed and opening, request geolocation.
-     * TODO: Probably gonna want to move this somewhere else later */
-    if (navigator.geolocation) {
-        $openButton.click(function() {
-            navigator.geolocation.getCurrentPosition(function(pos) {
-                var data = {
-                    setOpen: !foodTruckNS.editTruck.open,
-                    lon: 0,
-                    lat: 0
-                };
+    var data = {
+        setOpen: !foodTruckNS.editTruck.open,
+        lon: 0,
+        lat: 0
+    };
 
-                /* if currently closed and now opening, get the location */
-                if (!foodTruckNS.editTruck.open) {
-                    data.lat = pos.coords.latitude;
-                    data.lon = pos.coords.longitude;
-                }
-                $.ajax({
-                    type: 'POST',
-                    url: '/api/track-truck',
-                    data: data,
-                    success: function(data) {
-                        if (data.success) {
-                            foodTruckNS.editTruck.open = !foodTruckNS.editTruck.open;
-                            foodTruckNS.editTruck.updateOpenButton($openButton);
-                        } else {
-                            alert("FACKK");
-                        }
-                    }
-                });
+    $openButton.click(function() {
+        if (!foodTruckNS.editTruck.open) {
+            /* closed, now opening */
+            if (!navigator.geolocation) {
+                alert('geolocation is not supported with this browser. Cannot get location.');
+                return;
+            }
+            navigator.geolocation.getCurrentPosition(function(pos) {
+                data.lat = pos.coords.latitude;
+                data.lon = pos.coords.longitude;
+                foodTruckNS.editTruck.trackTruck(data, $openButton);
             });
-        });
-    } else {
-        alert('uh oh. geolocation not supported with this browser');
-    }
+        } else { 
+            /* open, now closing */
+            data.lon = 0;
+            data.lat = 0;
+            foodTruckNS.editTruck.trackTruck(data, $openButton);
+        }
+    });
+};
+
+foodTruckNS.editTruck.trackTruck = function(data, $button) {
+    $.ajax({
+        type: 'POST',
+        url: '/api/track-truck',
+        data: data,
+        success: function(data) {
+            if (data.success) {
+                foodTruckNS.editTruck.open = !foodTruckNS.editTruck.open;
+                foodTruckNS.editTruck.updateOpenButton($button);
+            } else {
+                alert("Bad things happened trying to hit the track-truck endpoint");
+            }
+        }
+    });
 };
 
 foodTruckNS.editTruck.init = function() {
