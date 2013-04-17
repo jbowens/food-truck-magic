@@ -27,6 +27,15 @@
 {% endblock %}
 
 {% block content %}
+
+<div id="prof-pic" class="clearfix">
+    {% if photos.length %}
+    <img width="240" height="240" src="/uploads/{{ photos[0].id }}{{ photos[0].ext }}" alt="{{ truck.name }}" />
+    {% else %}
+    <img width="240" height="240" src="/images/default-truck.jpg" alt="{{ truck.name }}" />
+    {% endif %}
+</div>
+
 <h2>{{ truck.name }}
     {% if truck.id == my_truck_id %} 
         <span class="orange-span"> This is your truck! </span>
@@ -39,6 +48,7 @@
     {%endif%}
     </span>
 </h2>
+
 
 <div id="truck-data">
     {% if truck.phone %}
