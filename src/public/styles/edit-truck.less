@@ -9,3 +9,37 @@ textarea#truck_description {
     height: 140px;
     resize: none;
 }
+
+form.standard {
+    .form-item {
+        margin: 0 0 1em 0;
+        font-size: 0.9em;
+        label {
+            display: block;
+            .optional {
+                color: #666;
+                margin-left: 1em;
+                font-size: 0.9em;
+            }
+        }
+        input {
+            padding: 0.2em;
+            font-size: 1.2em;
+            width: 15em;
+        }
+        input.fupload {
+            padding: 0;
+            font-size: 1em;
+        }
+    }
+}
+.success-message {
+    margin: 0 0 1em 0;
+    padding: 0.5em;
+    color: #44751C;
+    background: #F1F5ED;
+    -webkit-border-radius: 0.5em;
+    -moz-border-radius: 0.5em;
+    border-radius: 0.5em;
+    display: inline-block;
+}
