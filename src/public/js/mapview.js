@@ -53,6 +53,7 @@ foodTruckNS.mapview.initmap = function() {
 
         /* attach infowindow to the marker to link to the truck's page */
         var infowindow = new google.maps.InfoWindow({
+            maxWidth: 230,
             content: "<a href='/trucks/" + geopoint.urlid + "'>" + geopoint.name + "</a>" + 
                      "<br/> <p>" + geopoint.description + "</p>" 
         });
