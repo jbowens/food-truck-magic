@@ -37,7 +37,9 @@
         </div> <!-- #main-container -->
         <div class="footer-container">
             <footer>
+                {% if !user %}
                 <a href="/sign-up">Sign up </a>
+                {% endif %}
                 {% if my_truck %}
                 <a href="/edit-truck">Edit your truck</a>
                 {% endif %}

@@ -15,12 +15,11 @@
     <script type="text/javascript">
         var foodTruckNS = foodTruckNS || {};
         foodTruckNS.truck = foodTruckNS.truck || {};
-        foodTruckNS.truck.following = {{following}};
+        foodTruckNS.truck.favoriting = {{following}};
         foodTruckNS.truck.truckid = {{truck.id}};
         foodTruckNS.truck.userid = {{user.id}};
-
         $(function() {
-            foodTruckNS.truck.setupFollowButton();
+            foodTruckNS.truck.init();
         });
     </script>
     {% endif %}
@@ -52,9 +51,9 @@
     {% endif %}
 
     {% if user %}
-        <button type="button" id="follow" style="display:none;"></button>
+        <button type="button" id="favorite" style="display:none;"></button>
     {% else %}
-        <span> (Log in to follow this truck) </span>
+        <span> (Log in to favorite this truck) </span>
     {% endif %}
     <p>
     {{ truck.description|default("") }}

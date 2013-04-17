@@ -20,7 +20,7 @@
 {% block content %}
     <article>
         {% if user %}
-            <h2> Followed Trucks </h2>
+            <h2> Favorited Trucks </h2>
 
             {% if followedTrucks.length %}
                 <ul> 
@@ -33,11 +33,11 @@
                 {% endfor %}
                 </ul>
             {% else %}
-                <p> You are following no trucks :( </p>
+                <p> You are not favoriting any trucks :( </p>
             {% endif %}
 
         {% else %}
-            <p class="alert-message"> Log in to follow trucks! </p>
+            <p class="alert-message"> Log in to follow your favorite food trucks! </p>
         {% endif %}
 
         <h2> All Trucks </h2>
