@@ -29,13 +29,15 @@
 {% block content %}
 <h2>{{ truck.name }}
     {% if truck.id == my_truck_id %} 
-        <span class="your_truck">This is your truck!</span>
+        <span class="orange-span"> This is your truck! </span>
     {%endif%} 
+    <span class="orange-span">
     {% if truck.open %} 
         (open!) 
     {% else %} 
         (closed) 
     {%endif%}
+    </span>
 </h2>
 
 <div id="truck-data">
