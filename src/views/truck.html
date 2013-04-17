@@ -57,7 +57,7 @@
         <span> (Log in to follow this truck) </span>
     {% endif %}
     <p>
-    {{ truck.description }}
+    {{ truck.description|default("") }}
     </p>
 </div>
 
