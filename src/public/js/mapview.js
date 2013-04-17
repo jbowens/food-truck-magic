@@ -18,7 +18,8 @@ foodTruckNS.mapview.initmap = function() {
     var mapOptions = {
         center: foodTruckNS.mapview.defaultCenter,
         zoom: foodTruckNS.mapview.zoom,
-        mapTypeId: google.maps.MapTypeId.ROADMAP
+        mapTypeId: google.maps.MapTypeId.ROADMAP,
+        mapTypeControl: false,
     };
     var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
 
