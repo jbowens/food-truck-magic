@@ -19,7 +19,6 @@ exports.route = function(request, response, data) {
     db.query(SQL_GET_TRUCK_BY_IDENTIFIER, [truckurlid], function(err, res) {
        
         if(err || !res.rows.length) {
-            db.release(conn);
             if(err) {
                 console.error(err);
             }
