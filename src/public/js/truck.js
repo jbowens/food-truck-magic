@@ -3,49 +3,53 @@
  */
 
 var foodTruckNS = foodTruckNS || {};
-foodTruckNS.truck = foodTruckNS.truck || { following: false};
+foodTruckNS.truck = foodTruckNS.truck || { favoriting: false};
 
 /*
- * Helper function to update the follow button's text
+ * Helper function to update the favorite button's text
  */
-foodTruckNS.truck.updateFollowButtonText = function($button) {
-    if (foodTruckNS.truck.following) {
-        $button.html("Stop following this truck");
+foodTruckNS.truck.updateFavoriteButtonText = function($button) {
+    if (foodTruckNS.truck.favoriting) {
+        $button.html("Stop favoriting this truck");
     } else {
-        $button.html("follow this truck!");
+        $button.html("favorite this truck!");
     }
 };
 
 
 /* 
- * setup click handler for the follow button
+ * setup click handler for the favorite button
  */
-foodTruckNS.truck.setupFollowButton = function() {
+foodTruckNS.truck.setupfavoriteButton = function() {
     var truckId = foodTruckNS.truck.truckid;
     var userId = foodTruckNS.truck.userid;
 
     var truckUrl = window.location.href;
     truckUrl = truckUrl.substr(truckUrl.lastIndexOf('/') + 1);
 
-    var $followButton = $('#follow');
-    foodTruckNS.truck.updateFollowButtonText($followButton);
-    $followButton.show();
+    var $favoriteButton = $('#favorite');
+    foodTruckNS.truck.updateFavoriteButtonText($favoriteButton);
+    $favoriteButton.show();
 
     /* setting up the click handler */
-    $followButton.click(function() {
+    $favoriteButton.click(function() {
         $.ajax({
             type: 'POST',
             url: '/api/follow-truck',
             data: {
-                setFollow: !foodTruckNS.truck.following, 
+                setFollow: !foodTruckNS.truck.favoriting, 
                 truckId: truckId,
                 userId: userId
             },
             success: function(data) {
-                /* on success, update follow button and following state */
-                foodTruckNS.truck.following = !foodTruckNS.truck.following;
-                foodTruckNS.truck.updateFollowButtonText($followButton);
+                /* on success, update favorite button and favoriting state */
+                foodTruckNS.truck.favoriting = !foodTruckNS.truck.favoriting;
+                foodTruckNS.truck.updateFavoriteButtonText($favoriteButton);
             }
         });
     });
+};
+
+foodTruckNS.truck.init = function() {
+    foodTruckNS.truck.setupfavoriteButton();
 };
