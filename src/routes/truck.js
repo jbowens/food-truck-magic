@@ -37,7 +37,7 @@ exports.route = function(request, response, data) {
             if (request.session.user) {
                 data.user  = request.session.user;
                 var userId = data.user.id;
-                conn.query(SQL_GET_FOLLOWS, [userId, data.truck.id], function(err, res) {
+                db.query(SQL_GET_FOLLOWS, [userId, data.truck.id], function(err, res) {
                     if(err) {
                         console.error(err);
                         return fourOhFourRoute(request, response, data);
