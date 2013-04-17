@@ -68,7 +68,10 @@
 							{{ truck.name }}
 						</h3>
 					</a>
-					<p>Description</p>
+                    {% if truck.description %} 
+					    <p>{{ truck.description }}</p>
+                    {% endif %}
+
 				</div>
             </li>
         {% endfor %}
