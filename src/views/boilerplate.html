@@ -37,12 +37,10 @@
         </div> <!-- #main-container -->
         <div class="footer-container">
             <footer>
-                <ul>
-                    <li><a href="/sign-up">Sign up </a></li>
-                    {% if my_truck %}
-                    <li><a href="/edit-truck">Edit your truck</a></li>
-                    {% endif %}
-                </ul>
+                <a href="/sign-up">Sign up </a>
+                {% if my_truck %}
+                <a href="/edit-truck">Edit your truck</a>
+                {% endif %}
             </footer>
         </div>
     </body>
