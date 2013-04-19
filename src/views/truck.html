@@ -70,6 +70,13 @@
     <p>
     {{ truck.description|default("") }}
     </p>
+    {% if photos %}
+    {% for photo in photos %}
+    <div class="photo">
+        <img src="/uploads/{{photo.id}}{{photo.ext}}" width="100" height="100" />
+    </div>
+    {% endfor %}
+    {% endif %}
 </div>
 
 {% endblock %}
