@@ -14,6 +14,7 @@ exports.setupRoutes = function(app) {
             };
             if(request.session.my_truck_id && request.session.user) {
                 truckStore.getTruckById(request.session.my_truck_id, function(err, truck) {
+                    if(err) { console.error(err); }
                     data.my_truck = truck;
                     runRoute();
                 });

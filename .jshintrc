@@ -7,7 +7,9 @@
     "predef"        : [
         "define",
         "require",
-        "$"
+        "$",
+        "google",
+        "alert"
     ],
 
     "es5"           : true,

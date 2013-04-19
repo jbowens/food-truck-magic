@@ -1,7 +1,6 @@
 /*
  * The route for the /sign-up page.
  */
-var _ = require('underscore');
 var db = require('../db.js').Database;
 var check = require('validator').check;
 var sanitize = require('validator').sanitize;
@@ -58,8 +57,8 @@ function createTruck(data, callback) {
         if(err) { callback(err, null); }
 
         /* Insert the user as an admin of the truck. */
-        db.query(SQL_INSERT_VENDOR, [data.userid, truckid], function(err, res) {
-            if(err) { callback(err ,null); }
+        db.query(SQL_INSERT_VENDOR, [data.userid, truckid], function(err) {
+            if(err) { return callback(err, null); }
 
             callback(null, truckid);
         });

@@ -3,7 +3,6 @@
  * TODO: these queries suck, NEED to move to some better api endpoint
  */
 
-var _ = require('underscore');
 var db = require('../db.js').Database;
 var fourOhFourRoute = require('./fourohfour.js').route;
 

@@ -60,7 +60,7 @@ var Database = {
         this.begin(function(err, tx) {
             if(err) { return callback(err, null); }
 
-            tx.query(insertstmt, params, function(err, res) {
+            tx.query(insertstmt, params, function(err) {
                 if(err) { return callback(err, null); }
 
                 tx.query(SQL_GET_LAST_ID, [], function(err, res) {

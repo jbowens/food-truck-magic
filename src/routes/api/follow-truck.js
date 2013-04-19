@@ -4,7 +4,6 @@
  *
  */
 var db = require('../../db.js').Database;
-var bailout = require('../fatalerror.js').bailout;
 
 var SQL_INSERT_FOLLOWS = 'INSERT INTO follows (userid,truckid) VALUES($1, $2)';
 var SQL_DELETE_FOLLOWS = 'DELETE FROM follows WHERE userid = $1 AND truckid = $2';

@@ -1,7 +1,6 @@
 /*
  * The route for the main truck page.
  */
-var _ = require('underscore');
 var db = require('../db.js').Database;
 var truckStore = require('../truckstore.js').TruckStore;
 var fourOhFourRoute = require('./fourohfour.js').route;

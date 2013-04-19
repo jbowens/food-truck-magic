@@ -11,7 +11,8 @@ exports.errorout = function(request, response, data, errmsg) {
     if( ! errmsg ) {
         errmsg = DEFAULT_ERROR_MSG;
     }
-    response.render('error', {msg: errmsg});
+    data.msg = errmsg;
+    response.render('error', data);
 };
 
 exports.route = function(request, response, data) {

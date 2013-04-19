@@ -37,7 +37,7 @@ exports.TruckStore = {
                 [newTruckData.twitterName, newTruckData.phone, 
                  newTruckData.website, newTruckData.name, 
                  newTruckData.description, truckid],
-                function(err, res) {
+                function(err) {
                     if(err) { console.error(err); }
                     callback(err);
                 });

@@ -1,11 +1,9 @@
 /*
  * The route for the /login page.
  */
-var _ = require('underscore');
 var db = require('../db.js').Database;
 var hash = require('../hasher.js').hash;
 var sanitize = require('validator').sanitize;
-var bailout = require('./fatalerror.js').bailout;
 var errorout = require('./error.js').errorout;
 
 /* SQL Queries */

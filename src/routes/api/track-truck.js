@@ -3,7 +3,6 @@
  * the location of the truck.
  */
 var db = require('../../db.js').Database;
-var bailout = require('../fatalerror.js').bailout;
 
 /*
  * Expects request.body to have the following:

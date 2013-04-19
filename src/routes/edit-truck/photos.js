@@ -1,4 +1,3 @@
-var _ = require('underscore');
 var db = require('../../db.js').Database;
 var bailout = require('../fatalerror.js').bailout;
 var errorout = require('../error.js').errorout;
@@ -49,12 +48,13 @@ exports.postRoute = function(request, response, data) {
                                     request.body.desc || ''],
                                     updateProfPic);
 
-        function updateProfPic(err, res) {
+        function updateProfPic(err) {
             if(err) {
                 return bailout(request, response, data, err);
             }
 
-            db.query(SQL_UPDATE_PROF_PIC, [uploadid, data.my_truck_id], function(err, res) {
+            db.query(SQL_UPDATE_PROF_PIC, [uploadid, data.my_truck_id], function(err) {
+                if(err) { console.error(err); }
                 renderPage(response, data);
             });
         }
