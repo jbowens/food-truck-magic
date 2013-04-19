@@ -24,4 +24,17 @@
         <input type="submit" class="submit" value="Upload" />
     </form>
 </div>
+
+<h3>Your photos</h3>
+<div id="uploaded-photos-cont" class="clearfix">
+    {% if photos.length %}
+    {% for photo in photos %}
+        <div class="photo">
+            <img src="/uploads/{{ photo.id }}{{ photo.ext }}" width="150" height="150" />
+        </div>
+    {% endfor %}
+    {% else %}
+    <p class="no-photos">Your truck doesn't have any photos yet.</p>
+    {% endif %}
+</div>
 {% endblock %}

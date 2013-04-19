@@ -3,6 +3,7 @@ var bailout = require('../fatalerror.js').bailout;
 var errorout = require('../error.js').errorout;
 var fourohfour = require('../fourohfour.js').route;
 var handleUpload = require('../../file-uploader.js').handleUpload;
+var truckStore = require('../../truckstore.js').TruckStore;
 
 var SQL_INSERT_PHOTO = 'INSERT INTO photos (truckid, uploadid, description) VALUES($1, $2, $3)';
 var SQL_UPDATE_PROF_PIC = 'UPDATE trucks SET photoUploadid = $1 WHERE id = $2;';
@@ -14,6 +15,23 @@ function renderPage(response, data) {
 function hasPermission(request, response, data) {
     return !!(data.user && data.my_truck);
 }
+
+/**
+ * Loads all of the photos for this truck regardless of whether
+ * the GET or POST route is used. It is invoked by the routing
+ * code in routes.js.
+ */
+exports.preloader = function(request, response, data, callback) {
+    if(hasPermission(request, response, data)) {
+        truckStore.getPhotos(data.my_truck.id, function(err, photos) {
+            if(err) { console.error(err); }
+            data.photos = photos;
+            callback();
+        });
+    } else {
+        callback();
+    }
+};
 
 exports.route = function(request, response, data) {
 

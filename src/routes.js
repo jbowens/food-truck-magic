@@ -6,7 +6,7 @@ var truckStore = require('./truckstore.js').TruckStore;
 
 exports.setupRoutes = function(app) {
 
-    var r = function(route) {
+    var r = function(routeFilename, route) {
         return function(request, response) {
             var data = {
                 user: request.session.user,
@@ -16,10 +16,20 @@ exports.setupRoutes = function(app) {
                 truckStore.getTruckById(request.session.my_truck_id, function(err, truck) {
                     if(err) { console.error(err); }
                     data.my_truck = truck;
-                    runRoute();
+                    runDataPreloader();
                 });
             } else {
-                runRoute();
+                runDataPreloader();
+            }
+
+            function runDataPreloader() {
+                if(require(routeFilename).preloader) {
+                    require(routeFilename).preloader(request, response, data, function() {
+                        runRoute();
+                    });
+                } else {
+                    runRoute();
+                }
             }
 
             function runRoute() {
@@ -29,11 +39,11 @@ exports.setupRoutes = function(app) {
     };
 
     var get = function(path, routeFilename) {
-        app.get(path, r(require(routeFilename).route));
+        app.get(path, r(routeFilename, require(routeFilename).route));
     };
 
     var post = function(path, routeFilename) {
-        app.post(path, r(require(routeFilename).postRoute));
+        app.post(path, r(routeFilename, require(routeFilename).postRoute));
     };
 
     get('/', './routes/index.js');
