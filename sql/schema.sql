@@ -20,6 +20,7 @@ CREATE TABLE IF NOT EXISTS trucks (
     geoPoint GEOGRAPHY(Point),
     textLoc VARCHAR(255),
     description VARCHAR(255),
+    photoUploadid INTEGER REFERENCES uploads(id)
 );
 
 CREATE TABLE IF NOT EXISTS users (

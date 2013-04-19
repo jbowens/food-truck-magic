@@ -46,12 +46,13 @@ exports.TruckStore = {
     /* Retrieves the photos of a truck.
      */
     getPhotos: function(truckid, callback) {
-        console.log("querying photos for truck id", truckid);
         db.query(SQL_GET_PHOTOS,
                 [truckid],
                 function(err, res) {
-                    console.log(res);
                     if(err) { console.error(err); return callback(err, []); }
+                    for(var i = 0; i < res.rows.length; i++) {
+                        res.rows[i].serverFilename = res.rows[i].id.toString() + res.rows[i].ext;
+                    }
                     console.log("retrieved ",res.rows.length," photos");
                     callback(null, res.rows);
                 });

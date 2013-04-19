@@ -18,6 +18,7 @@ function insertUpload(file, callback) {
         if (err) { tx.rollback(); return callback(err, null); }
 
         var ext = path.extname(file.name);
+        file.ext = ext;
         tx.query(SQL_INSERT_UPLOAD, [file.size, file.type, file.name, ext], function(err, res) {
             if(err) { tx.rollback(); return callback(err, null); }
             tx.query(SQL_GET_LAST_ID, function(err, res) {
@@ -50,7 +51,7 @@ exports.handleUpload = function(file, callback) {
             if(err) { console.error(err); return callback(err, null); }
             /* Now that we've inserted the upload into the database, we need
                to move the file into permanent storage. */
-            fs.rename(file.path, __dirname + '/../uploads/' + uploadid.toString(), function (err) {
+            fs.rename(file.path, __dirname + '/../uploads/' + uploadid.toString() + file.ext, function (err) {
                 if(err) { console.error(err); return callback(err, null); }
                 file.uploadid = uploadid;
                 callback(null, uploadid);

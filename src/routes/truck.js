@@ -29,8 +29,17 @@ exports.route = function(request, response, data) {
         data.truck = res.rows[0];
         
         truckStore.getPhotos(data.truck.id, function(err, res) {
-            console.log("photos, brah");
             data.photos = err ? [] : res;
+
+            /* Find the prof pic */
+            if(data.truck.photouploadid) {
+                for(var i = 0; i < data.photos.length; i++) {
+                    console.log(data.photos[i]);
+                    if(data.photos[i].id == data.truck.photouploadid) {
+                        data.profPic = data.photos[i];
+                    }
+                }
+            }
             
             /* We have our truck. Let's check if logged in and following */
             if (request.session.user) {
