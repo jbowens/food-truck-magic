@@ -57,6 +57,7 @@ exports.setupRoutes = function(app) {
     post('/edit-truck', './routes/edit-truck.js');
     get('/edit-truck/photos', './routes/edit-truck/photos.js');
     post('/edit-truck/photos', './routes/edit-truck/photos.js');
+    get('/edit-truck/location', './routes/edit-truck/location.js');
     get('/mapview', './routes/mapview.js');
     post('/api/follow-truck', './routes/api/follow-truck.js');
     get('/api/check-username/:username', './routes/api/check-username.js');

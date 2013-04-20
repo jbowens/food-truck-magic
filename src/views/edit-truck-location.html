@@ -1,0 +1,24 @@
+{% extends 'boilerplate.html' %}
+
+{% block stylesheets %}
+    {% parent %}
+{% endblock %}
+
+{% block scripts %}
+    {% parent %}
+    <script type="text/javascript" src="/js/edit-loc.js"></script>
+    <script>
+        var foodTruckNS = foodTruckNS || {};
+        foodTruckNS.editLoc = foodTruckNS.editLoc || {};
+        foodTruckNS.editLoc.open = {{my_truck.open}};
+
+        $(function() {
+            foodTruckNS.editLoc.init();
+        });
+    </script>
+{% endblock %}
+
+{% block content %}
+<h2>Manage {{my_truck.name}}'s Location</h2>
+<button type="button" id="open-button" style="display:none;"></button>
+{% endblock %}
