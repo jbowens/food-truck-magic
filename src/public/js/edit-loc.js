@@ -2,11 +2,11 @@
  * Client side js for the edit-truck page.
  */
 var foodTruckNS = foodTruckNS || {};
-foodTruckNS.editTruck = foodTruckNS.editTruck || {};
+foodTruckNS.editLoc = foodTruckNS.editLoc || {};
 
 /* updates text on the open button */
-foodTruckNS.editTruck.updateOpenButton = function($button) {
-    if (foodTruckNS.editTruck.open) {
+foodTruckNS.editLoc.updateOpenButton = function($button) {
+    if (foodTruckNS.editLoc.open) {
         $button.text("Set truck's status to closed");
     } else {
         $button.text("Set truck's status to open");
@@ -14,10 +14,10 @@ foodTruckNS.editTruck.updateOpenButton = function($button) {
 };
 
 /* initializes the open button */
-foodTruckNS.editTruck.setupOpenButton = function() {
+foodTruckNS.editLoc.setupOpenButton = function() {
     var $openButton = $('#open-button');
 
-    foodTruckNS.editTruck.updateOpenButton($openButton);
+    foodTruckNS.editLoc.updateOpenButton($openButton);
     $openButton.show();
 
     var data = {
@@ -27,8 +27,8 @@ foodTruckNS.editTruck.setupOpenButton = function() {
     };
 
     $openButton.click(function() {
-        data.setOpen = !foodTruckNS.editTruck.open;
-        if (!foodTruckNS.editTruck.open) {
+        data.setOpen = !foodTruckNS.editLoc.open;
+        if (!foodTruckNS.editLoc.open) {
             /* closed, now opening */
             if (!navigator.geolocation) {
                 alert('geolocation is not supported with this browser. Cannot get location.');
@@ -37,27 +37,27 @@ foodTruckNS.editTruck.setupOpenButton = function() {
             navigator.geolocation.getCurrentPosition(function(pos) {
                 data.lat = pos.coords.latitude;
                 data.lon = pos.coords.longitude;
-                foodTruckNS.editTruck.trackTruck(data, $openButton);
-                foodTruckNS.editTruck.addressLookup(data.lat, data.lon);
+                foodTruckNS.editLoc.trackTruck(data, $openButton);
+                foodTruckNS.editLoc.addressLookup(data.lat, data.lon);
             });
         } else { 
             /* open, now closing */
             data.lon = 0;
             data.lat = 0;
-            foodTruckNS.editTruck.trackTruck(data, $openButton);
+            foodTruckNS.editLoc.trackTruck(data, $openButton);
         }
     });
 };
 
-foodTruckNS.editTruck.trackTruck = function(data, $button) {
+foodTruckNS.editLoc.trackTruck = function(data, $button) {
     $.ajax({
         type: 'POST',
         url: '/api/track-truck',
         data: data,
         success: function(data) {
             if (data.success) {
-                foodTruckNS.editTruck.open = !foodTruckNS.editTruck.open;
-                foodTruckNS.editTruck.updateOpenButton($button);
+                foodTruckNS.editLoc.open = !foodTruckNS.editLoc.open;
+                foodTruckNS.editLoc.updateOpenButton($button);
             } else {
                 alert("Bad things happened trying to hit the track-truck endpoint");
             }
@@ -68,7 +68,7 @@ foodTruckNS.editTruck.trackTruck = function(data, $button) {
 /*
  * Approximate the location of the truck based on it's geolocation
  */
-foodTruckNS.editTruck.addressLookup = function(lat, lon) {
+foodTruckNS.editLoc.addressLookup = function(lat, lon) {
     $.ajax({
         type: 'GET',
         url: 'http://maps.googleapis.com/maps/api/geocode/json',
@@ -84,6 +84,6 @@ foodTruckNS.editTruck.addressLookup = function(lat, lon) {
     });
 };
 
-foodTruckNS.editTruck.init = function() {
-    foodTruckNS.editTruck.setupOpenButton();
+foodTruckNS.editLoc.init = function() {
+    foodTruckNS.editLoc.setupOpenButton();
 };
