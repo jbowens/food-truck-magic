@@ -9,6 +9,7 @@ var db = require('../../db.js').Database;
  * setOpen - flag, true if opening truck, false otherwise
  * lat - latitude of truck's location
  * lon - longitude of truck's location
+ * textLoc - text location of truck
  */
 exports.postRoute = function(request, response, data) {
     var returnData = {};
@@ -21,9 +22,10 @@ exports.postRoute = function(request, response, data) {
 
     if (request.body.setOpen && request.body.lat && request.body.lon) {
         var setOpen = (request.body.setOpen == 'true');
-        var SQL_UPDATE_OPEN = "UPDATE trucks SET open = $1, geoPoint = ST_PointFromText(";
-        SQL_UPDATE_OPEN += "'POINT(" + request.body.lat + " " + request.body.lon + ")') WHERE id = $2";
-        db.query(SQL_UPDATE_OPEN, [setOpen, request.session.my_truck_id], function(err, res) {
+        var textLoc = request.body.textLoc;
+        var SQL_UPDATE_OPEN = "UPDATE trucks SET open = $1, textLoc = $2, geoPoint = ST_PointFromText(";
+        SQL_UPDATE_OPEN += "'POINT(" + request.body.lat + " " + request.body.lon + ")') WHERE id = $3";
+        db.query(SQL_UPDATE_OPEN, [setOpen, textLoc, request.session.my_truck_id], function(err, res) {
             if (err) {
                 console.log(err);
             } else {

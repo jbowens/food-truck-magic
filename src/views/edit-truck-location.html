@@ -10,10 +10,9 @@
     <script>
         var foodTruckNS = foodTruckNS || {};
         foodTruckNS.editLoc = foodTruckNS.editLoc || {};
-        foodTruckNS.editLoc.open = {{my_truck.open}};
-
+        var open = {{my_truck.open}};
         $(function() {
-            foodTruckNS.editLoc.init();
+            foodTruckNS.editLoc.init(open);
         });
     </script>
 {% endblock %}
@@ -24,6 +23,8 @@
 <div id="currently-open-wrapper" style="display:none;">
     <p> We are currently tracking {{ my_truck.name }}'s location. </p>
     <p>Want to us stop broadcasting your truck's location?</p>
+
+    <p> You are near: {{ my_truck.textloc }}</p>
 </div>
 <div id="currently-closed-wrapper" style="display:none;">
     <p> We are not currently tracking {{ my_truck.name }}'s location.</p> 
