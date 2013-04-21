@@ -21,11 +21,11 @@
 {% block content %}
 <h2>Manage {{my_truck.name}}'s Location</h2>
 
-<div id="currently-open-wrapper">
+<div id="currently-open-wrapper" style="display:none;">
     <p> We are currently tracking {{ my_truck.name }}'s location. </p>
     <p>Want to us stop broadcasting your truck's location?</p>
 </div>
-<div id="currently-closed-wrapper">
+<div id="currently-closed-wrapper" style="display:none;">
     <p> We are not currently tracking {{ my_truck.name }}'s location.</p> 
     <p> Want us to broadcast your truck's location?</p>
 </div>
