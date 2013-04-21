@@ -7,9 +7,13 @@ foodTruckNS.editLoc = foodTruckNS.editLoc || {};
 /* updates text on the open button */
 foodTruckNS.editLoc.updateOpenButton = function($button) {
     if (foodTruckNS.editLoc.open) {
-        $button.text("Set truck's status to closed");
+        $('#currently-closed-wrapper').hide();
+        $('#currently-open-wrapper').show();
+        $button.text("Stop tracking your truck's location");
     } else {
-        $button.text("Set truck's status to open");
+        $('#currently-closed-wrapper').show();
+        $('#currently-open-wrapper').hide();
+        $button.text("Track your truck's location");
     }
 };
 
