@@ -7,11 +7,13 @@ var SESSION_SECRET_KEY = 'ft_session';
 
 var express = require('express');
 var cons = require('consolidate');
+var fs = require('fs');
 var swig = require('swig');
 var args = require('optimist').argv;
 
 var db = require('./db.js').Database;
 var config = require('./config.js').Config;
+var thumbnailSizes = require('./thumbnailer.js').thumbnailSizes;
 var routes = require('./routes.js');
 
 var app = express();
@@ -40,6 +42,18 @@ app.configure(function() {
 
 
 config.init(function() {
+    
+    /* Setup directories */
+    var uploadsDir = __dirname + '/../uploads/';
+    for(var i = 0; i < thumbnailSizes.length; i++) {
+        try {
+            fs.mkdirSync(uploadsDir + thumbnailSizes[i].name);
+        } catch(err) {
+            /* Probably not a problem. The directory probably just already existed. */
+            console.log(err);
+        }
+    }
+
     db.init();
 
     app.listen(port, function() {

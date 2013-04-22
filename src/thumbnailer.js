@@ -26,6 +26,8 @@ var thumbnailSizes = [
     }
 ];
 
+exports.thumbnailSizes = thumbnailSizes;
+
 /* Takes an image extension and returns true
  * iff it's an image format we support (and can thumbnailfy).
  */
