@@ -14,7 +14,8 @@
     "validator": "",
     "consolidate": ">= 0.9",
     "swig": ">= 0.13.5",
-    "path": ""
+    "path": "",
+    "easyimage": ""
   },
   "devDependencies": {
     "jshint": ">= 1.0.0"
