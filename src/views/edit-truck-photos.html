@@ -5,6 +5,14 @@
     <link rel="stylesheet" href="/styles/edit-truck-photos.css" />
 {% endblock %}
 
+{% block scripts %}
+    {% parent %}
+    <script src="/js/edit-truck-photos.js"></script>
+    <script>
+        window.csrf = '{{ csrfToken }}';
+    </script>
+{% endblock %}
+
 {% block content %}
 <h2>{{my_truck.name}} Photos</h2>
 
@@ -26,11 +34,12 @@
 </div>
 
 <h3>Your photos</h3>
-<div id="uploaded-photos-cont" class="clearfix">
+<div id="uploaded-photos-cont">
     {% if photos.length %}
     {% for photo in photos %}
         <div class="photo">
             <img src="/uploads/{{ photo.id }}{{ photo.ext }}" width="150" height="150" />
+            <span class="delete-photo">Delete</span>
         </div>
     {% endfor %}
     {% else %}
