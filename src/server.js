@@ -15,6 +15,7 @@ var db = require('./db.js').Database;
 var config = require('./config.js').Config;
 var thumbnailSizes = require('./thumbnailer.js').thumbnailSizes;
 var routes = require('./routes.js');
+var cron = require('./cron.js');
 
 var app = express();
 
@@ -55,6 +56,9 @@ config.init(function() {
     }
 
     db.init();
+
+    /* run cronjobs */
+    cron.startCronJobs();
 
     app.listen(port, function() {
         routes.setupRoutes(app);
