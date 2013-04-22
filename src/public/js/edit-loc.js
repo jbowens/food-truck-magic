@@ -9,11 +9,11 @@ foodTruckNS.editLoc.updateOpenButton = function($button, curOpen) {
     if (curOpen) {
         $('#currently-closed-wrapper').hide();
         $('#currently-open-wrapper').show();
-        $button.text("Stop tracking your truck's location");
+        $button.text("Stop broadcasting your truck's location");
     } else {
         $('#currently-closed-wrapper').show();
         $('#currently-open-wrapper').hide();
-        $button.text("Track your truck's location");
+        $button.text("Broadcast your truck's location");
     }
 };
 
