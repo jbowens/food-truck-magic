@@ -68,7 +68,7 @@ exports.Thumbnailer = {
                 return c(null);
             }
         }, function(err) {
-            callback(null);   
+            callback(err);   
         });
     }
 
