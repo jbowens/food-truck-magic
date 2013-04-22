@@ -70,6 +70,29 @@ exports.Thumbnailer = {
         }, function(err) {
             callback(err);   
         });
+    },
+
+    /* Takes an upload object for a photo and a desired width/height
+     * to display the photo at. It returns an absolute path to the
+     * thumbnail that has the lowest resolution greater than the
+     * desired size.
+     */
+    getAppropriateThumbnail: function(photo, desiredSize) {
+        var bestSize = Number.POSITIVE_INFINITY;
+        var best = null;
+        for(var i = 0; i < thumbnailSizes.length; i++) {
+            if(thumbnailSizes[i].width == thumbnailSizes[i].height &&
+                    thumbnailSizes[i].width >= desiredSize && 
+                    thumbnailSizes[i].width < bestSize) {
+                bestSize = thumbnailSizes[i].width;
+                best = thumbnailSizes[i];
+            }
+        }
+        if(best) {
+            return '/uploads/' + best.name + '/' + photo.id.toString() + photo.ext;
+        } else {
+            return null;
+        }
     }
 
 };
