@@ -20,6 +20,8 @@ foodTruckNS.editLoc.updateOpenButton = function($button, curOpen) {
 /* initializes the open button */
 foodTruckNS.editLoc.setupOpenButton = function(curOpen) {
     var $openButton = $('#open-button');
+    var $hourSelect = $('#hour-select');
+    var $minuteSelect = $('#minute-select');
 
     foodTruckNS.editLoc.updateOpenButton($openButton, curOpen);
     $openButton.show();
@@ -28,17 +30,29 @@ foodTruckNS.editLoc.setupOpenButton = function(curOpen) {
         setOpen: null,
         lon: 0,
         lat: 0,
-        textLoc: ''
+        textLoc: '',
+        openFor: 0
     };
 
     $openButton.click(function() {
         data.setOpen = !curOpen;
         if (!curOpen) {
             /* closed, now opening */
+
+            /* TODO: turn these alerts into nice error messages */
             if (!navigator.geolocation) {
                 alert('geolocation is not supported with this browser. Cannot get location.');
                 return;
             }
+
+            if ($hourSelect.val() == '0' && $minuteSelect.val() == '0') {
+                alert('Provide a valid time to automatically close');
+                return;
+            }
+
+            data.openFor = parseInt($hourSelect.val(), 10) * 60 * 60;
+            data.openFor += parseInt($minuteSelect.val(), 10) * 60;
+                 
             navigator.geolocation.getCurrentPosition(function(pos) {
                 data.lat = pos.coords.latitude;
                 data.lon = pos.coords.longitude;

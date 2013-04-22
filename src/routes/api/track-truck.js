@@ -10,6 +10,7 @@ var db = require('../../db.js').Database;
  * lat - latitude of truck's location
  * lon - longitude of truck's location
  * textLoc - text location of truck
+ * openFor - How much time in seconds to wait before closing the truck
  */
 exports.postRoute = function(request, response, data) {
     var returnData = {};
@@ -20,10 +21,12 @@ exports.postRoute = function(request, response, data) {
         return;
     }
 
+    /* TODO: this is in a miserable state */
     if (request.body.setOpen && request.body.lat && request.body.lon) {
         var setOpen = (request.body.setOpen == 'true');
         var textLoc = request.body.textLoc;
-        var SQL_UPDATE_OPEN = "UPDATE trucks SET open = $1, textLoc = $2, geoPoint = ST_PointFromText(";
+        var SQL_UPDATE_OPEN = "UPDATE trucks SET open = $1, textLoc = $2, dateClose = now() + INTERVAL '";
+        SQL_UPDATE_OPEN += request.body.openFor + " seconds', geoPoint = ST_PointFromText(";
         SQL_UPDATE_OPEN += "'POINT(" + request.body.lat + " " + request.body.lon + ")') WHERE id = $3";
         db.query(SQL_UPDATE_OPEN, [setOpen, textLoc, request.session.my_truck_id], function(err, res) {
             if (err) {
