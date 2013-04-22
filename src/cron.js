@@ -3,7 +3,7 @@
  */
 
 var db = require('./db.js').Database;
-var SQL_UPDATE_TO_CLOSE = 'UPDATE trucks SET open=true WHERE dateclose < now();';
+var SQL_UPDATE_TO_CLOSE = 'UPDATE trucks SET open=false WHERE dateclose < now() AND open=true;';
 
 var autoCloseTrucks = function() {
     db.query(SQL_UPDATE_TO_CLOSE, [], function(err, res) {
