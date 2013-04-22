@@ -4,6 +4,7 @@ var errorout = require('../error.js').errorout;
 var fourohfour = require('../fourohfour.js').route;
 var handleUpload = require('../../file-uploader.js').handleUpload;
 var truckStore = require('../../truckstore.js').TruckStore;
+var security = require('../../security.js');
 
 var SQL_INSERT_PHOTO = 'INSERT INTO photos (truckid, uploadid, description) VALUES($1, $2, $3)';
 var SQL_UPDATE_PROF_PIC = 'UPDATE trucks SET photoUploadid = $1 WHERE id = $2;';
@@ -23,6 +24,7 @@ function hasPermission(request, response, data) {
  */
 exports.preloader = function(request, response, data, callback) {
     if(hasPermission(request, response, data)) {
+        data.csrfToken = security.generateCsrfToken(request);
         truckStore.getPhotos(data.my_truck.id, function(err, photos) {
             if(err) { console.error(err); }
             data.photos = photos;
