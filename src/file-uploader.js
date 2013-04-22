@@ -4,6 +4,8 @@
 var db = require('./db.js').Database;
 var fs = require('fs');
 var path = require('path');
+var thumbnailer = require('./thumbnailer').Thumbnailer;
+var isImage = require('./thumbnailer').isImage;
 
 /* SQL Queries */
 var SQL_INSERT_UPLOAD = 'INSERT INTO uploads (filesize, mime, name, ext, dateUploaded) VALUES($1, $2, $3, $4, now());';
@@ -28,6 +30,8 @@ function insertUpload(file, callback) {
                     if(!res || !res.rowCount) {
                         return callback(new Error("no rows returned"), null); 
                     }
+                    file.id = res.rows[0].uploadid;
+                    file.uploadid = file.id;
                     callback(null, res.rows[0].uploadid);
                 } catch(err) {
                     callback(err, null);
@@ -37,6 +41,7 @@ function insertUpload(file, callback) {
 
     });
 }
+
 
 /* This function expects file to be one of the objects that express
  * populates request.files with. It will move the file from temporary
@@ -54,7 +59,14 @@ exports.handleUpload = function(file, callback) {
             fs.rename(file.path, __dirname + '/../uploads/' + uploadid.toString() + file.ext, function (err) {
                 if(err) { console.error(err); return callback(err, null); }
                 file.uploadid = uploadid;
-                callback(null, uploadid);
+
+                if(isImage(file.ext)) {
+                    thumbnailer.thumbnailify(file, function(err) {
+                        callback(null, uploadid);
+                    });
+                } else {
+                    callback(null, uploadid);
+                }
             });
         });
 
