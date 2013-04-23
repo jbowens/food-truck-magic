@@ -4,8 +4,6 @@
 var db = require('./db.js').Database;
 var fs = require('fs');
 var path = require('path');
-var thumbnailer = require('./thumbnailer').Thumbnailer;
-var isImage = require('./thumbnailer').isImage;
 
 /* Constants */
 var UPLOADS_DIR = __dirname + '/../uploads/';
@@ -65,8 +63,8 @@ exports.handleUpload = function(file, userid, callback) {
                 if(err) { console.error(err); return callback(err, null); }
                 file.uploadid = uploadid;
 
-                if(isImage(file.ext)) {
-                    thumbnailer.thumbnailify(file, function(err) {
+                if(require('./thumbnailer.js').isImage(file.ext)) {
+                    require('./thumbnailer.js').Thumbnailer.thumbnailify(file, function(err) {
                         callback(null, uploadid);
                     });
                 } else {
@@ -111,7 +109,7 @@ exports.deleteUpload = function(fileObj, callback) {
 
             if(isImage(fileObj.ext)) {
                 /* This is an image. We should remove its thumbnails too. */
-                thumbnailer.removeThumbnails(fileObj, callback);
+                require('./thumbnailer.js').Thumbnailer.removeThumbnails(fileObj, callback);
             } else {
                 callback(err);
             }
