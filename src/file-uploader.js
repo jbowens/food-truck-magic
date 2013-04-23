@@ -63,12 +63,22 @@ exports.handleUpload = function(file, userid, callback) {
                 if(err) { console.error(err); return callback(err, null); }
                 file.uploadid = uploadid;
 
+                var newUploadObj = {
+                    id: uploadid,
+                    filesize: file.size,
+                    mime: file.type,
+                    name: file.name,
+                    ext: file.ext,
+                    dateuploaded: (new Date()).toString(),
+                    uploaderuserid: userid
+                };
+
                 if(require('./thumbnailer.js').isImage(file.ext)) {
                     require('./thumbnailer.js').Thumbnailer.thumbnailify(file, function(err) {
-                        callback(null, uploadid);
+                        callback(null, uploadid, newUploadObj);
                     });
                 } else {
-                    callback(null, uploadid);
+                    callback(null, uploadid, newUploadObj);
                 }
             });
         });

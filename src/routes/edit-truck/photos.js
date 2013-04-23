@@ -58,7 +58,7 @@ exports.postRoute = function(request, response, data) {
                 'You forget to choose the photo you\'d like to upload.');
     }
 
-    handleUpload(request.files.photo, request.session.user.id, function(err, uploadid) {
+    handleUpload(request.files.photo, request.session.user.id, function(err, uploadid, uploadedPhoto) {
         if(err) {
             return bailout(request, response, data, err);
         }
@@ -75,6 +75,7 @@ exports.postRoute = function(request, response, data) {
 
             db.query(SQL_UPDATE_PROF_PIC, [uploadid, data.my_truck_id], function(err) {
                 if(err) { console.error(err); }
+                data.photos.push(uploadedPhoto);
                 renderPage(response, data);
             });
         }
