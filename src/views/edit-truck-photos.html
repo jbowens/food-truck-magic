@@ -38,7 +38,7 @@
     {% if photos.length %}
     {% for photo in photos %}
         <div class="photo" data-photoid="{{ photo.id }}">
-            <img src="/uploads/{{ photo.id }}{{ photo.ext }}" width="150" height="150" />
+            <img src="{{ photo.thumb }}" width="{{ thumbnailSize }}" height="{{ thumbnailSize }}" />
             <span class="delete-photo">Delete</span>
         </div>
     {% endfor %}

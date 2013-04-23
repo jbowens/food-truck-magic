@@ -5,7 +5,12 @@ var fourohfour = require('../fourohfour.js').route;
 var handleUpload = require('../../file-uploader.js').handleUpload;
 var truckStore = require('../../truckstore.js').TruckStore;
 var security = require('../../security.js');
+var thumbnailer = require('../../thumbnailer.js').Thumbnailer;
 
+/* Constants */
+var THUMBNAIL_SIZE = 150;
+
+/* SQL Queries */
 var SQL_INSERT_PHOTO = 'INSERT INTO photos (truckid, uploadid, description) VALUES($1, $2, $3)';
 var SQL_UPDATE_PROF_PIC = 'UPDATE trucks SET photoUploadid = $1 WHERE id = $2;';
 
@@ -25,9 +30,13 @@ function hasPermission(request, response, data) {
 exports.preloader = function(request, response, data, callback) {
     if(hasPermission(request, response, data)) {
         data.csrfToken = security.generateCsrfToken(request);
+        data.thumbnailSize = THUMBNAIL_SIZE;
         truckStore.getPhotos(data.my_truck.id, function(err, photos) {
             if(err) { console.error(err); }
             data.photos = photos;
+            for(var i = 0; i < data.photos.length; i++) {
+                data.photos[i].thumb = thumbnailer.getAppropriateThumbnail(data.photos[i], THUMBNAIL_SIZE);
+            }
             callback();
         });
     } else {
@@ -75,6 +84,7 @@ exports.postRoute = function(request, response, data) {
 
             db.query(SQL_UPDATE_PROF_PIC, [uploadid, data.my_truck_id], function(err) {
                 if(err) { console.error(err); }
+                uploadedPhoto.thumb = thumbnailer.getAppropriateThumbnail(uploadedPhoto, THUMBNAIL_SIZE);
                 data.photos.push(uploadedPhoto);
                 renderPage(response, data);
             });
