@@ -49,3 +49,15 @@ CREATE TABLE IF NOT EXISTS photos (
     uploadid INTEGER NOT NULL REFERENCES uploads(id) ON DELETE CASCADE,
     description TEXT
 );
+
+CREATE TABLE IF NOT EXISTS categories (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(255),
+    urlid VARCHAR(255)
+);
+
+CREATE TABLE IF NOT EXISTS classified_as (
+    catid INTEGER NOT NULL REFRENCES categories(id) ON DELETE CASCADE,
+    truckid INTEGER NOT NULL REFERENCES trucks(id) ON DELETE CASCADE
+);
+
