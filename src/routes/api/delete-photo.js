@@ -12,7 +12,7 @@ var SQL_DELETE_PHOTO = 'DELETE FROM photos WHERE uploadid = $1';
 exports.postRoute = function(request, response, data) {
     
     /* Only allow if user is logged in */
-    if (!request.session.user || !data.my_truck) {
+    if (!data.user || !data.my_truck) {
         data.success = false;
         data.permDenied = true;
         return response.json(data);
@@ -29,7 +29,7 @@ exports.postRoute = function(request, response, data) {
 
         /* They can only remove the upload if the were the original
          * uploader. */
-        if(uploadOfPhoto.uploaderUserid != request.session.user.id) {
+        if(uploadOfPhoto.uploaderuserid != data.user.id) {
             data.success = false;
             data.permDenied = true;
             return response.json(data);
@@ -39,11 +39,15 @@ exports.postRoute = function(request, response, data) {
             if(err) { console.error(err); data.success = false; return response.json(data); }
 
             if(uploadOfPhoto) {
+                /* TODO: Handle case where the uploadid is referenced by
+                 * the truck page. */
                 deleteUpload(uploadOfPhoto, function(err) {
                     if(err) console.error(err);
+                    data.success = !err;
                     return response.json(data);
                 });
             } else {
+                data.success = true;
                 return response.json(data);
             }
         });
