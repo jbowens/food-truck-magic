@@ -4,13 +4,24 @@
  */
 var db = require('../../db.js').Database;
 
+
+var generateSQL = function(lat, lon, openFor) {
+    var sql = "UPDATE trucks SET open = $1, textLoc = $2, ";
+    if (openFor) {
+        sql += "dateClose = now() + INTERVAL '" + parseInt(openFor, 10) + " seconds', ";
+    }
+    sql += "geopoint = ST_PointFromText('POINT(" + parseFloat(lat, 10) + " " + parseFloat(lon, 10) + ")') WHERE id = $3";
+
+    return sql;
+};
+
 /*
  * Expects request.body to have the following:
  * setOpen - flag, true if opening truck, false otherwise
  * lat - latitude of truck's location
  * lon - longitude of truck's location
  * textLoc - text location of truck
- * openFor - How much time in seconds to wait before closing the truck
+ * (optional) openFor - How much time in seconds to wait before closing the truck
  */
 exports.postRoute = function(request, response, data) {
     var returnData = {};
@@ -21,14 +32,12 @@ exports.postRoute = function(request, response, data) {
         return;
     }
 
-    /* TODO: this is in a miserable state */
     if (request.body.setOpen && request.body.lat && request.body.lon) {
         var setOpen = (request.body.setOpen == 'true');
         var textLoc = request.body.textLoc;
-        var SQL_UPDATE_OPEN = "UPDATE trucks SET open = $1, textLoc = $2, dateClose = now() + INTERVAL '";
-        SQL_UPDATE_OPEN += parseInt(request.body.openFor, 10) + " seconds', geoPoint = ST_PointFromText(";
-        SQL_UPDATE_OPEN += "'POINT(" + parseFloat(request.body.lat, 10) + " " + parseFloat(request.body.lon, 10) + ")') WHERE id = $3";
-        db.query(SQL_UPDATE_OPEN, [setOpen, textLoc, request.session.my_truck_id], function(err, res) {
+        var sql = generateSQL(request.body.lat, request.body.lon, request.body.openFor);
+
+        db.query(sql, [setOpen, textLoc, request.session.my_truck_id], function(err, res) {
             if (err) {
                 console.log(err);
             } else {
