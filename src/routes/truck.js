@@ -17,6 +17,7 @@ var SQL_GET_FOLLOWS = "SELECT * FROM FOLLOWS WHERE userid = $1 AND truckid = $2"
 exports.route = function(request, response, data) {
     data.following = false;
     data.profPicSize = PROF_PIC_SIZE;
+    data.photoThumbSize = PHOTO_THUMB_SIZE;
 
     var truckurlid = request.params.truckidentifier;
 

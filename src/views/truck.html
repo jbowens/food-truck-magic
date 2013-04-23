@@ -74,7 +74,7 @@
     <div class="photo-preview">
     {% for photo in photos %}
     <div class="photo">
-        <img src="{{ photo.thumb }}" width="100" height="100" />
+        <img src="{{ photo.thumb }}" width="{{ photoThumbSize }}" height="{{ photoThumbSize }}" />
     </div>
     {% endfor %}
     </div>
