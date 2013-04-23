@@ -1,4 +1,4 @@
-{% extends 'boilerplate.html' %}
+{% extends 'edit-truck.html' %}
 
 {% block stylesheets %}
     {% parent %}
@@ -17,7 +17,7 @@
     </script>
 {% endblock %}
 
-{% block content %}
+{% block innerContent %}
 <h2>Manage {{my_truck.name}}'s Location</h2>
 
 <div id="currently-open-wrapper" style="display:none;">

@@ -1,0 +1,17 @@
+{% extends 'boilerplate.html' %}
+
+{% block stylesheets %}
+    {% parent %}
+    <link rel="stylesheet" href="/styles/edit-truck.css" />
+{% endblock %}
+
+{% block content %}
+<ul> 
+    <li> <a href="/edit-truck/location"> Location </a></li>
+    <li> <a href="/edit-truck/info"> Info </a></li>
+    <li> <a href="/edit-truck/photos"> Photos </a></li>
+</ul>
+{% block innerContent %}
+{% endblock %}
+
+{% endblock %}

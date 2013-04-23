@@ -1,13 +1,6 @@
-{% extends 'boilerplate.html' %}
+{% extends 'edit-truck.html' %}
 
-{% block stylesheets %}
-    {% parent %}
-    <link rel="stylesheet" href="/styles/edit-truck.css" />
-{% endblock %}
-
-{% block content %}
-<h2>Manage {{my_truck.name}}</h2>
-
+{% block innerContent %}
 <form method="post" id="edit-truck-details" class="standard">
 
     {% if changesSaved %}
