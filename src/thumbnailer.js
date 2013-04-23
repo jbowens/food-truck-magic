@@ -3,6 +3,10 @@
  */
 var async = require('async');
 var easyimage = require('easyimage');
+var fileUploader = require('./file-uploader.js');
+var fs = require('fs');
+
+var UPLOADS_DIR = fileUploader.UPLOADS_DIR;
 
 /* The thumbnail sizes we use. */
 var thumbnailSizes = [
@@ -93,6 +97,15 @@ exports.Thumbnailer = {
         } else {
             return null;
         }
+    },
+
+    /* Removes all of the thumbnails for the given fileobj that are
+     * currently on the filesystem.
+     */
+    removeThumbnails: function(fileObj, callback) {
+        async.each(thumbnailSizes, function(size, done) {
+            fs.unlink(UPLOADS_DIR + size.name + '/' + fileObj.id.toString() + fileObj.ext, done);
+        }, callback);
     }
 
 };

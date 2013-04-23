@@ -58,7 +58,7 @@ exports.postRoute = function(request, response, data) {
                 'You forget to choose the photo you\'d like to upload.');
     }
 
-    handleUpload(request.files.photo, function(err, uploadid) {
+    handleUpload(request.files.photo, request.session.user.id, function(err, uploadid) {
         if(err) {
             return bailout(request, response, data, err);
         }
