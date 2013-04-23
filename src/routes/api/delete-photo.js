@@ -8,6 +8,7 @@ var deleteUpload = require('../../file-uploader.js').deleteUpload;
 
 /* SQL 4 lyfe */
 var SQL_DELETE_PHOTO = 'DELETE FROM photos WHERE uploadid = $1';
+var SQL_UPDATE_PROF_PICS = 'UPDATE trucks SET photoUploadid = NULL WHERE photoUploadid = $1';
 
 exports.postRoute = function(request, response, data) {
     
@@ -35,16 +36,20 @@ exports.postRoute = function(request, response, data) {
             return response.json(data);
         }
 
+        /* Delete the record associating the upload with the truck. */
         db.query(SQL_DELETE_PHOTO, [request.body.uploadid], function(err) {
             if(err) { console.error(err); data.success = false; return response.json(data); }
 
             if(uploadOfPhoto) {
-                /* TODO: Handle case where the uploadid is referenced by
-                 * the truck page. */
-                deleteUpload(uploadOfPhoto, function(err) {
-                    if(err) console.error(err);
-                    data.success = !err;
-                    return response.json(data);
+                /* Remove the photo as a prof pic before deleting the upload. */
+                db.query(SQL_UPDATE_PROF_PICS, [request.body.uploadid], function(err) {
+                    if(err) { console.error(err); data.success = false; return response.json(data); }
+
+                    deleteUpload(uploadOfPhoto, function(err) {
+                        if(err) console.error(err);
+                        data.success = !err;
+                        return response.json(data);
+                    });
                 });
             } else {
                 data.success = true;

@@ -104,10 +104,10 @@ exports.deleteUpload = function(fileObj, callback) {
         if(err) { console.error(err); return callback(err); }
         
         /* Delete the actual file from the filesystem. */
-        fs.unlink(fileObj.id.toString() + fileObj.ext, function(err) {
+        fs.unlink(UPLOADS_DIR + fileObj.id.toString() + fileObj.ext, function(err) {
             if(err) { console.error(err); return callback(err); }
 
-            if(isImage(fileObj.ext)) {
+            if(require('./thumbnailer.js').isImage(fileObj.ext)) {
                 /* This is an image. We should remove its thumbnails too. */
                 require('./thumbnailer.js').Thumbnailer.removeThumbnails(fileObj, callback);
             } else {
