@@ -1,10 +1,14 @@
 /*
  * The route for the main truck page.
  */
-var _ = require('underscore');
 var db = require('../db.js').Database;
 var truckStore = require('../truckstore.js').TruckStore;
+var thumbnailer = require('../thumbnailer.js').Thumbnailer;
 var fourOhFourRoute = require('./fourohfour.js').route;
+
+/* Constants */
+var PROF_PIC_SIZE = 240;
+var PHOTO_THUMB_SIZE = 100;
 
 /* SQL Queries */
 var SQL_GET_TRUCK_BY_IDENTIFIER = "SELECT * FROM trucks WHERE urlid = $1 LIMIT 1";
@@ -12,6 +16,8 @@ var SQL_GET_FOLLOWS = "SELECT * FROM FOLLOWS WHERE userid = $1 AND truckid = $2"
 
 exports.route = function(request, response, data) {
     data.following = false;
+    data.profPicSize = PROF_PIC_SIZE;
+    data.photoThumbSize = PHOTO_THUMB_SIZE;
 
     var truckurlid = request.params.truckidentifier;
 
@@ -29,8 +35,21 @@ exports.route = function(request, response, data) {
         data.truck = res.rows[0];
         
         truckStore.getPhotos(data.truck.id, function(err, res) {
-            console.log("photos, brah");
             data.photos = err ? [] : res;
+
+            /* Find the prof pic */
+            if(data.truck.photouploadid) {
+                for(var i = 0; i < data.photos.length; i++) {
+                    console.log(data.photos[i]);
+                    if(data.photos[i].id == data.truck.photouploadid) {
+                        data.profPic = data.photos[i];
+                        data.profPic.profPicThumb = thumbnailer.getAppropriateThumbnail(data.photos[i],
+                                PROF_PIC_SIZE);
+                    }
+                    data.photos[i].thumb = thumbnailer.getAppropriateThumbnail(data.photos[i],
+                            PHOTO_THUMB_SIZE);
+                }
+            }
             
             /* We have our truck. Let's check if logged in and following */
             if (request.session.user) {

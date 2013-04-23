@@ -1,0 +1,62 @@
+{% extends 'boilerplate.html' %}
+
+{% block stylesheets %}
+    {% parent %}
+{% endblock %}
+
+{% block scripts %}
+    {% parent %}
+    <script type="text/javascript" src="/js/edit-loc.js"></script>
+    <script>
+        var foodTruckNS = foodTruckNS || {};
+        foodTruckNS.editLoc = foodTruckNS.editLoc || {};
+        var open = {{my_truck.open}};
+        $(function() {
+            foodTruckNS.editLoc.init(open);
+        });
+    </script>
+{% endblock %}
+
+{% block content %}
+<h2>Manage {{my_truck.name}}'s Location</h2>
+
+<div id="currently-open-wrapper" style="display:none;">
+    <p> We are currently showing {{ my_truck.name }}'s location. Want to us stop showing your truck's location?</p>
+
+    <p> You are near: {{ my_truck.textloc }}</p>
+    <p> We will automatically close you around: {{ my_truck.dateclose }}</p>
+</div>
+<div id="currently-closed-wrapper" style="display:none;">
+    <p> We are not currently showing {{ my_truck.name }}'s location. Want us to broadcast your truck's location?</p>
+
+    <div id="autoclose-wrapper"> 
+        Automatically stop showing your location in
+        <select id="hour-select">
+            <option>0</option>
+            <option>1</option>
+            <option selected>2</option>
+            <option>3</option>
+            <option>4</option>
+            <option>5</option>
+            <option>6</option>
+            <option>7</option>
+            <option>8</option>
+            <option>9</option>
+            <option>10</option>
+            <option>11</option>
+            <option>12</option>
+        </select>
+        hours and 
+        <select id="minute-select">
+            <option selected>0</option>
+            <option>15</option>
+            <option>30</option>
+            <option>45</option>
+        </select>
+        minutes
+    </div>
+</div>
+    
+<button type="button" id="open-button" style="display:none;"></button>
+
+{% endblock %}

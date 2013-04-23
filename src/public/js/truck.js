@@ -41,7 +41,7 @@ foodTruckNS.truck.setupfavoriteButton = function() {
                 truckId: truckId,
                 userId: userId
             },
-            success: function(data) {
+            success: function() {
                 /* on success, update favorite button and favoriting state */
                 foodTruckNS.truck.favoriting = !foodTruckNS.truck.favoriting;
                 foodTruckNS.truck.updateFavoriteButtonText($favoriteButton);

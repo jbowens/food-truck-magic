@@ -7,12 +7,15 @@ var SESSION_SECRET_KEY = 'ft_session';
 
 var express = require('express');
 var cons = require('consolidate');
+var fs = require('fs');
 var swig = require('swig');
 var args = require('optimist').argv;
 
 var db = require('./db.js').Database;
 var config = require('./config.js').Config;
+var thumbnailSizes = require('./thumbnailer.js').thumbnailSizes;
 var routes = require('./routes.js');
+var cron = require('./cron.js');
 
 var app = express();
 
@@ -40,7 +43,19 @@ app.configure(function() {
 
 
 config.init(function() {
+    
+    /* Setup directories */
+    var uploadsDir = __dirname + '/../uploads/';
+    for(var i = 0; i < thumbnailSizes.length; i++) {
+        try {
+            fs.mkdirSync(uploadsDir + thumbnailSizes[i].name);
+        } catch(err) {}
+    }
+
     db.init();
+
+    /* run cronjobs */
+    cron.startCronJobs();
 
     app.listen(port, function() {
         routes.setupRoutes(app);

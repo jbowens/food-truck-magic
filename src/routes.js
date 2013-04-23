@@ -6,7 +6,7 @@ var truckStore = require('./truckstore.js').TruckStore;
 
 exports.setupRoutes = function(app) {
 
-    var r = function(route) {
+    var r = function(routeFilename, route) {
         return function(request, response) {
             var data = {
                 user: request.session.user,
@@ -14,11 +14,22 @@ exports.setupRoutes = function(app) {
             };
             if(request.session.my_truck_id && request.session.user) {
                 truckStore.getTruckById(request.session.my_truck_id, function(err, truck) {
+                    if(err) { console.error(err); }
                     data.my_truck = truck;
-                    runRoute();
+                    runDataPreloader();
                 });
             } else {
-                runRoute();
+                runDataPreloader();
+            }
+
+            function runDataPreloader() {
+                if(require(routeFilename).preloader) {
+                    require(routeFilename).preloader(request, response, data, function() {
+                        runRoute();
+                    });
+                } else {
+                    runRoute();
+                }
             }
 
             function runRoute() {
@@ -28,11 +39,11 @@ exports.setupRoutes = function(app) {
     };
 
     var get = function(path, routeFilename) {
-        app.get(path, r(require(routeFilename).route));
+        app.get(path, r(routeFilename, require(routeFilename).route));
     };
 
     var post = function(path, routeFilename) {
-        app.post(path, r(require(routeFilename).postRoute));
+        app.post(path, r(routeFilename, require(routeFilename).postRoute));
     };
 
     get('/', './routes/index.js');
@@ -46,11 +57,13 @@ exports.setupRoutes = function(app) {
     post('/edit-truck', './routes/edit-truck.js');
     get('/edit-truck/photos', './routes/edit-truck/photos.js');
     post('/edit-truck/photos', './routes/edit-truck/photos.js');
+    get('/edit-truck/location', './routes/edit-truck/location.js');
     get('/mapview', './routes/mapview.js');
     post('/api/follow-truck', './routes/api/follow-truck.js');
     get('/api/check-username/:username', './routes/api/check-username.js');
     post('/api/track-truck', './routes/api/track-truck.js');
     get('/api/get-geodata', './routes/api/get-geodata.js');
+    post('/api/delete-photo', './routes/api/delete-photo.js');
     get('*', './routes/fourohfour.js');
     post('*', './routes/fourohfour.js');
 

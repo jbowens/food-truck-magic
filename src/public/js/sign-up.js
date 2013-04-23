@@ -52,7 +52,7 @@ foodTruckNS.signup.validateUsername = function(evt) {
 
 };
 
-$(document).ready(function(e) {
+$(document).ready(function() {
 
     $('.signup_username').change(foodTruckNS.signup.validateUsername);
     $('.signup_username').keyup(foodTruckNS.signup.validateUsername);

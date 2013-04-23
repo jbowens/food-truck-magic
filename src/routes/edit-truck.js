@@ -2,7 +2,6 @@ var _ = require('underscore');
 var check = require('validator').check;
 var sanitize = require('validator').sanitize;
 var truckStore = require('../truckstore.js').TruckStore;
-var bailout = require('./fatalerror.js').bailout;
 var fourohfour = require('./fourohfour.js').route;
 
 function renderPage(response, data) {
@@ -70,6 +69,7 @@ exports.postRoute = function(request, response, data) {
 
     if(!_.isEqual(data.my_truck, newTruckData)) {
         truckStore.updateTruck(data.my_truck_id, newTruckData, function(err) {
+            if(err) { console.error(err); }
             data.my_truck = newTruckData;
             data.changesSaved = true;
             renderPage(response, data);

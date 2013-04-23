@@ -5,20 +5,6 @@
     <link rel="stylesheet" href="/styles/edit-truck.css" />
 {% endblock %}
 
-{% block scripts %}
-    {% parent %}
-    <script type="text/javascript" src="/js/edit-truck.js"></script>
-    <script>
-        var foodTruckNS = foodTruckNS || {};
-        foodTruckNS.editTruck = foodTruckNS.editTruck || {};
-        foodTruckNS.editTruck.open = {{my_truck.open}};
-
-        $(function() {
-            foodTruckNS.editTruck.init();
-        });
-    </script>
-{% endblock %}
-
 {% block content %}
 <h2>Manage {{my_truck.name}}</h2>
 
@@ -68,9 +54,5 @@
 
     <input type="submit" value="Save" />
 </form>
-
-<h2>{{my_truck.name}}'s Status</h2>
-<button type="button" id="open-button" style="display:none;"></button>
-
 
 {% endblock %}

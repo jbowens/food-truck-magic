@@ -1,12 +1,15 @@
 {
 
+    "browser"       : true,
     "node"          : true,
 
     // Custom globals
     "predef"        : [
         "define",
         "require",
-        "$"
+        "$",
+        "google",
+        "alert"
     ],
 
     "es5"           : true,

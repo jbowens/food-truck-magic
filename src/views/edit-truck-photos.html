@@ -5,6 +5,14 @@
     <link rel="stylesheet" href="/styles/edit-truck-photos.css" />
 {% endblock %}
 
+{% block scripts %}
+    {% parent %}
+    <script src="/js/edit-truck-photos.js"></script>
+    <script>
+        window.csrf = '{{ csrfToken }}';
+    </script>
+{% endblock %}
+
 {% block content %}
 <h2>{{my_truck.name}} Photos</h2>
 
@@ -23,5 +31,19 @@
         </div>
         <input type="submit" class="submit" value="Upload" />
     </form>
+</div>
+
+<h3>Your photos</h3>
+<div id="uploaded-photos-cont">
+    {% if photos.length %}
+    {% for photo in photos %}
+        <div class="photo" data-photoid="{{ photo.id }}">
+            <img src="{{ photo.thumb }}" width="{{ thumbnailSize }}" height="{{ thumbnailSize }}" />
+            <span class="delete-photo">Delete</span>
+        </div>
+    {% endfor %}
+    {% else %}
+    <p class="no-photos">Your truck doesn't have any photos yet.</p>
+    {% endif %}
 </div>
 {% endblock %}
