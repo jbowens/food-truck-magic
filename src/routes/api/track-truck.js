@@ -26,8 +26,8 @@ exports.postRoute = function(request, response, data) {
         var setOpen = (request.body.setOpen == 'true');
         var textLoc = request.body.textLoc;
         var SQL_UPDATE_OPEN = "UPDATE trucks SET open = $1, textLoc = $2, dateClose = now() + INTERVAL '";
-        SQL_UPDATE_OPEN += request.body.openFor + " seconds', geoPoint = ST_PointFromText(";
-        SQL_UPDATE_OPEN += "'POINT(" + request.body.lat + " " + request.body.lon + ")') WHERE id = $3";
+        SQL_UPDATE_OPEN += parseInt(request.body.openFor, 10) + " seconds', geoPoint = ST_PointFromText(";
+        SQL_UPDATE_OPEN += "'POINT(" + parseFloat(request.body.lat, 10) + " " + parseFloat(request.body.lon, 10) + ")') WHERE id = $3";
         db.query(SQL_UPDATE_OPEN, [setOpen, textLoc, request.session.my_truck_id], function(err, res) {
             if (err) {
                 console.log(err);
