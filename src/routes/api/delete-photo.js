@@ -3,6 +3,7 @@
  * (/api/delete-photo)
  */
 var db = require('../../db.js').Database;
+var security = require('../../security.js');
 var getUpload = require('../../file-uploader.js' ).getUpload;
 var deleteUpload = require('../../file-uploader.js').deleteUpload;
 
@@ -22,6 +23,12 @@ exports.postRoute = function(request, response, data) {
     if(!request.body.uploadid) {
         data.success = false;
         data.noUploadid = true;
+        return response.json(data);
+    }
+
+    if(!security.csrfTokenMatches(request, request.body.csrfToken)) {
+        data.success = false;
+        data.csrfFailed = true;
         return response.json(data);
     }
 
