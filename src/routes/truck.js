@@ -3,7 +3,12 @@
  */
 var db = require('../db.js').Database;
 var truckStore = require('../truckstore.js').TruckStore;
+var thumbnailer = require('../thumbnailer.js').Thumbnailer;
 var fourOhFourRoute = require('./fourohfour.js').route;
+
+/* Constants */
+var PROF_PIC_SIZE = 240;
+var PHOTO_THUMB_SIZE = 100;
 
 /* SQL Queries */
 var SQL_GET_TRUCK_BY_IDENTIFIER = "SELECT * FROM trucks WHERE urlid = $1 LIMIT 1";
@@ -11,6 +16,7 @@ var SQL_GET_FOLLOWS = "SELECT * FROM FOLLOWS WHERE userid = $1 AND truckid = $2"
 
 exports.route = function(request, response, data) {
     data.following = false;
+    data.profPicSize = PROF_PIC_SIZE;
 
     var truckurlid = request.params.truckidentifier;
 
@@ -36,7 +42,11 @@ exports.route = function(request, response, data) {
                     console.log(data.photos[i]);
                     if(data.photos[i].id == data.truck.photouploadid) {
                         data.profPic = data.photos[i];
+                        data.profPic.profPicThumb = thumbnailer.getAppropriateThumbnail(data.photos[i],
+                                PROF_PIC_SIZE);
                     }
+                    data.photos[i].thumb = thumbnailer.getAppropriateThumbnail(data.photos[i],
+                            PHOTO_THUMB_SIZE);
                 }
             }
             

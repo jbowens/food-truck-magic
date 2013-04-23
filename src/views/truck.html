@@ -30,9 +30,9 @@
 
 <div id="prof-pic" class="clearfix">
     {% if profPic %}
-    <img width="240" height="240" src="/uploads/{{ profPic.id }}{{ profPic.ext }}" alt="{{ truck.name }}" />
+    <img width="{{ profPicSize }}" height="{{ profPicSize }}" src="{{ profPic.profPicThumb }}" alt="{{ truck.name }}" />
     {% else %}
-    <img width="240" height="240" src="/images/default-truck.jpg" alt="{{ truck.name }}" />
+    <img width="{{ profPicSize }}" height="{{ profPicSize }}" src="/images/default-truck.jpg" alt="{{ truck.name }}" />
     {% endif %}
 </div>
 
@@ -74,7 +74,7 @@
     <div class="photo-preview">
     {% for photo in photos %}
     <div class="photo">
-        <img src="/uploads/{{photo.id}}{{photo.ext}}" width="100" height="100" />
+        <img src="{{ photo.thumb }}" width="100" height="100" />
     </div>
     {% endfor %}
     </div>
