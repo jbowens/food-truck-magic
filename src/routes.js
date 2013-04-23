@@ -53,8 +53,8 @@ exports.setupRoutes = function(app) {
     post('/login', './routes/login.js');
     get('/login', './routes/login.js');
     get('/trucks/:truckidentifier', './routes/truck.js');
-    get('/edit-truck', './routes/edit-truck.js');
-    post('/edit-truck', './routes/edit-truck.js');
+    get('/edit-truck/info', './routes/edit-truck/info.js');
+    post('/edit-truck/info', './routes/edit-truck/info.js');
     get('/edit-truck/photos', './routes/edit-truck/photos.js');
     post('/edit-truck/photos', './routes/edit-truck/photos.js');
     get('/edit-truck/location', './routes/edit-truck/location.js');

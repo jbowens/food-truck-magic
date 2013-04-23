@@ -1,11 +1,11 @@
 var _ = require('underscore');
 var check = require('validator').check;
 var sanitize = require('validator').sanitize;
-var truckStore = require('../truckstore.js').TruckStore;
-var fourohfour = require('./fourohfour.js').route;
+var truckStore = require('../../truckstore.js').TruckStore;
+var fourohfour = require('./../fourohfour.js').route;
 
 function renderPage(response, data) {
-    response.render('edit-truck', data);
+    response.render('edit-truck-info', data);
 }
 
 function hasPermission(request, response, data) {
@@ -17,7 +17,7 @@ exports.route = function(request, response, data) {
     if(!hasPermission(request, response, data)) {
         /* The user must be logged in and the administrator for
            a truck to view this page. */
-        console.log('Permission denied to /edit-truck because not a truck admin');
+        console.log('Permission denied to /edit-truck/info because not a truck admin');
         return fourohfour(request, response, data);
     }
 
