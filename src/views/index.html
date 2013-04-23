@@ -49,16 +49,16 @@
                 {% if truck.uploadid %}
 				<a class="truck-image" href="trucks/{{truck.urlid }}">
 					<img class="truck-thumbnail"
-						src="/uploads/{{ truck.uploadid }}{{ truck.ext }}"
+                        src="{{ truck.thumb }}"
 						alt="{{ truck.name }}"
-						width="120" height="120" />
+                        width="{{ thumbnailSize }}" height="{{ thumbnailSize }}" />
 				</a>
 
                 {% else %}
 				<a class="truck-image" href="trucks/{{truck.urlid }}">
 					<img class="truck-thumbnail" src="/images/default-truck.jpg"
 					alt="{{ truck.name }}"
-					width="120" height="120" />
+                    width="{{ thumbnailSize }}" height="{{ thumbnailSize }}" />
 				</a>
 
                 {% endif %}

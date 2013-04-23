@@ -4,7 +4,11 @@
  */
 
 var db = require('../db.js').Database;
+var thumbnailer = require('../thumbnailer.js').Thumbnailer;
 var fourOhFourRoute = require('./fourohfour.js').route;
+
+/* Constants */
+var THUMBNAIL_SIZE = 120;
 
 /* SQL Queries */
 var SQL_GET_TRUCKS = 'SELECT trucks.*, trucks.photoUploadid AS uploadid, uploads.ext FROM trucks ' +
@@ -21,6 +25,15 @@ exports.route = function(request, response, data) {
             return fourOhFourRoute(request, response, data);
         }
         data.allTrucks = res.rows;
+        data.thumbnailSize = THUMBNAIL_SIZE;
+        for(var i = 0; i < data.allTrucks.length; i++) {
+            if(data.allTrucks[i].uploadid) {
+                data.allTrucks[i].thumb = thumbnailer.getAppropriateThumbnail({
+                    'id': data.allTrucks[i].uploadid,
+                    'ext': data.allTrucks[i].ext
+                }, THUMBNAIL_SIZE);
+            }
+        }
 
         /* if logged in, query for trucks user follows */
         if (data.user) {
