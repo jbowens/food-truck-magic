@@ -49,10 +49,7 @@ config.init(function() {
     for(var i = 0; i < thumbnailSizes.length; i++) {
         try {
             fs.mkdirSync(uploadsDir + thumbnailSizes[i].name);
-        } catch(err) {
-            /* Probably not a problem. The directory probably just already existed. */
-            console.log(err);
-        }
+        } catch(err) {}
     }
 
     db.init();
