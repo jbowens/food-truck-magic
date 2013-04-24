@@ -58,7 +58,9 @@ foodTruckNS.mapview.initmap = function() {
                      "<br/> <p>" + geopoint.description + "</p>" 
         });
 
-        foodTruckNS.mapview.attachClickHandler(marker, infowindow, map);
+        if (foodTruckNS.mapview.addInfoWindows) {
+            foodTruckNS.mapview.attachClickHandler(marker, infowindow, map);
+        }
 
         totalLat += points[0];
         totalLon += points[1];
@@ -105,15 +107,20 @@ foodTruckNS.mapview.attachClickHandler = function(marker, infowindow, map) {
  * Takes in an an initData object, looking for the following keys:
  * zoomLevel: default zoom level for googel maps
  * truckId: (optional) parameter for truck id if getting just one truck
+ * addInfoWindows: (optional, default true) if true, attaches info windows to markers 
  */
 foodTruckNS.mapview.init = function(initData) {
     foodTruckNS.mapview.zoom = 15;
     foodTruckNS.mapview.truckId = null;
+    foodTruckNS.mapview.addInfoWindows = true;
     if (initData.zoomLevel) {
         foodTruckNS.mapview.zoom = initData.zoomLevel;
     }
     if (initData.truckId) {
         foodTruckNS.mapview.truckId = initData.truckId;
+    }
+    if (initData.addInfoWindows === false) {
+        foodTruckNS.mapview.addInfoWindows = false;
     }
 
     /* get the geolocation data */
