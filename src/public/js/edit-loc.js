@@ -45,6 +45,8 @@ foodTruckNS.editLoc.setupOpenButton = function(curOpen) {
                 return;
             }
 
+            $openButton.text("Getting truck location...");
+
             if ($hourSelect.val() == '0' && $minuteSelect.val() == '0') {
                 alert('Provide a valid time to automatically close');
                 return;
@@ -68,7 +70,6 @@ foodTruckNS.editLoc.setupOpenButton = function(curOpen) {
 };
 
 foodTruckNS.editLoc.trackTruck = function(data) {
-    var $button = ('#open-button');
     $.ajax({
         type: 'POST',
         url: '/api/track-truck',
