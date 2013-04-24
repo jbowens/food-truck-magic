@@ -1,5 +1,15 @@
 {% extends 'edit-truck.html' %}
 
+{% block stylesheets %}
+    {% parent %}
+    <link rel="stylesheet" href="/styles/edit-truck-info.css" />
+{% endblock %}
+
+{% block scripts %}
+    {% parent %}
+    <script type="text/javascript" src="/js/edit-truck-info.js"></script>
+{% endblock %}
+
 {% block innerContent %}
 <h2>{{my_truck.name}} Information</h2>
 <form method="post" id="edit-truck-details" class="standard">
@@ -22,7 +32,7 @@
 
     <div class="form-item">
         <label>Categories</label>
-        <div class="current-categories"></div>
+        <ul class="current-categories"></ul>
         <select id="add-category">
             {% for cat in categories %}
             <option value="{{ cat.id }}">{{ cat.name }}</option>
