@@ -29,6 +29,7 @@
     </script>
     {% endif %}
 
+    {% if truck.open %}
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA0uRmvgWbp3WBxVaCqf1WkZpu5nSibMpc&sensor=false"></script>
 
     <script type="text/javascript" src="/js/mapview.js"> </script>
@@ -41,6 +42,7 @@
             foodTruckNS.mapview.init(initData);
         });
     </script>
+    {% endif %}
 
 {% endblock %}
 
@@ -114,7 +116,10 @@
 		</span>
 	</h2>
 </div>
-<div id="map-canvas"></div>
+
+{% if truck.open %}
+    <div id="map-canvas"></div>
+{% endif %}
 
 
 {% endblock %}
