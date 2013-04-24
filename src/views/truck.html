@@ -5,6 +5,11 @@
 {% block stylesheets %}
     {% parent %}
     <link rel="stylesheet" href="/styles/truck.css" />
+    <style type="text/css">
+        #map-canvas {
+            height: 600px;
+        }
+    </style>
 {% endblock %}
 
 {% block scripts %}
@@ -23,6 +28,19 @@
         });
     </script>
     {% endif %}
+
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA0uRmvgWbp3WBxVaCqf1WkZpu5nSibMpc&sensor=false"></script>
+
+    <script type="text/javascript" src="/js/mapview.js"> </script>
+    <script type="text/javascript">
+        $(function() {
+            var initData = {
+                zoomLevel: 14,
+                truckId: {{truck.id}} 
+            };
+            foodTruckNS.mapview.init(initData);
+        });
+    </script>
 
 {% endblock %}
 
@@ -96,6 +114,7 @@
 		</span>
 	</h2>
 </div>
+<div id="map-canvas"></div>
 
 
 {% endblock %}
