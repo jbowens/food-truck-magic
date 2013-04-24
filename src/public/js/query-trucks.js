@@ -43,21 +43,6 @@ foodTruckNS.query.listTrucks = function(trucks, thumbnailSize) {
             truckDescription = truck.description;
         }
 
-        var innerLi = '' +
-            '<li>' +
-                '<a class="truck-image" href="trucks/' + truck.urlid + '">' +
-                '   <img class="truck-thumbnail"' +
-                '       src="' + thumbnailLink + '"' +
-                '       alt="' + truck.name + '"' +
-                '       width="' + thumbnailSize + '" height="' + thumbnailSize + '" />' +
-                '</a>' +
-                '<div class="truck-info">' +
-                '   <a href="trucks/' + truck.urlid + '">' +
-                '       <h3 class="truck-name">' + truck.name + '</h3' +
-                '   </a>' +
-                '   <p>' + truckDescription + '</p>' +
-                '</div>' +
-            '</li>';
         containerHTML += foodTruckNS.query.innerLiHTML(truck.urlid, truck.name, truckDescription, thumbnailLink, thumbnailSize);
     }
 
