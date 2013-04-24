@@ -28,57 +28,74 @@
 
 {% block content %}
 
-<div id="prof-pic" class="clearfix">
-    {% if profPic %}
-    <img width="{{ profPicSize }}" height="{{ profPicSize }}" src="{{ profPic.profPicThumb }}" alt="{{ truck.name }}" />
-    {% else %}
-    <img width="{{ profPicSize }}" height="{{ profPicSize }}" src="/images/default-truck.jpg" alt="{{ truck.name }}" />
-    {% endif %}
+<div id="truck-sidebar">
+	<div id="prof-pic">
+		<img width="{{ profPicSize }}" 
+			 height="{{ profPicSize }}"
+			{% if profPic %}
+				 src="{{ profPic.profPicThumb }}"
+			{% else %}
+				 src="/images/default-truck.jpg"
+			{% endif %}
+			alt="{{ truck.name }}"
+		/>
+	</div>
+
+	<ul id="truck-data">
+		{% if truck.phone %}
+			<li class="data-item phone">
+				Phone: <a href="tel:{{ truck.phone }}">{{ truck.phone }}</a>
+			</li>
+		{% endif %}
+		{% if truck.website %}
+			<li class="data-item website">
+				Website: <a href="{{ truck.website }}" class="truck-website">{{ truck.website }}</a>
+			</li>
+		{% endif %}
+
+		{% if user %}
+			<li>
+				<button type="button" id="favorite" style="display:none;"></button>
+			</li>
+		{% else %}
+			<li>
+				(Log in to favorite this truck)
+			</li>
+		{% endif %}
+		<li>
+		{{ truck.description|default("No Description Available!") }}
+		</li>
+
+		{#
+		{% if photos %}
+		<div class="photo-preview">
+		{% for photo in photos %}
+		<div class="photo">
+			<img src="{{ photo.thumb }}" width="{{ photoThumbSize }}" height="{{ photoThumbSize }}" />
+		</div>
+		{% endfor %}
+		</div>
+		{% endif %}
+		#}
+	</ul>
 </div>
 
-<h2>{{ truck.name }}
-    {% if truck.id == my_truck_id %} 
-        <span class="orange-span"> This is your truck! </span>
-    {%endif%} 
-    <span class="orange-span">
-    {% if truck.open %} 
-        (open!) 
-    {% else %} 
-        (closed) 
-    {%endif%}
-    </span>
-</h2>
-
-
-<div id="truck-data">
-    {% if truck.phone %}
-        <span class="data-item phone">
-            Phone: <a href="tel:{{ truck.phone }}">{{ truck.phone }}</a>
-        </span>
-    {% endif %}
-    {% if truck.website %}
-        <span class="data-item website">
-            Website: <a href="{{ truck.website }}" class="truck-website">{{ truck.website }}</a>
-        </span>
-    {% endif %}
-
-    {% if user %}
-        <button type="button" id="favorite" style="display:none;"></button>
-    {% else %}
-        <span> (Log in to favorite this truck) </span>
-    {% endif %}
-    <p>
-    {{ truck.description|default("") }}
-    </p>
-    {% if photos %}
-    <div class="photo-preview">
-    {% for photo in photos %}
-    <div class="photo">
-        <img src="{{ photo.thumb }}" width="{{ photoThumbSize }}" height="{{ photoThumbSize }}" />
-    </div>
-    {% endfor %}
-    </div>
-    {% endif %}
+<div id="truck-content">
+	<h2>
+		{{ truck.name }}
+		
+		{% if truck.id == my_truck_id %} 
+			<span class="info"> This is your truck! </span>
+		{%endif%} 
+		<span class="info">
+		{% if truck.open %} 
+			(open!) 
+		{% else %} 
+			(closed) 
+		{%endif%}
+		</span>
+	</h2>
 </div>
+
 
 {% endblock %}
