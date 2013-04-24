@@ -23,7 +23,7 @@ foodTruckNS.query.innerLiHTML = function(urlid, name, description, thumbnailLink
         '</li>';
     
     return innerLi;
-});
+};
 
 /*
  * Appends list of trucks to the truckContainer
