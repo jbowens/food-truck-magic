@@ -53,13 +53,13 @@ foodTruckNS.query.listTrucks = function(trucks, thumbnailSize) {
  * Hits API endpoint to get truck data
  */
 foodTruckNS.query.getTrucks = function() {
+    foodTruckNS.query.truckContainer.html("Loading trucks...");
     $.ajax({
         type: 'POST',
         url: '/api/query-trucks',
         success: function(data) {
             if (data.error)  {
-                /* TODO: this */
-                alert("OH NOOO");
+                foodTruckNS.query.truckContainer.html("Couldn't load trucks :(");
             } else {
                 foodTruckNS.query.listTrucks(data.trucks, data.thumbnailSize);
             }
