@@ -6,7 +6,7 @@ var truckStore = require('../../truckstore.js').TruckStore;
 var fourohfour = require('./../fourohfour.js').route;
 
 /* SQL Queries */
-var SQL_GET_CATEGORIES = 'SELECT * FROM categories;';
+var SQL_GET_CATEGORIES = 'SELECT * FROM categories ORDER BY name ASC;';
 
 function renderPage(response, data) {
     response.render('edit-truck-info', data);
