@@ -100,16 +100,29 @@ foodTruckNS.mapview.attachClickHandler = function(marker, infowindow, map) {
     });
 };
 
-foodTruckNS.mapview.init = function(zoomLevel) {
+
+/*
+ * Takes in an an initData object, looking for the following keys:
+ * zoomLevel: default zoom level for googel maps
+ * truckId: (optional) parameter for truck id if getting just one truck
+ */
+foodTruckNS.mapview.init = function(initData) {
     foodTruckNS.mapview.zoom = 15;
-    if (zoomLevel) {
-        foodTruckNS.mapview.zoom = zoomLevel;
+    foodTruckNS.mapview.truckId = null;
+    if (initData.zoomLevel) {
+        foodTruckNS.mapview.zoom = initData.zoomLevel;
+    }
+    if (initData.truckId) {
+        foodTruckNS.mapview.truckId = initData.truckId;
     }
 
     /* get the geolocation data */
     $.ajax({
-        type: 'GET',
+        type: 'POST',
         url: '/api/get-geodata',
+        data: {
+            truckId: foodTruckNS.mapview.truckId
+        },
         success: function(data) {
             foodTruckNS.mapview.geopoints = data.geodata;
             foodTruckNS.mapview.activeWindow = null;

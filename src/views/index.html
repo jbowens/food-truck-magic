@@ -12,7 +12,10 @@
     <script type="text/javascript" src="/js/mapview.js"> </script>
     <script type="text/javascript">
         $(function() {
-            foodTruckNS.mapview.init(14);
+            var initData = {
+                zoomLevel: 14
+            }
+            foodTruckNS.mapview.init(initData);
         });
     </script>
 {% endblock %}

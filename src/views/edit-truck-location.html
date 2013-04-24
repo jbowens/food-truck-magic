@@ -2,12 +2,27 @@
 
 {% block stylesheets %}
     {% parent %}
+    <style type="text/css">
+        #map-canvas {
+            height: 300px;
+        }
+    </style>
 {% endblock %}
 
 {% block scripts %}
     {% parent %}
     <script type="text/javascript" src="/js/edit-loc.js"></script>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA0uRmvgWbp3WBxVaCqf1WkZpu5nSibMpc&sensor=false"></script>
+    <script type="text/javascript" src="/js/mapview.js"> </script>
     <script>
+        /* for mapview */
+        var initData = {
+            zoomLevel: 14,
+            truckId: {{my_truck.id}}
+        };
+        foodTruckNS.mapview.init(initData);
+
+        /* for edit-loc */
         var foodTruckNS = foodTruckNS || {};
         foodTruckNS.editLoc = foodTruckNS.editLoc || {};
         var open = {{my_truck.open}};
@@ -24,6 +39,7 @@
     <p> We are currently showing {{ my_truck.name }}'s location. Want to us stop showing your truck's location?</p>
 
     <p> You are near: {{ my_truck.textloc }}</p>
+    <div id="map-canvas"></div>
     <p> We will automatically close you around: {{ my_truck.dateclose }}</p>
 </div>
 <div id="currently-closed-wrapper" style="display:none;">
