@@ -21,6 +21,16 @@
     </div>
 
     <div class="form-item">
+        <label>Categories</label>
+        <div class="current-categories"></div>
+        <select id="add-category">
+            {% for cat in categories %}
+            <option value="{{ cat.id }}">{{ cat.name }}</option>
+            {% endfor %}
+        </select><input type="button" id="saveCategory" value="Add" class="button" />
+    </div>
+
+    <div class="form-item">
         <label for="truck_website">Website</label>
         <input type="text" id="truck_website" name="website" value="{{my_truck.website|default("")}}" /> 
         {% if badWebsite %}
