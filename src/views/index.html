@@ -18,6 +18,13 @@
             foodTruckNS.mapview.init(initData);
         });
     </script>
+
+    <script type="text/javascript" src="/js/query-trucks.js"></script>
+    <script type="text/javascript">
+        $(function() {
+            foodTruckNS.query.init($('#open-trucks'));
+        });
+    </script>
 {% endblock %}
 
 {% block content %}
@@ -26,15 +33,7 @@
             <h2> Favorited Trucks </h2>
 
             {% if followedTrucks.length %}
-                <ul> 
-                {% for truck in followedTrucks %}
-                    <li> 
-                        <a href= "trucks/{{ truck.urlid }}" >
-                            {{ truck.name }}
-                        </a>
-                    </li>
-                {% endfor %}
-                </ul>
+                <p> LOL THIS IS NO LONGER IMPLEMENTED REGRESSION </p>
             {% else %}
                 <p> You are not favoriting any trucks :( </p>
             {% endif %}
@@ -46,38 +45,6 @@
         <h2> All Trucks </h2>
 
         <ul id="open-trucks">
-        {% for truck in allTrucks %}
-        
-            <li> 
-                {% if truck.uploadid %}
-				<a class="truck-image" href="trucks/{{truck.urlid }}">
-					<img class="truck-thumbnail"
-                        src="{{ truck.thumb }}"
-						alt="{{ truck.name }}"
-                        width="{{ thumbnailSize }}" height="{{ thumbnailSize }}" />
-				</a>
-
-                {% else %}
-				<a class="truck-image" href="trucks/{{truck.urlid }}">
-					<img class="truck-thumbnail" src="/images/default-truck.jpg"
-					alt="{{ truck.name }}"
-                    width="{{ thumbnailSize }}" height="{{ thumbnailSize }}" />
-				</a>
-
-                {% endif %}
-				<div class="truck-info">
-					<a href="trucks/{{truck.urlid }}">
-						<h3 class="truck-name">
-							{{ truck.name }}
-						</h3>
-					</a>
-                    {% if truck.description %} 
-					    <p>{{ truck.description }}</p>
-                    {% endif %}
-
-				</div>
-            </li>
-        {% endfor %}
         </ul>
     </article>
 

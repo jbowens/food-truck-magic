@@ -64,6 +64,7 @@ exports.setupRoutes = function(app) {
     post('/api/track-truck', './routes/api/track-truck.js');
     post('/api/get-geodata', './routes/api/get-geodata.js');
     post('/api/delete-photo', './routes/api/delete-photo.js');
+    post('/api/query-trucks', './routes/api/query-trucks.js');
     get('*', './routes/fourohfour.js');
     post('*', './routes/fourohfour.js');
 
