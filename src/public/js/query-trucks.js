@@ -52,11 +52,13 @@ foodTruckNS.query.listTrucks = function(trucks, thumbnailSize) {
 /*
  * Hits API endpoint to get truck data
  */
-foodTruckNS.query.getTrucks = function() {
-    foodTruckNS.query.truckContainer.html("Loading trucks...");
+foodTruckNS.query.getTrucks = function(data) {
+    foodTruckNS.query.truckContainer.hide();
+    foodTruckNS.query.truckContainer.fadeIn("slow");
     $.ajax({
         type: 'POST',
         url: '/api/query-trucks',
+        data: data,
         success: function(data) {
             if (data.error)  {
                 foodTruckNS.query.truckContainer.html("Couldn't load trucks :(");
@@ -67,7 +69,22 @@ foodTruckNS.query.getTrucks = function() {
     });
 };
 
+/*
+ * Just a proof of concept to see if searching trucks works
+ */
+foodTruckNS.query.setupSearch = function() {
+    foodTruckNS.query.search = $('#truck-search');
+    foodTruckNS.query.search.keyup(function(e) {
+        if (e.keyCode == 13) {
+            foodTruckNS.query.getTrucks({
+                name: foodTruckNS.query.search.val()
+            });
+        }
+    });
+};
+
 foodTruckNS.query.init = function(truckContainer) {
     foodTruckNS.query.truckContainer = truckContainer; 
-    foodTruckNS.query.getTrucks();
+    foodTruckNS.query.getTrucks({});
+    foodTruckNS.query.setupSearch();
 };
