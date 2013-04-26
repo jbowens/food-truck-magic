@@ -31,8 +31,9 @@ exports.postRoute = function(request, response, data) {
         response.json(returnData);
         return;
     }
+    if ('setOpen' in request.body && 'lat' in request.body &&
+            'lon' in request.body && 'textLoc' in request.body) {
 
-    if (request.body.setOpen && request.body.lat && request.body.lon) {
         var setOpen = (request.body.setOpen == 'true');
         var textLoc = request.body.textLoc;
         var sql = generateSQL(request.body.lat, request.body.lon, request.body.openFor);
