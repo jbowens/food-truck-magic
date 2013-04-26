@@ -79,6 +79,9 @@ foodTruckNS.query.setupSearch = function() {
             foodTruckNS.query.getTrucks({
                 name: foodTruckNS.query.search.val()
             });
+        } else if (foodTruckNS.query.search.val().length === 0) {
+            /* just get all trucks again if search bar empty */
+            foodTruckNS.query.getTrucks({});
         }
     });
 };
