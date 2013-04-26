@@ -16,17 +16,17 @@ var SQL_GET_FOLLOWED = 'SELECT trucks.* FROM follows INNER JOIN trucks on trucks
 
 
 /*
- * Appends the WHERE clause to the sql query.
+ * Returns the WHERE clause to the sql query.
  * Not the prettiest thing in the world.
  */
-var appendFilters = function(sql, body) {
-    args = [];
+var appendFilters = function(body) {
+    var args = [];
     var firstFilter = true;
+    var sql = " WHERE ";
 
     if ('open' in body) {
         if (firstFilter) {
             firstFilter = false;      
-            sql += " WHERE ";
         } else {
             sql += " AND ";
         }
@@ -37,13 +37,18 @@ var appendFilters = function(sql, body) {
     if ('name' in body) {
         if (firstFilter) {
             firstFilter = false;      
-            sql += " WHERE ";
         } else {
             sql += " AND ";
         }
         args.push("%" + String(body.name) + "%");
         sql += "trucks.name ILIKE $" + args.length;
     }
+
+    /* no filters applied */
+    if (firstFilter === true) {
+        sql = '';
+    }
+
     return [sql, args];
 };
 
@@ -55,8 +60,8 @@ var appendFilters = function(sql, body) {
  * name - (optional) string specifying whether to do a search
  */
 exports.postRoute = function(request, response, data) {
-    var tuple = appendFilters(SQL_GET_TRUCKS, request.body);
-    var sql = tuple[0];
+    var tuple = appendFilters(request.body);
+    var sql = SQL_GET_TRUCKS + tuple[0];
     var args = tuple[1];
 
     db.query(sql, args, function(err, res) {
