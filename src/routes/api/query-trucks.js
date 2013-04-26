@@ -30,7 +30,7 @@ var appendFilters = function(sql, body) {
         } else {
             sql += " AND ";
         }
-        args.push(body.open);
+        args.push(String(body.open));
         sql += "trucks.open=$" + args.length;
     }
 
@@ -41,7 +41,7 @@ var appendFilters = function(sql, body) {
         } else {
             sql += " AND ";
         }
-        args.push("%" + body.name + "%");
+        args.push("%" + String(body.name) + "%");
         sql += "trucks.name ILIKE $" + args.length;
     }
     return [sql, args];
