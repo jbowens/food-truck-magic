@@ -74,14 +74,20 @@ foodTruckNS.query.getTrucks = function(args) {
  */
 foodTruckNS.query.setupSearch = function() {
     foodTruckNS.query.search = $('#truck-search');
+
+    var searchEmpty = true;
     foodTruckNS.query.search.keyup(function(e) {
-        if (e.keyCode == 13) {
+        if (e.keyCode == 13 && foodTruckNS.query.search.val().length > 0) {
+            searchEmpty = false;
             foodTruckNS.query.getTrucks({
                 name: foodTruckNS.query.search.val()
             });
         } else if (foodTruckNS.query.search.val().length === 0) {
             /* just get all trucks again if search bar empty */
-            foodTruckNS.query.getTrucks({});
+            if (!searchEmpty) {
+                foodTruckNS.query.getTrucks({});
+                searchEmpty = true;
+            }
         }
     });
 };
