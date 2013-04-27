@@ -44,6 +44,21 @@ var appendFilters = function(body) {
         sql += "trucks.name ILIKE $" + args.length;
     }
 
+    if ('range' in body) {
+        var range = body.range;
+        if ('lat' in range && 'lon' in range && 'distance' in range) {
+            if (firstFilter) {
+                firstFilter = false;
+            } else {
+                sql += " AND ";
+            }
+            sql += "st_dwithin(st_pointfromtext('POINT(" + 
+                    parseFloat(range.lat) + " " + 
+                    parseFloat(range.lon) + ")'), trucks.geopoint, " + 
+                    parseFloat(range.distance) + ")";
+        }
+    }
+
     /* no filters applied */
     if (firstFilter === true) {
         sql = '';
@@ -53,11 +68,11 @@ var appendFilters = function(body) {
 };
 
 
-
 /*
  * Expects request.body to have the following parameters:
  * open - (optional) boolean specifying whether to query open/closed
  * name - (optional) string specifying whether to do a search
+ * range - (optional) object containing three keys lat, lon, distance
  */
 exports.postRoute = function(request, response, data) {
     var tuple = appendFilters(request.body);
