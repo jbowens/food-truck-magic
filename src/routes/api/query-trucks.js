@@ -53,9 +53,9 @@ var appendFilters = function(body) {
                 sql += " AND ";
             }
             sql += "st_dwithin(st_pointfromtext('POINT(" + 
-                    parseFloat(range.lat) + " " + 
-                    parseFloat(range.lon) + ")'), trucks.geopoint, " + 
-                    parseFloat(range.distance) + ")";
+                    parseFloat(range.lat, 10) + " " + 
+                    parseFloat(range.lon, 10) + ")'), trucks.geopoint, " + 
+                    parseFloat(range.distance, 10) + ")";
         }
     }
 
