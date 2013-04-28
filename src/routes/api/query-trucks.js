@@ -21,47 +21,37 @@ var SQL_GET_FOLLOWED = 'SELECT trucks.* FROM follows INNER JOIN trucks on trucks
  */
 var appendFilters = function(body) {
     var args = [];
-    var firstFilter = true;
-    var sql = " WHERE ";
+    var filters = [];
 
     if ('open' in body) {
-        if (firstFilter) {
-            firstFilter = false;      
-        } else {
-            sql += " AND ";
-        }
         args.push(String(body.open));
-        sql += "trucks.open=$" + args.length;
+        filters.push("trucks.open=$" + args.length);
     }
 
     if ('name' in body) {
-        if (firstFilter) {
-            firstFilter = false;      
-        } else {
-            sql += " AND ";
-        }
         args.push("%" + String(body.name) + "%");
-        sql += "trucks.name ILIKE $" + args.length;
+        filters.push("trucks.name ILIKE $" + args.length);
     }
 
     if ('range' in body) {
         var range = body.range;
         if ('lat' in range && 'lon' in range && 'distance' in range) {
-            if (firstFilter) {
-                firstFilter = false;
-            } else {
-                sql += " AND ";
-            }
-            sql += "st_dwithin(st_pointfromtext('POINT(" + 
+            filters.push("st_dwithin(st_pointfromtext('POINT(" +
                     parseFloat(range.lat, 10) + " " + 
                     parseFloat(range.lon, 10) + ")'), trucks.geopoint, " + 
-                    parseFloat(range.distance, 10) + ")";
+                    parseFloat(range.distance, 10) + ")");
         }
     }
+    
+    var sql = "";
+    for (var i = 0; i < filters.length; i++) {
+        if (i !== 0) {
+            sql += " AND ";
+        } else {
+            sql += " WHERE ";
+        }
 
-    /* no filters applied */
-    if (firstFilter === true) {
-        sql = '';
+        sql += filters[i];
     }
 
     return [sql, args];
