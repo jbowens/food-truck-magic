@@ -1,0 +1,41 @@
+{% extends 'boilerplate.html' %}
+
+{% block stylesheets %}
+    {% parent %}
+    <link rel="stylesheet" href="/styles/edit-truck.css" />
+{% endblock %}
+
+
+{% block content %}
+<h2> {{user.name}}'s account settings</h2>
+
+<h3> Change password </h3>
+<form method="post" id="edit-account" class="standard">
+    {% if changesSaved %}
+    <div class="success-message">
+        Changes saved
+    </div>
+    {% endif %}
+
+    <div class="form-item">
+        <label for="old_password">Old password</label>
+        <input id="old_password" type="password" name="oldPassword" />
+        {% if badOld %}
+        <div class="error">
+            Incorrect old password!
+        </div>
+        {% endif %}
+    </div>
+
+    <div class="form-item">
+        <label for="new_password">New password</label>
+        <input id="new_password" type="password" name="newPassword" />
+        {% if noNew %}
+        <div class="error">
+            You didn't provide a new password!
+        </div>
+        {% endif %}
+    </div>
+
+    <input type="submit" value="Save" />
+{% endblock %}

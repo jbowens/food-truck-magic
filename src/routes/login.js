@@ -119,3 +119,5 @@ exports.postRoute = function(request, response, data) {
     });
 
 };
+
+exports.getUser = getUser;

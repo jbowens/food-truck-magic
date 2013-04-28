@@ -39,6 +39,8 @@
             <footer>
                 {% if !user %}
                 <a href="/sign-up">Sign up </a>
+                {% else %}
+                <a href="/edit-account">Account settings</a>
                 {% endif %}
                 {% if my_truck %}
                 <a href="/edit-truck/info">Edit your truck</a>
