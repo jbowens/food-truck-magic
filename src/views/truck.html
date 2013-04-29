@@ -54,6 +54,7 @@
         $(function() {
             var open = {{truck.open}};
             var truckId = {{truck.id}};
+            foodTruckNS.editLoc.admin = true;
             foodTruckNS.editLoc.init(open, truckId);
         });
     </script>
@@ -62,17 +63,6 @@
 {% endblock %}
 
 {% block content %}
-
-{% if user and user.admin %}
-    <select id="hour-select" style="display:none;">
-        <option selected>1</option>
-    </select>
-    <select id="minute-select" style="display:none;">
-        <option selected>0</option>
-    </select>
-    <button id="open-button"> </button>
-{% endif %}
-
 <div id="truck-sidebar">
 	<div id="prof-pic">
 		<img width="{{ profPicSize }}" 
@@ -140,6 +130,17 @@
 		{%endif%}
 		</span>
 	</h2>
+
+    {% if user and user.admin %}
+        {# hidden select's necessary so edit-loc can work properly #}
+        <select id="hour-select" style="display:none;">
+            <option selected>1</option>
+        </select>
+        <select id="minute-select" style="display:none;">
+            <option selected>0</option>
+        </select>
+        <button id="open-button"> </button>
+    {% endif %}
 </div>
 
 {% if truck.open %}

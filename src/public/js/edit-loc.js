@@ -6,14 +6,22 @@ foodTruckNS.editLoc = foodTruckNS.editLoc || {};
 
 /* updates text on the open button */
 foodTruckNS.editLoc.updateOpenButton = function($button, curOpen) {
-    if (curOpen) {
-        $('#currently-closed-wrapper').hide();
-        $('#currently-open-wrapper').show();
-        $button.text("Stop broadcasting your truck's location");
+    if (foodTruckNS.editLoc.admin) {
+        if (curOpen) {
+            $button.text("Stop broadcasting this truck's location");
+        } else {
+            $button.text("Broadcast this truck's location for an hour");
+        }
     } else {
-        $('#currently-closed-wrapper').show();
-        $('#currently-open-wrapper').hide();
-        $button.text("Broadcast your truck's location");
+        if (curOpen) {
+            $('#currently-closed-wrapper').hide();
+            $('#currently-open-wrapper').show();
+            $button.text("Stop broadcasting your truck's location");
+        } else {
+            $('#currently-closed-wrapper').show();
+            $('#currently-open-wrapper').hide();
+            $button.text("Broadcast your truck's location");
+        }
     }
 };
 
