@@ -67,8 +67,10 @@ foodTruckNS.editLoc.setupOpenButton = function(curOpen) {
             navigator.geolocation.getCurrentPosition(function(pos) {
                 data.lat = pos.coords.latitude;
                 data.lon = pos.coords.longitude;
-                foodTruckNS.editLoc.addressLookup(data, foodTruckNS.editLoc.trackTruck);
-            });
+                foodTruckNS.editLoc.trackTruck(data);
+            }, function(error) {
+                alert('error occurred trying to get geolocation data');
+            }, {timeout: 10000});
         } else { 
             /* open, now closing */
             data.lon = 0;
@@ -89,29 +91,6 @@ foodTruckNS.editLoc.trackTruck = function(data) {
             } else {
                 alert("Bad things happened trying to hit the track-truck endpoint");
             }
-        }
-    });
-};
-
-/*
- * Approximate the location of the truck based on it's geolocation
- * given a data object. Calls the provided callback on completion 
- */
-foodTruckNS.editLoc.addressLookup = function(data, callback) {
-    $.ajax({
-        type: 'GET',
-        url: 'http://maps.googleapis.com/maps/api/geocode/json',
-        data: {
-            latlng: data.lat + ',' + data.lon,
-            sensor: false
-        },
-        success: function(resp) {
-            var textLoc = '';
-            if (resp.results && resp.results.length) {
-                textLoc = resp.results[0].formatted_address;
-            }
-            data.textLoc = textLoc;
-            callback(data);
         }
     });
 };
