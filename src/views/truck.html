@@ -5,11 +5,6 @@
 {% block stylesheets %}
     {% parent %}
     <link rel="stylesheet" href="/styles/truck.css" />
-    <style type="text/css">
-        #map-canvas {
-            height: 600px;
-        }
-    </style>
 {% endblock %}
 
 {% block scripts %}
@@ -145,7 +140,9 @@
 </div>
 
 {% if truck.open %}
-    <div id="map-canvas"></div>
+    <aside>
+        <div id="map-canvas"></div>
+    </aside>
 {% endif %}
 
 {% endblock %}
