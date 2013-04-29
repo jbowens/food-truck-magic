@@ -69,8 +69,8 @@ foodTruckNS.editLoc.setupOpenButton = function(curOpen) {
                 data.lon = pos.coords.longitude;
                 foodTruckNS.editLoc.trackTruck(data);
             }, function(error) {
-                foodTruckNS.displayError('Error occurred trying to get geolocation data');
-            }, {timeout: 10000});
+                foodTruckNS.displayError('Error occurred trying to get geolocation data. Please reload the page and try again');
+            }, {timeout: 8000});
         } else { 
             /* open, now closing */
             data.lon = 0;
@@ -93,6 +93,12 @@ foodTruckNS.editLoc.trackTruck = function(data) {
             }
         }
     });
+};
+
+foodTruckNS.editLoc.setCloseTime = function(closeString) {
+    var $close = $('#close-time');
+    var date = new Date(closeString);
+    $close.text("We will automatically stop broadcasting your trucks location around: " + date.toLocaleString());
 };
 
 foodTruckNS.editLoc.init = function(curOpen, truckId) {

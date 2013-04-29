@@ -29,7 +29,13 @@
         var truckId = {{my_truck.id}};
         $(function() {
             foodTruckNS.editLoc.init(open, truckId);
+
+            {% if my_truck.open %}
+                var dateClose = "{{my_truck.dateclose}}";
+                foodTruckNS.editLoc.setCloseTime(dateClose);
+            {% endif %}
         });
+
     </script>
 {% endblock %}
 
@@ -41,7 +47,7 @@
     <p> We are currently showing {{ my_truck.name }}'s location. Want to us stop showing your truck's location?</p>
 
     <div id="map-canvas"></div>
-    <p> We will automatically close you around: {{ my_truck.dateclose }}</p>
+    <p id="close-time"> </p>
 </div>
 <div id="currently-closed-wrapper" style="display:none;">
     <p> We are not currently showing {{ my_truck.name }}'s location. Want us to broadcast your truck's location?</p>
