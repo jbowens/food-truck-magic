@@ -37,5 +37,15 @@
         {% endif %}
     </div>
 
+    <div class="form-item">
+        <label for="confirm_password">Confirm new password</label>
+        <input id="confirm_password" type="password" name="confirmPassword" />
+        {% if badConfirm %}
+        <div class="error">
+            You didn't type the same password as above!
+        </div>
+        {% endif %}
+    </div>
+
     <input type="submit" value="Save" />
 {% endblock %}

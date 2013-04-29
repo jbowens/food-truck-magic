@@ -33,6 +33,11 @@ exports.postRoute = function(request, response, data) {
         err = true;
         data.noNew = true;
     }
+    if (!request.body.confirmPassword ||
+            request.body.newPassword != request.body.confirmPassword) {
+        err = true;
+        data.badConfirm = true;
+    }
 
     if (err) {
         return renderPage(response, data);
