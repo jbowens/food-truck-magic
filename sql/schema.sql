@@ -29,7 +29,8 @@ CREATE TABLE IF NOT EXISTS users (
     id SERIAL PRIMARY KEY,
     name VARCHAR(255) UNIQUE NOT NULL,
     pass CHAR(256) NOT NULL,
-    email VARCHAR(255) NOT NULL
+    email VARCHAR(255) NOT NULL,
+    admin boolean DEFAULT false
 );
 
 ALTER TABLE uploads ADD CONSTRAINT uploaderfk FOREIGN KEY (uploaderUserid) REFERENCES users(id) MATCH SIMPLE ON DELETE CASCADE;

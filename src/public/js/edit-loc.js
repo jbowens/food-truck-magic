@@ -31,7 +31,8 @@ foodTruckNS.editLoc.setupOpenButton = function(curOpen) {
         lon: 0,
         lat: 0,
         textLoc: '',
-        openFor: 0
+        openFor: 0,
+        truckId: foodTruckNS.editLoc.truckId
     };
 
     $openButton.click(function() {
@@ -107,6 +108,7 @@ foodTruckNS.editLoc.addressLookup = function(data, callback) {
     });
 };
 
-foodTruckNS.editLoc.init = function(curOpen) {
+foodTruckNS.editLoc.init = function(curOpen, truckId) {
+    foodTruckNS.editLoc.truckId = truckId;
     foodTruckNS.editLoc.setupOpenButton(curOpen);
 };

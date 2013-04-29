@@ -14,6 +14,11 @@
 
 {% block scripts %}
     {% parent %}
+
+    {% if truck.open or (user and user.admin) %}
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA0uRmvgWbp3WBxVaCqf1WkZpu5nSibMpc&sensor=false"></script>
+    {% endif %}
+
     <script type="text/javascript" src="/js/truck.js"></script>
 
     {% if user %}
@@ -30,9 +35,7 @@
     {% endif %}
 
     {% if truck.open %}
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA0uRmvgWbp3WBxVaCqf1WkZpu5nSibMpc&sensor=false"></script>
-
-    <script type="text/javascript" src="/js/mapview.js"> </script>
+    <script type="text/javascript" src="/js/mapview.js"></script>
     <script type="text/javascript">
         $(function() {
             var initData = {
@@ -45,9 +48,30 @@
     </script>
     {% endif %}
 
+    {% if user and user.admin %}
+    <script type="text/javascript" src="/js/edit-loc.js"></script>
+    <script type="text/javascript">
+        $(function() {
+            var open = {{truck.open}};
+            var truckId = {{truck.id}};
+            foodTruckNS.editLoc.init(open, truckId);
+        });
+    </script>
+    {% endif %}
+
 {% endblock %}
 
 {% block content %}
+
+{% if user and user.admin %}
+    <select id="hour-select" style="display:none;">
+        <option selected>1</option>
+    </select>
+    <select id="minute-select" style="display:none;">
+        <option selected>0</option>
+    </select>
+    <button id="open-button"> </button>
+{% endif %}
 
 <div id="truck-sidebar">
 	<div id="prof-pic">
@@ -121,6 +145,5 @@
 {% if truck.open %}
     <div id="map-canvas"></div>
 {% endif %}
-
 
 {% endblock %}

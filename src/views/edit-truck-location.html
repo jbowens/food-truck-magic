@@ -26,8 +26,9 @@
         var foodTruckNS = foodTruckNS || {};
         foodTruckNS.editLoc = foodTruckNS.editLoc || {};
         var open = {{my_truck.open}};
+        var truckId = {{my_truck.id}};
         $(function() {
-            foodTruckNS.editLoc.init(open);
+            foodTruckNS.editLoc.init(open, truckId);
         });
     </script>
 {% endblock %}
