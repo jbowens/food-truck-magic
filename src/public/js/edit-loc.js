@@ -50,16 +50,16 @@ foodTruckNS.editLoc.setupOpenButton = function(curOpen) {
 
             /* TODO: turn these alerts into nice error messages */
             if (!navigator.geolocation) {
-                alert('geolocation is not supported with this browser. Cannot get location.');
+                foodTruckNS.displayError('Geolocation is not supported with this browser. Cannot get location.');
+                return;
+            }
+
+            if ($hourSelect.val() == '0' && $minuteSelect.val() == '0') {
+                foodTruckNS.displayError('Provide a valid time to automatically close');
                 return;
             }
 
             $openButton.text("Getting truck location...");
-
-            if ($hourSelect.val() == '0' && $minuteSelect.val() == '0') {
-                alert('Provide a valid time to automatically close');
-                return;
-            }
 
             data.openFor = parseInt($hourSelect.val(), 10) * 60 * 60;
             data.openFor += parseInt($minuteSelect.val(), 10) * 60;
@@ -69,7 +69,7 @@ foodTruckNS.editLoc.setupOpenButton = function(curOpen) {
                 data.lon = pos.coords.longitude;
                 foodTruckNS.editLoc.trackTruck(data);
             }, function(error) {
-                alert('error occurred trying to get geolocation data');
+                foodTruckNS.displayError('Error occurred trying to get geolocation data');
             }, {timeout: 10000});
         } else { 
             /* open, now closing */
@@ -89,7 +89,7 @@ foodTruckNS.editLoc.trackTruck = function(data) {
             if (data.success) {
                 location.reload();
             } else {
-                alert("Bad things happened trying to hit the track-truck endpoint");
+                foodTruckNS.displayError('Unable to properly hit track-truck endpoint');
             }
         }
     });

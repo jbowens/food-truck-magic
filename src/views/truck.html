@@ -133,6 +133,7 @@
 
     {% if user and user.admin %}
         {# hidden select's necessary so edit-loc can work properly #}
+        <div class="error-message" style="display:none;"></div>
         <select id="hour-select" style="display:none;">
             <option selected>1</option>
         </select>
