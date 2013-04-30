@@ -1,12 +1,9 @@
 var _ = require('underscore');
 var check = require('validator').check;
 var sanitize = require('validator').sanitize;
-var db = require('../../db.js').Database;
+var categories = require('../../categories.js');
 var truckStore = require('../../truckstore.js').TruckStore;
 var fourohfour = require('./../fourohfour.js').route;
-
-/* SQL Queries */
-var SQL_GET_CATEGORIES = 'SELECT * FROM categories ORDER BY name ASC;';
 
 function renderPage(response, data) {
     response.render('edit-truck-info', data);
@@ -20,9 +17,9 @@ function hasPermission(request, response, data) {
  * Preloads the categories for the form.
  */
 exports.preloader = function(request, response, data, callback) {
-    db.query(SQL_GET_CATEGORIES, [], function(err, res) {
+    categories.getAllCategories(function(err, cats) {
         if(err) { console.error(err); }
-        data.categories = res.rows;
+        data.categories = cats;
         callback();
     });
 };
