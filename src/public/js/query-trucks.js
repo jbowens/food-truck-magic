@@ -78,21 +78,90 @@ foodTruckNS.query.setupSearch = function() {
 
     $searchBar.keyup(function(e) {
         if (e.keyCode == 13) {
-            foodTruckNS.query.getTrucks({
-                name: $searchBar.val()
-            });
+            foodTruckNS.query.processFilters();
         }
     });
 
     $searchButton.click(function() {
-        foodTruckNS.query.getTrucks({
-            name: $searchBar.val()
-        });
+        foodTruckNS.query.processFilters();
     });
 };
+
+
+/*
+ * Handler for when search button is pressed.
+ * Checks which filters are active and sends them to
+ * getTrucks.
+ */
+foodTruckNS.query.processFilters = function() {
+    var $searchBar = $('#truck-search');
+    var $near = $('#near-filter');
+    var $open = $('#open-filter');
+
+    var args = {};
+    args.name = $searchBar.val();
+     
+    if ('userId' in foodTruckNS) {
+        var $favorites = $('#favorites-filter');
+        if ($favorites.hasClass('active')) {
+            args.follows = foodTruckNS.userId;
+        }
+    }
+
+    if ($open.hasClass('active')) {
+        args.open = true;
+    }
+
+    if($near.hasClass('active')) {
+        if (!navigator.geolocation) {
+            foodTruckNS.displayError('Geolocation is not supported with this browser. Cannot get location.');
+            return;
+        }
+        navigator.geolocation.getCurrentPosition(function(pos) {
+            /* if searching by near you, only get open trucks */
+            args.open = true;
+
+            args.range = {};
+            args.range.lat = pos.coords.latitude;
+            args.range.lon = pos.coords.longitude;
+            args.range.distance = 50;
+            foodTruckNS.query.getTrucks(args);
+        }, function(error) {
+            foodTruckNS.displayError('Error occurred trying to get geolocation data. Please reload the page and try again');
+        }, {timeout: 8000});
+    } else {
+        foodTruckNS.query.getTrucks(args);
+    }
+};
+
+
+/*
+ * Setup click handlers for the search filters
+ */
+foodTruckNS.query.setupFilters = function() {
+    var $near = $('#near-filter');
+    var $open = $('#open-filter');
+
+    /* only show favorites if logged in */
+    if ('userId' in foodTruckNS) {
+        var $favorites = $('#favorites-filter');
+        $favorites.click(function() {
+            $favorites.toggleClass('active');
+        });
+    }
+
+    $near.click(function() {
+        $near.toggleClass('active');
+    });
+    $open.click(function() {
+        $open.toggleClass('active');
+    });
+};
+
 
 foodTruckNS.query.init = function(truckContainer) {
     foodTruckNS.query.truckContainer = truckContainer; 
     foodTruckNS.query.getTrucks({});
+    foodTruckNS.query.setupFilters();
     foodTruckNS.query.setupSearch();
 };
