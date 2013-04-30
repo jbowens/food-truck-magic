@@ -1,3 +1,5 @@
+var CATEGORY_CAP = 3;
+
 function reconstructCategories(cats) {
     cats.sort(function(a, b) {
         if(a.name > b.name) {
@@ -39,7 +41,7 @@ $(document).ready(function() {
                 /* There are no options left in the select box. */
                 return;
             }
-            if($('.current-categories li').length >= 3) {
+            if($('.current-categories li').length >= CATEGORY_CAP) {
                 alert('Sorry, trucks may only classify themselves as up to three categories.');
                 return;
             }
@@ -66,11 +68,18 @@ $(document).ready(function() {
                 currentCats.push(catToReAdd);
                 reconstructCategories(currentCats);
                 $(li).remove();
+                $('#saveCategory').removeAttr('disabled');
             });
 
             $('.current-categories').append(li);
+            if($('.current-categories li').length >= CATEGORY_CAP) {
+                $('#saveCategory').attr('disabled', 'disabled');
+            }
         } catch(err) {
             console.error(err);
         }
+    });
+    $('#edit-truck-details').submit(function(e) {
+        /* TODO: god damn i'm lazy */
     });
 });
