@@ -1,3 +1,5 @@
+@import "colors.less";
+
 /* ==========================================================================
    HTML5 Boilerplate styles - h5bp.com (generated via initializr.com)
    ========================================================================== */
@@ -96,11 +98,11 @@ h1, h2, h3, h4 {
 a {
     font-family: 'Eames-Bold', Helvetica Neue, Arial;
 	text-decoration: none;
-	color: #C10B0B;
+	color: @redler;
 }
 a:hover,
 a:visited {
-    color: #781111;
+    color: @redler-used;
 }
 
 a:hover {
@@ -128,7 +130,7 @@ label .optional {
 }
 
 .header-container {
-	background-color: #c10b0b;
+	background-color: @redler;
 }
 
 #location-head {
@@ -136,7 +138,7 @@ label .optional {
 	position: relative;
 	top: -5px;
 	-bottom: 20px;
-	color: #c10b0b;
+	color: @redler;
 	font-weight: normal;
 	font-style: normal;
 }
@@ -165,7 +167,7 @@ nav a {
     font-weight: bold;
 
     color: white;
-	background-color: #c10b0b;
+	background-color: @redler;
 }
 
 nav a:hover,
@@ -446,7 +448,7 @@ global success and error messages
 .success-message, .error-message {
     margin: 0 0 1em 0;
     padding: 0.5em;
-    color: #44751C;
+    color: @successler;
     -webkit-border-radius: 0.5em;
     -moz-border-radius: 0.5em;
     border-radius: 0.5em;
@@ -456,6 +458,6 @@ global success and error messages
     background: #F1F5ED;
 }
 .error-message {
-    background: #C0392B;
+    background: @redler-warning;
     color: white;
 }
