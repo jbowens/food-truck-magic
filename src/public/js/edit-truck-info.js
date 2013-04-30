@@ -35,6 +35,14 @@ $(document).ready(function() {
         try {
             e.preventDefault();
             var select = $('#add-category');
+            if(!$(select).find('option').length) {
+                /* There are no options left in the select box. */
+                return;
+            }
+            if($('.current-categories li').length >= 3) {
+                alert('Sorry, trucks may only classify themselves as up to three categories.');
+                return;
+            }
             var catid = $(select).val();
             var catname = $(select).find('option:selected').text();
             $(select).find('option:selected').remove();
