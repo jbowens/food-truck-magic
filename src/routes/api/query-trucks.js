@@ -12,7 +12,7 @@ var THUMBNAIL_SIZE = 120;
 var SQL_GET_TRUCKS = 'SELECT trucks.*, trucks.photoUploadid AS uploadid, uploads.ext FROM trucks ' +
                      'LEFT JOIN uploads ON uploads.id = trucks.photoUploadid';
 
-var SQL_GET_FOLLOWED = 'SELECT trucks.* FROM follows INNER JOIN trucks on trucks.id = follows.truckid WHERE userid = $1';
+var JOIN_FOLLOWS = ' INNER JOIN follows on follows.truckid = trucks.id';
 
 
 /*
@@ -20,8 +20,15 @@ var SQL_GET_FOLLOWED = 'SELECT trucks.* FROM follows INNER JOIN trucks on trucks
  * Not the prettiest thing in the world.
  */
 var appendFilters = function(body) {
+    var sql = SQL_GET_TRUCKS;
     var args = [];
     var filters = [];
+
+    if ('follows' in body) {
+        args.push(String(body.follows));
+        filters.push("userid = $" + args.length);
+        sql += JOIN_FOLLOWS;
+    }
 
     if ('open' in body) {
         args.push(String(body.open));
@@ -43,7 +50,6 @@ var appendFilters = function(body) {
         }
     }
     
-    var sql = "";
     for (var i = 0; i < filters.length; i++) {
         if (i !== 0) {
             sql += " AND ";
@@ -63,10 +69,11 @@ var appendFilters = function(body) {
  * open - (optional) boolean specifying whether to query open/closed
  * name - (optional) string specifying whether to do a search
  * range - (optional) object containing three keys lat, lon, distance
+ * follows - (optional) userid of user to get trucks the user follows 
  */
 exports.postRoute = function(request, response, data) {
     var tuple = appendFilters(request.body);
-    var sql = SQL_GET_TRUCKS + tuple[0];
+    var sql = tuple[0];
     var args = tuple[1];
 
     db.query(sql, args, function(err, res) {

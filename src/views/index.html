@@ -48,7 +48,9 @@
         <div id="search-wrapper">
             <div class="error-message" style="display:none;"></div>
             <button id="truck-search-button"> Search </button>
+            {% if user %}
             <div class="search-filter" id="favorites-filter"> Favorites </div>
+            {% endif %}
             <div class="search-filter" id="near-filter"> Near you </div>
             <div class="search-filter" id="open-filter"> Open </div>
         </div>

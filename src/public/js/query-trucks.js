@@ -95,12 +95,19 @@ foodTruckNS.query.setupSearch = function() {
  */
 foodTruckNS.query.processFilters = function() {
     var $searchBar = $('#truck-search');
-    var $favorites = $('#favorites-filter');
     var $near = $('#near-filter');
     var $open = $('#open-filter');
 
     var args = {};
     args.name = $searchBar.val();
+     
+    if ('userId' in foodTruckNS) {
+        var $favorites = $('#favorites-filter');
+        if ($favorites.hasClass('active')) {
+            args.follows = foodTruckNS.userId;
+        }
+    }
+
     if ($open.hasClass('active')) {
         args.open = true;
     }
@@ -129,13 +136,17 @@ foodTruckNS.query.processFilters = function() {
  * Setup click handlers for the search filters
  */
 foodTruckNS.query.setupFilters = function() {
-    var $favorites = $('#favorites-filter');
     var $near = $('#near-filter');
     var $open = $('#open-filter');
 
-    $favorites.click(function() {
-        $favorites.toggleClass('active');
-    });
+    /* only show favorites if logged in */
+    if ('userId' in foodTruckNS) {
+        var $favorites = $('#favorites-filter');
+        $favorites.click(function() {
+            $favorites.toggleClass('active');
+        });
+    }
+
     $near.click(function() {
         $near.toggleClass('active');
     });
