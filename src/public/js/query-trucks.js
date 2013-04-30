@@ -118,6 +118,9 @@ foodTruckNS.query.processFilters = function() {
             return;
         }
         navigator.geolocation.getCurrentPosition(function(pos) {
+            /* if searching by near you, only get open trucks */
+            args.open = true;
+
             args.range = {};
             args.range.lat = pos.coords.latitude;
             args.range.lon = pos.coords.longitude;
