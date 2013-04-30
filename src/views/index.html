@@ -30,20 +30,11 @@
 
 {% block content %}
     <article>
-        {% if user %}
-            <h2> Favorited Trucks </h2>
-
-            {% if followedTrucks.length %}
-                <p> LOL THIS IS NO LONGER IMPLEMENTED REGRESSION </p>
-            {% else %}
-                <p> LOL THIS IS NO LONGER IMPLEMENTED REGRESSION </p>
-            {% endif %}
-
-        {% else %}
+        {% if not user %}
             <p class="alert-message"> Log in to follow your favorite food trucks! </p>
         {% endif %}
 
-        <h2> All Trucks </h2>
+        <h2> Trucklers </h2>
         <div id="search-wrapper">
             <input type="text" id="truck-search" placeholder="Search trucks"></input>
             <div class="error-message" style="display:none;"></div>
