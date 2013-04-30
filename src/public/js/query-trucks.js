@@ -91,6 +91,17 @@ foodTruckNS.query.setupSearch = function() {
     });
 };
 
+foodTruckNS.query.setupFilters = function() {
+    var $favorites = $('#favorites-filter');
+    var $near = $('#near-filter');
+    var $open = $('#open-filter');
+
+    var filterClickHandler = function() {
+         
+    }
+}
+
+
 foodTruckNS.query.init = function(truckContainer) {
     foodTruckNS.query.truckContainer = truckContainer; 
     foodTruckNS.query.getTrucks({});

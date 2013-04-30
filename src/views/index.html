@@ -44,7 +44,12 @@
 
         <h2> All Trucks </h2>
         <input type="text" id="truck-search" placeholder="Search trucks"></input>
-        <button id="truck-search-button"> Search </button>
+        <div id="search-wrapper">
+            <button id="truck-search-button"> Search </button>
+            <div class="search-filter" id="favorites-filter"> Favorites </div>
+            <div class="search-filter" id="near-filter"> Near you </div>
+            <div class="search-filter" id="open-filter"> Open </div>
+        </div>
 
         <ul id="open-trucks">
         </ul>
