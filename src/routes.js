@@ -47,6 +47,9 @@ exports.setupRoutes = function(app) {
     };
 
     get('/', './routes/index.js');
+    get('/about', './routes/about.js');
+    get('/tos', './routes/tos.js');
+    get('/privacy', './routes/privacy.js');
     post('/sign-up', './routes/sign-up.js');
     get('/sign-up', './routes/sign-up.js');
     get('/logout', './routes/logout.js');
@@ -69,5 +72,4 @@ exports.setupRoutes = function(app) {
     post('/api/query-trucks', './routes/api/query-trucks.js');
     get('*', './routes/fourohfour.js');
     post('*', './routes/fourohfour.js');
-
 };
