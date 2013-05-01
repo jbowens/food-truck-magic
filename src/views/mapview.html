@@ -2,9 +2,11 @@
 
 {% block stylesheets %}
     {% parent %}
+    <link rel="stylesheet" href="/styles/filter.css" />
     <style type="text/css">
         #map-canvas {
             height: 600px;
+            margin-top: 20px;
         }
     </style>
 {% endblock %}
@@ -14,16 +16,37 @@
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA0uRmvgWbp3WBxVaCqf1WkZpu5nSibMpc&sensor=false"></script>
 
     <script type="text/javascript" src="/js/mapview.js"></script>
+    <script type="text/javascript" src="/js/query-trucks.js"></script>
+
     <script type="text/javascript">
         $(function() {
             var initData = {
                 zoomLevel: 14
             }
             foodTruckNS.mapview.init(initData);
+            foodTruckNS.query.init(null);
         });
     </script>
 {% endblock %}
 
 {% block content %}
+
+<div id="search-wrapper">
+    <div class="error-message" style="display:none;"></div>
+    <div class="arrow-right"></div>
+    <input type="text" id="truck-search" placeholder="Search trucks"></input>
+    <button id="truck-search-button"> Search </button>
+</div>
+
+<div id="filter-wrapper">
+    {% if user %}
+    <div class="search-filter" id="favorites-filter"> Favorites </div>
+    {% endif %}
+    <div class="search-filter" id="near-filter"> Near you </div>
+    {# NOTE: hide the open-filter since only open things will show on the map anyways.
+       Class is set to active so it will always be applied in the filter #} 
+    <div class="search-filter active" id="open-filter" style="display: none"> Open </div>
+</div>
+
 <div id="map-canvas"></div>
 {% endblock %}

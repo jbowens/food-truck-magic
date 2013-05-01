@@ -1,5 +1,7 @@
 /*
  * Client side javascript for displaying map of trucks
+ * By itself, draws no markers on the map. Requires others
+ * to call placeMarkers with a list of trucks.
  */
 
 var foodTruckNS = foodTruckNS || {};
@@ -13,6 +15,10 @@ foodTruckNS.mapview.closeActiveWindow = function() {
     }
 };
 
+
+/*
+ * Sets up the google map
+ */
 foodTruckNS.mapview.initmap = function() {
     /* create the map. For now centered at a random location near the CIT */
     var mapOptions = {
@@ -23,16 +29,35 @@ foodTruckNS.mapview.initmap = function() {
     };
     var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
 
+    /* make it so if a user clicks on the map, but not on
+     * a marker, close whatever window is currently open */
+    google.maps.event.addListener(map, 'click', function() {
+        foodTruckNS.mapview.closeActiveWindow();
+    });
+
+    foodTruckNS.mapview.map = map;
+};
+
+/*
+ * Given a list of open trucks, adds markers to the map for each 
+ */
+foodTruckNS.mapview.placeMarkers = function(trucks) {
+    /* clear out old markers */
+    for (var i = 0; i < foodTruckNS.mapview.markers.length; i++) {
+        foodTruckNS.mapview.markers[i].setMap(null);
+    }
+    foodTruckNS.mapview.markers = [];
+
     /* add markers onto the map */
+    var map = foodTruckNS.mapview.map;
     var totalLat = 0;
     var totalLon = 0;
 
-    var geopoints = foodTruckNS.mapview.geopoints;
-    for (var i = 0; i < geopoints.length; i++) {
-        var geopoint = geopoints[i];
+    for (i = 0; i < trucks.length; i++) {
+        var truck = trucks[i];
 
         /* parse the "POINT(xx.xx yy.yy)" string */
-        var points = geopoint.point.split('(')[1];
+        var points = truck.geopoint.split('(')[1];
         points = points.substring(0, points.length-1).split(' ');
         points[0] = parseFloat(points[0]);
         points[1] = parseFloat(points[1]);
@@ -41,21 +66,21 @@ foodTruckNS.mapview.initmap = function() {
         var marker = new google.maps.Marker({
             position: new google.maps.LatLng(points[0], points[1]),
             map: map,
-            title: geopoint.name
+            title: truck.name
         });
 
-        if (!geopoint.description) {
-            geopoint.description = "";
+        if (!truck) {
+            truck.description = "";
         }
         /* hack to escape potential html in the description */
-        escapeHack.innerHTML = geopoint.description;
-        geopoint.description = escapeHack.innerHTML;
+        escapeHack.innerHTML = truck.description;
+        truck.description = escapeHack.innerHTML;
 
         /* attach infowindow to the marker to link to the truck's page */
         var infowindow = new google.maps.InfoWindow({
             maxWidth: 230,
-            content: "<a href='/trucks/" + geopoint.urlid + "'>" + geopoint.name + "</a>" + 
-                     "<br/> <p>" + geopoint.description + "</p>" 
+            content: "<a href='/trucks/" + truck.urlid + "'>" + truck.name + "</a>" + 
+                     "<br/> <p>" + truck.description + "</p>" 
         });
 
         if (foodTruckNS.mapview.addInfoWindows) {
@@ -64,20 +89,16 @@ foodTruckNS.mapview.initmap = function() {
 
         totalLat += points[0];
         totalLon += points[1];
+
+        foodTruckNS.mapview.markers.push(marker);
     }
 
     /* set the center of the map to be the middle of all geopoints */
-    if (geopoints.length > 0) {
-        totalLat = totalLat / geopoints.length;
-        totalLon = totalLon / geopoints.length;
+    if (trucks.length > 0) {
+        totalLat = totalLat / trucks.length;
+        totalLon = totalLon / trucks.length;
         map.setCenter(new google.maps.LatLng(totalLat, totalLon));
     }
-
-    /* make it so if a user clicks on the map, but not on
-     * a marker, close whatever window is currently open */
-    google.maps.event.addListener(map, 'click', function() {
-        foodTruckNS.mapview.closeActiveWindow();
-    });
 };
 
 foodTruckNS.mapview.attachClickHandler = function(marker, infowindow, map) {
@@ -106,37 +127,23 @@ foodTruckNS.mapview.attachClickHandler = function(marker, infowindow, map) {
 /*
  * Takes in an an initData object, looking for the following keys:
  * zoomLevel: default zoom level for googel maps
- * truckId: (optional) parameter for truck id if getting just one truck
  * addInfoWindows: (optional, default true) if true, attaches info windows to markers 
  */
 foodTruckNS.mapview.init = function(initData) {
     foodTruckNS.mapview.zoom = 15;
-    foodTruckNS.mapview.truckId = null;
     foodTruckNS.mapview.addInfoWindows = true;
     if (initData.zoomLevel) {
         foodTruckNS.mapview.zoom = initData.zoomLevel;
-    }
-    if (initData.truckId) {
-        foodTruckNS.mapview.truckId = initData.truckId;
     }
     if (initData.addInfoWindows === false) {
         foodTruckNS.mapview.addInfoWindows = false;
     }
 
-    /* get the geolocation data */
-    $.ajax({
-        type: 'POST',
-        url: '/api/get-geodata',
-        data: {
-            truckId: foodTruckNS.mapview.truckId
-        },
-        success: function(data) {
-            foodTruckNS.mapview.geopoints = data.geodata;
-            foodTruckNS.mapview.activeWindow = null;
-            foodTruckNS.mapview.defaultCenter = new google.maps.LatLng(41.82, -71.40);
-            foodTruckNS.mapview.initmap();
-        }
-    });
+    /* initialize the map */
+    foodTruckNS.mapview.markers = [];
+    foodTruckNS.mapview.activeWindow = null;
+    foodTruckNS.mapview.defaultCenter = new google.maps.LatLng(41.82, -71.40);
+    foodTruckNS.mapview.initmap();
 
     /* On escape, close active marker window */
     $(document).keyup(function(e) {

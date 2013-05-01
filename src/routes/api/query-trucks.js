@@ -1,6 +1,5 @@
 /*
  * Route hit to query trucks
- * TODO: this is going to get complicated.
  */
 
 var db = require('../../db.js').Database;
@@ -9,7 +8,7 @@ var thumbnailer = require('../../thumbnailer.js').Thumbnailer;
 /* Constants */
 var THUMBNAIL_SIZE = 120;
 
-var SQL_GET_TRUCKS = 'SELECT trucks.*, trucks.photoUploadid AS uploadid, uploads.ext FROM trucks ' +
+var SQL_GET_TRUCKS = 'SELECT trucks.*, st_astext(trucks.geopoint) AS geopoint, trucks.photoUploadid AS uploadid FROM trucks ' +
                      'LEFT JOIN uploads ON uploads.id = trucks.photoUploadid';
 
 var JOIN_FOLLOWS = ' INNER JOIN follows on follows.truckid = trucks.id';
@@ -49,6 +48,11 @@ var appendFilters = function(body) {
                     parseFloat(range.distance, 10) + ")");
         }
     }
+
+    if ('truckid' in body) {
+        args.push(String(body.truckid));
+        filters.push("trucks.id = $" + args.length);
+    }
     
     for (var i = 0; i < filters.length; i++) {
         if (i !== 0) {
@@ -70,6 +74,7 @@ var appendFilters = function(body) {
  * name - (optional) string specifying whether to do a search
  * range - (optional) object containing three keys lat, lon, distance
  * follows - (optional) userid of user to get trucks the user follows 
+ * truckid - (optional) truckid of specific truck to get
  */
 exports.postRoute = function(request, response, data) {
     var tuple = appendFilters(request.body);

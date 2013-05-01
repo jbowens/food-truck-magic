@@ -1,4 +1,5 @@
 /*
+ * TODO: THIS IS NOW USELESS GET RID OF IT
  * Route hit to get a location data of open food trucks
  */
 

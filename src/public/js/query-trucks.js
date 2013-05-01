@@ -53,25 +53,34 @@ foodTruckNS.query.listTrucks = function(trucks, thumbnailSize) {
  * Hits API endpoint to get truck data
  */
 foodTruckNS.query.getTrucks = function(args) {
-    foodTruckNS.query.truckContainer.hide();
-    foodTruckNS.query.truckContainer.fadeIn("slow");
+    if (foodTruckNS.query.truckContainer !== null) {
+        foodTruckNS.query.truckContainer.hide();
+        foodTruckNS.query.truckContainer.fadeIn("slow");
+    }
+
     $.ajax({
         type: 'POST',
         url: '/api/query-trucks',
         data: args,
         success: function(data) {
             if (data.error)  {
-                foodTruckNS.query.truckContainer.html("Couldn't load trucks :(");
+                foodTruckNS.displayError("Couldn't load trucks");
             } else {
-                foodTruckNS.query.listTrucks(data.trucks, data.thumbnailSize);
+                if (foodTruckNS.query.truckContainer !== null) {
+                    foodTruckNS.query.listTrucks(data.trucks, data.thumbnailSize);
+                }
+
+                /* Update the map to show only the newly listed trucks */
+                /* NOTE THAT FUNCTIONAL PROGRAMMING UP IN HERE */
+                foodTruckNS.mapview.placeMarkers(data.trucks.filter(function(truck) {
+                    return truck.open;
+                }));
             }
         } 
     });
 };
 
-/*
- * Just a proof of concept to see if searching trucks works
- */
+
 foodTruckNS.query.setupSearch = function() {
     var $searchBar = $('#truck-search');
     var $searchButton = $('#truck-search-button');
@@ -159,6 +168,11 @@ foodTruckNS.query.setupFilters = function() {
 };
 
 
+/*
+ * Expects one argument: the container for the trucklist.
+ * if the provided argument is null, then none of the list creation will be done
+ * (For now, argument being null means you are on the mapview page)
+ */
 foodTruckNS.query.init = function(truckContainer) {
     foodTruckNS.query.truckContainer = truckContainer; 
     foodTruckNS.query.getTrucks({});

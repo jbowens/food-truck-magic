@@ -11,29 +11,26 @@
 
 {% block scripts %}
     {% parent %}
-    <script type="text/javascript" src="/js/edit-loc.js"></script>
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA0uRmvgWbp3WBxVaCqf1WkZpu5nSibMpc&sensor=false"></script>
     <script type="text/javascript" src="/js/mapview.js"> </script>
+    <script type="text/javascript" src="/js/edit-loc.js"></script>
     <script>
-        /* for mapview */
-        var initData = {
-            zoomLevel: 14,
-            truckId: {{my_truck.id}}
-        };
-        foodTruckNS.mapview.init(initData);
-
-        /* for edit-loc */
-        var foodTruckNS = foodTruckNS || {};
-        foodTruckNS.editLoc = foodTruckNS.editLoc || {};
-        var open = {{my_truck.open}};
         var truckId = {{my_truck.id}};
+        var open = {{my_truck.open}};
+
+        var initMapData = {
+            zoomLevel: 14,
+        };
+
         $(function() {
+            foodTruckNS.mapview.init(initMapData);
             foodTruckNS.editLoc.init(open, truckId);
 
-            {% if my_truck.open %}
+            if (open) {
                 var dateClose = "{{my_truck.dateclose}}";
                 foodTruckNS.editLoc.setCloseTime(dateClose);
-            {% endif %}
+                foodTruckNS.editLoc.getMyTruck();
+            }
         });
 
     </script>

@@ -48,7 +48,6 @@ foodTruckNS.editLoc.setupOpenButton = function(curOpen) {
         if (!curOpen) {
             /* closed, now opening */
 
-            /* TODO: turn these alerts into nice error messages */
             if (!navigator.geolocation) {
                 foodTruckNS.displayError('Geolocation is not supported with this browser. Cannot get location.');
                 return;
@@ -99,6 +98,25 @@ foodTruckNS.editLoc.setCloseTime = function(closeString) {
     var $close = $('#close-time');
     var date = new Date(closeString);
     $close.text("We will automatically stop broadcasting your trucks location around: " + date.toLocaleString());
+};
+
+/*
+ * Queries for this truck and displays on the map
+ */
+foodTruckNS.editLoc.getMyTruck = function() {
+    $.ajax({
+        type: 'POST',
+        url: '/api/query-trucks',
+        data: {
+            open: true,
+            truckid: foodTruckNS.editLoc.truckId 
+        },
+        success: function(data) {
+            if (!data.error)  {
+                foodTruckNS.mapview.placeMarkers(data.trucks);
+            }
+        } 
+    });
 };
 
 foodTruckNS.editLoc.init = function(curOpen, truckId) {

@@ -12,7 +12,7 @@
         <script src="/js/include/jquery.js"></script>
         <script src="/js/global.js"></script>
         <script>
-            foodTruckNS = foodTruckNS || {};
+            var foodTruckNS = foodTruckNS || {};
             {% if user %}
                 foodTruckNS.userId = {{user.id}};
             {% endif %}
