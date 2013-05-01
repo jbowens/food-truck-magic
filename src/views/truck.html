@@ -33,12 +33,13 @@
     <script type="text/javascript" src="/js/mapview.js"></script>
     <script type="text/javascript">
         $(function() {
+            var truckId = {{truck.id}};
             var initData = {
                 zoomLevel: 14,
-                truckId: {{truck.id}},
                 addInfoWindows: false 
             };
             foodTruckNS.mapview.init(initData);
+            foodTruckNS.mapview.showMyTruck(truckId);
         });
     </script>
     {% endif %}

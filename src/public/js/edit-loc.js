@@ -100,25 +100,6 @@ foodTruckNS.editLoc.setCloseTime = function(closeString) {
     $close.text("We will automatically stop broadcasting your trucks location around: " + date.toLocaleString());
 };
 
-/*
- * Queries for this truck and displays on the map
- */
-foodTruckNS.editLoc.getMyTruck = function() {
-    $.ajax({
-        type: 'POST',
-        url: '/api/query-trucks',
-        data: {
-            open: true,
-            truckid: foodTruckNS.editLoc.truckId 
-        },
-        success: function(data) {
-            if (!data.error)  {
-                foodTruckNS.mapview.placeMarkers(data.trucks);
-            }
-        } 
-    });
-};
-
 foodTruckNS.editLoc.init = function(curOpen, truckId) {
     foodTruckNS.editLoc.truckId = truckId;
     foodTruckNS.editLoc.setupOpenButton(curOpen);

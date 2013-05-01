@@ -153,3 +153,23 @@ foodTruckNS.mapview.init = function(initData) {
     });
 };
 
+
+/*
+ * Queries just the truck given by truck id and draws it only
+ */
+foodTruckNS.mapview.showMyTruck = function(truckId) {
+    $.ajax({
+        type: 'POST',
+        url: '/api/query-trucks',
+        data: {
+            open: true,
+            truckid: truckId 
+        },
+        success: function(data) {
+            if (!data.error)  {
+                foodTruckNS.mapview.placeMarkers(data.trucks);
+            }
+        } 
+    });
+};
+
