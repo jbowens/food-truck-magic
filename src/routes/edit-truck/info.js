@@ -18,9 +18,12 @@ function hasPermission(request, response, data) {
  */
 exports.preloader = function(request, response, data, callback) {
     categories.getAllCategories(function(err, cats) {
-        if(err) { console.error(err); }
-        data.categories = cats;
-        callback();
+        categories.getTrucksCategories(data.my_truck.id, function(err, truck_cats) {
+            if(err) { console.error(err); }
+            data.categories = cats;
+            data.truckCategories = truck_cats;
+            callback();
+        });
     });
 };
 
@@ -51,8 +54,7 @@ exports.postRoute = function(request, response, data) {
     } else {
         request.body.name = sanitize(request.body.name).trim();
     }
-
-    /* Validate the url */
+/* Validate the url */
     try {
         if(request.body.website) {
             check(request.body.website).isUrl();
