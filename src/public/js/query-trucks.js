@@ -1,5 +1,8 @@
 /*
- * Client side javascript for hitting the query-trucks api
+ * Client side javascript for hitting the query-trucks api.
+ * On successful queries, this file is responsible for both
+ * appending queried trucks to a truck list container and 
+ * displaying queried trucks on the map.
  */
 
 var foodTruckNS = foodTruckNS || {};

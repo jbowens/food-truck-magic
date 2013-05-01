@@ -1,5 +1,5 @@
 /*
- * Client side javascript for displaying map of trucks
+ * Client side javascript for displaying map of trucks.
  * By itself, draws no markers on the map. Requires others
  * to call placeMarkers with a list of trucks.
  */
