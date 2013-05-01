@@ -85,10 +85,12 @@ exports.setClassifications = function(truckid, catids) {
             return;
         }
         
+        console.log(catids);
         var currentCatids = {};
         for(var i = 0; i < cats.length; i++) {
             currentCatids[cats[i].id] = true;
-            if(catids.indexOf(parseInt(cats[i].id, 10) == -1)) {
+            if(catids.indexOf(cats[i].id) == -1) {
+                console.log(cats[i].id, "does not appear in", catids);
                 exports.declassifyTruck(truckid, cats[i].id);
             }
         }
