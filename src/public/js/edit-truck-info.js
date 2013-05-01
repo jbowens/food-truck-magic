@@ -31,6 +31,16 @@ function getCategories(select) {
     return cats;
 }
 
+function unselectCat(select, li) {
+    var currentCats = getCategories(select);
+    var catToReAdd = {};
+    catToReAdd.name = $(li).find('.cat-name').text();
+    catToReAdd.id = $(li).attr('data-catid');
+    currentCats.push(catToReAdd);
+    reconstructCategories(currentCats);
+    $(li).remove();
+    $('#saveCategory').removeAttr('disabled');
+}
 
 $(document).ready(function() {
     $('#saveCategory').click(function(e) {
@@ -61,14 +71,7 @@ $(document).ready(function() {
 
             $(span).click(function(e2) {
                 e2.preventDefault();
-                var currentCats = getCategories(select);
-                var catToReAdd = {};
-                catToReAdd.name = $(li).find('.cat-name').text();
-                catToReAdd.id = $(li).attr('data-catid');
-                currentCats.push(catToReAdd);
-                reconstructCategories(currentCats);
-                $(li).remove();
-                $('#saveCategory').removeAttr('disabled');
+                unselectCat(select, li);
             });
 
             $('.current-categories').append(li);
@@ -79,7 +82,21 @@ $(document).ready(function() {
             console.error(err);
         }
     });
-    $('#edit-truck-details').submit(function(e) {
-        /* TODO: god damn i'm lazy */
+    $('#edit-truck-details #fake-submit').click(function(e) {
+        e.preventDefault();
+        var data = {'cats': []};
+        $('.current-categories li').each(function() {
+            data.cats.push(parseInt($(this).attr('data-catid'), 10));
+        });
+        console.log(data);
+        $.post('/api/save-categories', data, function(resp) {
+            /* Once we've saved the categories, save the rest of the form. */
+            /* JANK */
+            $('#edit-truck-details').submit();
+        });
+    });
+    $('.remove-cat').click(function(e) {
+        e.preventDefault();
+        unselectCat($('#add-category'), $(e.target).closest('li')); 
     });
 });

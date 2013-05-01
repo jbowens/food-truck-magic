@@ -17,10 +17,29 @@ function hasPermission(request, response, data) {
  * Preloads the categories for the form.
  */
 exports.preloader = function(request, response, data, callback) {
+    if(!data.my_truck) {
+        return;
+    }
     categories.getAllCategories(function(err, cats) {
-        if(err) { console.error(err); }
-        data.categories = cats;
-        callback();
+        categories.getTrucksCategories(data.my_truck.id, function(err, truck_cats) {
+            if(err) { console.error(err); }
+            
+            var unusedCategories = [];
+            for(var i = 0; i < cats.length; i++) {
+                var exists = false;
+                for(var j = 0; !exists && j < truck_cats.length; j++) {
+                    if(cats[i].id == truck_cats[j].id) {
+                        exists = true;
+                    }
+                }
+                if(!exists) {
+                    unusedCategories.push(cats[i]);
+                }
+            }
+            data.categories = unusedCategories;
+            data.truckCategories = truck_cats;
+            callback();
+        });
     });
 };
 
@@ -51,8 +70,7 @@ exports.postRoute = function(request, response, data) {
     } else {
         request.body.name = sanitize(request.body.name).trim();
     }
-
-    /* Validate the url */
+/* Validate the url */
     try {
         if(request.body.website) {
             check(request.body.website).isUrl();

@@ -3,6 +3,7 @@
  */
 var db = require('../db.js').Database;
 var truckStore = require('../truckstore.js').TruckStore;
+var categories = require('../categories.js');
 var thumbnailer = require('../thumbnailer.js').Thumbnailer;
 var fourOhFourRoute = require('./fourohfour.js').route;
 
@@ -33,44 +34,52 @@ exports.route = function(request, response, data) {
         }
        
         data.truck = res.rows[0];
-        
-        truckStore.getPhotos(data.truck.id, function(err, res) {
-            data.photos = err ? [] : res;
-
-            /* Find the prof pic */
-            if(data.truck.photouploadid) {
-                for(var i = 0; i < data.photos.length; i++) {
-                    console.log(data.photos[i]);
-                    if(data.photos[i].id == data.truck.photouploadid) {
-                        data.profPic = data.photos[i];
-                        data.profPic.profPicThumb = thumbnailer.getAppropriateThumbnail(data.photos[i],
-                                PROF_PIC_SIZE);
-                    }
-                    data.photos[i].thumb = thumbnailer.getAppropriateThumbnail(data.photos[i],
-                            PHOTO_THUMB_SIZE);
-                }
-            }
-            
-            /* We have our truck. Let's check if logged in and following */
-            if (request.session.user) {
-                data.user  = request.session.user;
-                var userId = data.user.id;
-                db.query(SQL_GET_FOLLOWS, [userId, data.truck.id], function(err, res) {
-                    if(err) {
-                        console.error(err);
-                        return fourOhFourRoute(request, response, data);
-                    }
-
-                    /* user is following this truck already */
-                    if (res.rows.length) {
-                        data.following = true;
-                    }
-
-                    response.render('truck', data);
-                });
+       
+        categories.getTrucksCategories(data.truck.id, function(err, truck_cats) {
+            if(err) {
+                console.error(err);
+                data.truck_cats = [];
             } else {
-                response.render('truck', data);
+                data.truck_cats = truck_cats;
             }
+            truckStore.getPhotos(data.truck.id, function(err, res) {
+                data.photos = err ? [] : res;
+
+                /* Find the prof pic */
+                if(data.truck.photouploadid) {
+                    for(var i = 0; i < data.photos.length; i++) {
+                        console.log(data.photos[i]);
+                        if(data.photos[i].id == data.truck.photouploadid) {
+                            data.profPic = data.photos[i];
+                            data.profPic.profPicThumb = thumbnailer.getAppropriateThumbnail(data.photos[i],
+                                    PROF_PIC_SIZE);
+                        }
+                        data.photos[i].thumb = thumbnailer.getAppropriateThumbnail(data.photos[i],
+                                PHOTO_THUMB_SIZE);
+                    }
+                }
+                
+                /* We have our truck. Let's check if logged in and following */
+                if (request.session.user) {
+                    data.user  = request.session.user;
+                    var userId = data.user.id;
+                    db.query(SQL_GET_FOLLOWS, [userId, data.truck.id], function(err, res) {
+                        if(err) {
+                            console.error(err);
+                            return fourOhFourRoute(request, response, data);
+                        }
+
+                        /* user is following this truck already */
+                        if (res.rows.length) {
+                            data.following = true;
+                        }
+
+                        response.render('truck', data);
+                    });
+                } else {
+                    response.render('truck', data);
+                }
+            });
         });
     });
 };

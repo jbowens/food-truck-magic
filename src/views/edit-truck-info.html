@@ -32,7 +32,14 @@
 
     <div class="form-item">
         <label>Categories</label>
-        <ul class="current-categories"></ul>
+        <ul class="current-categories">
+            {% for cat in truckCategories %}
+            <li data-catid="{{ cat.id }}">
+                <span class="cat-name">{{ cat.name }}</span>
+                <span class='remove-cat'>x</span>
+            </li>
+            {% endfor %}
+        </ul>
         <select id="add-category">
             {% for cat in categories %}
             <option value="{{ cat.id }}">{{ cat.name }}</option>
@@ -66,7 +73,7 @@
         <textarea id="truck_description" name="description" maxlength=200>{{my_truck.description|default("")}}</textarea>
     </div>
 
-    <input type="submit" value="Save" />
+    <input type="submit" value="Save" id="fake-submit" />
 </form>
 
 {% endblock %}
