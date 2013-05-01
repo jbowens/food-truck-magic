@@ -86,9 +86,7 @@
         
         {% if truck_cats && truck_cats.length %}
             <li class="data-item categories">
-            {% for cat in truck_cats %}
-            {{ cat.name }} 
-            {% endfor %}
+                {{ truck_cats_names | commasep }}
             </li>
         {% endif %}
 

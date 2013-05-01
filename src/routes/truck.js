@@ -1,6 +1,7 @@
 /*
  * The route for the main truck page.
  */
+var _ = require('underscore');
 var db = require('../db.js').Database;
 var truckStore = require('../truckstore.js').TruckStore;
 var categories = require('../categories.js');
@@ -41,6 +42,7 @@ exports.route = function(request, response, data) {
                 data.truck_cats = [];
             } else {
                 data.truck_cats = truck_cats;
+                data.truck_cats_names = _.map(truck_cats, function(x) { return x.name; });
             }
             truckStore.getPhotos(data.truck.id, function(err, res) {
                 data.photos = err ? [] : res;

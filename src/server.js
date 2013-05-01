@@ -34,7 +34,8 @@ app.configure(function() {
     app.set('view engine', 'html');
     swig.init({
         root: __dirname + '/views/',
-        allowErrors : true
+        allowErrors : true,
+        filters: require('./custom-filters.js')
     });
     app.set('views', __dirname + '/views/');
     app.use(express.static(__dirname +'/public'));
