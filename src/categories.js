@@ -85,8 +85,6 @@ exports.setClassifications = function(truckid, catids) {
             return;
         }
         
-        console.log("current cats ", cats);
-        console.log("recieved catids ", catids);
         var currentCatids = {};
         for(var i = 0; i < cats.length; i++) {
             currentCatids[cats[i].id] = true;
@@ -94,7 +92,6 @@ exports.setClassifications = function(truckid, catids) {
                 exports.declassifyTruck(truckid, cats[i].id);
             }
         }
-        console.log('currentCatids', currentCatids);
         for(i = 0; i < catids.length; i++) {
             if(!currentCatids[catids[i]]) {
                 exports.classifyTruck(truckid, catids[i]);
