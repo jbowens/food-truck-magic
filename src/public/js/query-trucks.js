@@ -3,6 +3,9 @@
  * On successful queries, this file is responsible for both
  * appending queried trucks to a truck list container and 
  * displaying queried trucks on the map.
+ *
+ * NOTE that a huge assumption is made that clientside mapview.js 
+ * is included
  */
 
 var foodTruckNS = foodTruckNS || {};
