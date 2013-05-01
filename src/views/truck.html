@@ -81,7 +81,15 @@
 			<li class="data-item website">
 				Website: <a href="{{ truck.website }}" class="truck-website">{{ truck.website }}</a>
 			</li>
-		{% endif %}
+        {% endif %}
+        
+        {% if truck_cats && truck_cats.length %}
+            <li class="data-item categories">
+            {% for cat in truck_cats %}
+            {{ cat.name }} 
+            {% endfor %}
+            </li>
+        {% endif %}
 
 		{% if user %}
 			<li>
@@ -91,7 +99,8 @@
 			<li>
 				(Log in to favorite this truck)
 			</li>
-		{% endif %}
+        {% endif %}
+
 		<li>
 		{{ truck.description|default("No Description Available!") }}
 		</li>
