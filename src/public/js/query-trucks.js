@@ -181,7 +181,6 @@ foodTruckNS.query.setupFilters = function() {
  */
 foodTruckNS.query.init = function(truckContainer) {
     foodTruckNS.query.truckContainer = truckContainer; 
-    foodTruckNS.query.getTrucks({});
     foodTruckNS.query.setupFilters();
     foodTruckNS.query.setupSearch();
 };

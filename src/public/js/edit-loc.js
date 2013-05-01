@@ -1,5 +1,6 @@
 /*
- * Client side js for the edit-truck page.
+ * Client side js for the edit-truck-location page.
+ * Allows a truck to open and close.
  */
 var foodTruckNS = foodTruckNS || {};
 foodTruckNS.editLoc = foodTruckNS.editLoc || {};
