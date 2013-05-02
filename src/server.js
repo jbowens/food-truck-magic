@@ -19,10 +19,9 @@ var cron = require('./cron.js');
 
 var app = express();
 
-var port = args.port || 8080;
-
 /* Configuration options for express */
 app.configure(function() {
+    app.set('port', process.env.PORT_FOODLER || 8080);
     app.use(express.bodyParser());
     app.use(express.cookieParser());
     app.use(express.session({
@@ -59,9 +58,9 @@ config.init(function() {
     /* run cronjobs */
     cron.startCronJobs();
 
-    app.listen(port, function() {
+    app.listen(app.get('port'), function() {
         routes.setupRoutes(app);
-        console.log('- Server listening on port ' + port);
+        console.log('- Server listening on port ' + app.get('port'));
     });
 });
 

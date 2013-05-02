@@ -41,7 +41,7 @@ app.stream = (function() {
         tweets = [];
 
     self.stream = T.stream('statuses/filter', {
-        //arthuryidi, chez pascal, mama kim, 
+        //arthuryidi, jackson, chez pascal, mama kim
         follow: [ '46545493', '798964256', '49388300', '222186274' ]
     });
 
