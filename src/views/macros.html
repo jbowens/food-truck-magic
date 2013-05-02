@@ -1,0 +1,13 @@
+{% macro thumbnail photo size defaultImage %}
+    <img src="
+    {% if thumbnail && thumbnail.id %}
+        {{ thumbnailer.Thumbnailer.getAppropriateThumbnail(photo, size) }} 
+    {% else %}
+        {{ defaultImage }}
+    {% endif %}" 
+        width="{{ size }}" height="{{ size }}" />
+{% endmacro %}
+
+{% macro truckThumbnail truck size %}
+    {{ thumbnail(truck.photo, size, '/images/default-truck.jpg') }}
+{% endmacro %}

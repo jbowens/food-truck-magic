@@ -52,7 +52,7 @@ $(document).ready(function() {
                 return;
             }
             if($('.current-categories li').length >= CATEGORY_CAP) {
-                alert('Sorry, trucks may only classify themselves as up to three categories.');
+                foodTruckNS.displayError('Sorry, trucks may only classify themselves as up to three categories.');
                 return;
             }
             var catid = $(select).val();

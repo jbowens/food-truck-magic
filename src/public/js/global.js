@@ -14,5 +14,5 @@ foodTruckNS.displayError = function(message) {
     $('.error-message').show();
     setTimeout(function() {
         $('.error-message').hide(1000);
-    }, 5000);
+    }, 4000);
 };

@@ -80,7 +80,7 @@ foodTruckNS.mapview.placeMarkers = function(trucks) {
         var infowindow = new google.maps.InfoWindow({
             maxWidth: 230,
             content: "<a href='/trucks/" + truck.urlid + "'>" + truck.name + "</a>" + 
-                     "<br/> <p>" + truck.description + "</p>" 
+                     "<br/> <p style='word-break:break-word'>" + truck.description + "</p>" 
         });
 
         if (foodTruckNS.mapview.addInfoWindows) {
