@@ -23,7 +23,7 @@ var app = express();
 var conn = anyDB.createConnection('sqlite3://twitter.db');
 
 app.configure(function(){
-    app.set('port', process.env.PORT_TWITTER || 8080);
+    app.set('port', process.env.PORT_TWITTER || 8081);
     app.use(function(req, res, next) {
         res.header('Access-Control-Allow-Origin', '*');
         res.header('Access-Control-Allow-Methods', 'GET,POST,OPTIONS');
