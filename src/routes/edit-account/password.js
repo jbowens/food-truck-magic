@@ -1,14 +1,14 @@
-var db = require('../db.js').Database;
-var bailout = require('./fatalerror.js').bailout;
-var fourohfour = require('./fourohfour.js').route;
-var hash = require('../hasher.js').hash;
-var getUser = require('./login.js').getUser;
+var db = require('../../db.js').Database;
+var bailout = require('../fatalerror.js').bailout;
+var fourohfour = require('../fourohfour.js').route;
+var hash = require('../../hasher.js').hash;
+var getUser = require('../login.js').getUser;
 
 var SQL_UPDATE_PASS = 'UPDATE users SET pass = $1 WHERE name = $2;';
 
 
 function renderPage(response, data) {
-    response.render('edit-account', data);
+    response.render('edit-account-password', data);
 }
 
 exports.route = function(request, response, data) {

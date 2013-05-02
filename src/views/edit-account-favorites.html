@@ -1,0 +1,26 @@
+{% extends 'edit-account.html' %}
+
+{% block stylesheets %}
+    {% parent %}
+{% endblock %}
+
+{% block scripts %}
+    {% parent %}
+    <script type="text/javascript" src="/js/edit-account-favorites.js"></script>
+
+    <script type="text/javascript">
+        $(function() {
+            foodTruckNS.favorites.init({{user.id}});
+        });
+    </script>
+{% endblock %}
+
+
+{% block innerContent %}
+
+<h2> {{user.name}}'s Favorite Trucks </h2>
+<div class="error-message" style="display:none;"></div>
+
+<div id="favorites-container"></div>
+
+{% endblock %}
