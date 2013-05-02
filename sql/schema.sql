@@ -22,6 +22,7 @@ CREATE TABLE IF NOT EXISTS trucks (
     textLoc VARCHAR(255),
     description VARCHAR(255),
     photoUploadid INTEGER REFERENCES uploads(id),
+    menuUploadid INTEGER REFERENCES uploads(id),
     dateClose timestamp without time zone
 );
 
