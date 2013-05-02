@@ -34,7 +34,8 @@ app.configure(function() {
     swig.init({
         root: __dirname + '/views/',
         allowErrors : true,
-        filters: require('./custom-filters.js')
+        filters: require('./custom-filters.js'),
+        tags: require('./custom-tags.js')
     });
     app.set('views', __dirname + '/views/');
     app.use(express.static(__dirname +'/public'));
