@@ -14,5 +14,6 @@
 
     "es5"           : true,
     "globalstrict"  : true,
-    "strict"        : false
+    "strict"        : false,
+	"laxcomma"		: true
 }

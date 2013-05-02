@@ -15,7 +15,8 @@
     "consolidate": ">= 0.9",
     "swig": ">= 0.13.5",
     "path": "",
-    "easyimage": ""
+    "easyimage": "",
+    "twit": ""
   },
   "devDependencies": {
     "jshint": ">= 1.0.0"
