@@ -49,6 +49,7 @@ exports.route = function(request, response, data) {
         /* The user must be logged in and the administrator for
            a truck to view this page. */
         console.log('Permission denied to /edit-truck/info because not a truck admin');
+        data.badTruckRoute = true;
         return fourohfour(request, response, data);
     }
 
@@ -59,6 +60,7 @@ exports.route = function(request, response, data) {
 exports.postRoute = function(request, response, data) {
 
     if(!hasPermission(request, response, data)) {
+        data.badTruckRoute = true;
         return fourohfour(request, response, data);
     }
 

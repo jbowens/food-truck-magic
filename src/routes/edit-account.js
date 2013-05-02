@@ -1,4 +1,5 @@
 var db = require('../db.js').Database;
+var bailout = require('./fatalerror.js').bailout;
 var fourohfour = require('./fourohfour.js').route;
 var hash = require('../hasher.js').hash;
 var getUser = require('./login.js').getUser;
@@ -12,6 +13,7 @@ function renderPage(response, data) {
 
 exports.route = function(request, response, data) {
     if (!request.session.user) {
+        data.badUserRoute = true;
         return fourohfour(request, response, data);
     }
 
@@ -22,6 +24,7 @@ exports.postRoute = function(request, response, data) {
     var err = false;
 
     if (!request.session.user) {
+        data.badUserRoute = true;
         return fourohfour(request, response, data);
     }
 
@@ -55,7 +58,7 @@ exports.postRoute = function(request, response, data) {
         db.query(SQL_UPDATE_PASS, [hashedPassword, request.session.user.name], function(err, res) {
             if(err) { 
                 console.error(err); 
-                return fourohfour(request, response, data);
+                return bailout(request, response, data, err);
             }
 
             data.changesSaved = true;

@@ -5,7 +5,18 @@
 {% endblock %}
 
 {% block content %}
-<h2>Page not found</h2>
+{% if badTruckRoute %}
 
-<p>That page doesn't exist.</p>
+    <h2>You are not a truck owner!</h2>
+
+    <p>This page can only be accessed by truck owners.</p>
+{% else if badUserRoute %}
+    <h2>You are not logged in!</h2>
+
+    <p>You must be logged in to access this page.</p>
+{% else %}
+    <h2>Page not found</h2>
+
+    <p>That page doesn't exist.</p>
+{% endif %}
 {% endblock %}
