@@ -60,6 +60,8 @@ exports.setupRoutes = function(app) {
     post('/edit-truck/info', './routes/edit-truck/info.js');
     get('/edit-truck/photos', './routes/edit-truck/photos.js');
     post('/edit-truck/photos', './routes/edit-truck/photos.js');
+    get('/edit-truck/menu', './routes/edit-truck/menu.js');
+    post('/edit-truck/menu', './routes/edit-truck/menu.js');
     get('/edit-truck/location', './routes/edit-truck/location.js');
     get('/mapview', './routes/mapview.js');
     get('/edit-account', './routes/edit-account.js');
