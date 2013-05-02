@@ -33,7 +33,9 @@
                         {% else %}
                         <li>
                             {% if my_truck.id %}
-                                {{ macros.truckThumbnail(my_truck, 50) }}
+                                <div id="my-truck-photo">
+                                    {{ macros.truckThumbnail(my_truck, 50) }}
+                                </div>
                             {% else %}
                                 <a href="/logout">Logout</a>
                             {% endif %}
