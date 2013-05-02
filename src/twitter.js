@@ -10,6 +10,7 @@ var express = require('express')
 var SQL_INSERT_TWEET = 'INSERT INTO tweets(user_id, screen_name, created_at, data) VALUES($1, $2, $3, $4)';
 var SQL_GET_TWEETS_BYNAME = 'SELECT data FROM tweets WHERE screen_name=$1 LIMIT 20';
 var SQL_GET_TWEETS_BYID = 'SELECT data FROM tweets WHERE user_id=$1 LIMIT 20';
+var SQL_GET_TWEETS_ALL = 'SELECT data FROM tweets ORDER BY created_at DESC';
 
 var T = new twit({
     consumer_key: 'MZhomFUKbaBov52TjTZRDQ',
@@ -45,13 +46,17 @@ app.configure('development', function(){
 });
 
 app.stream = (function() {
-    var self = {}
-      , tweets = [];
+    var self = {};
 
     self.stream = T.stream('statuses/filter', {
-        //arthuryidi, jackson, chez pascal, mama kim
+        //TODO: Write a script that restarts the server or restarts the stream
+        //      when new trucks are added to foodler db. Read new trucks and
+        //      fetch twitter id by screen_name.
+        //      curr solution: api.twitter.com/1/users/show.xml?screen_name=foo
+
         follow: [
-            '46545493',  //arthuryidi      
+            '1397819952', //FoodTruckler
+            '46545493',   //arthuryidi
             '798964256',  //jackson      
             '431770435',  //ChampMelt      
             '49388300',   //ChezPascal     
@@ -72,10 +77,9 @@ app.stream = (function() {
     });
 
     self.stream.on('tweet', function(tweet) {
-        //TODO:
-        //- remove old tweets periodically
-       
         if (tweet && tweet.text && tweet.id) {
+
+            //TODO: remove old tweets (2 weeks old)
 
             var id = tweet.user.id_str 
               , name = tweet.user.screen_name
@@ -83,11 +87,14 @@ app.stream = (function() {
               , data = JSON.stringify(tweet);
 
             conn.query(SQL_INSERT_TWEET, [id, name, time, data],
-                       function(error, result) {
-                           console.error(error);
+                       function (err, res) {
+                           if (err)
+                               console.error(err);
                        });
+
+           console.log('tweet: ' + tweet.user.screen_name);
         } else {
-            console.log('Tweet invalid: ' + tweet);
+           console.error('tweet invalid: ' + tweet);
         }
     });
 
@@ -134,6 +141,20 @@ app.stream = (function() {
         });
     };
 
+    self.getAllTweets = function(callback) {
+        var result = [];
+        var q = conn.query(SQL_GET_TWEETS_ALL);
+
+        q.on('row', function(row){
+            var tweet = JSON.parse(row.data);
+            result.push([tweet.user.screen_name, tweet.created_at, tweet.text]);
+        });
+
+        q.on('end', function(){
+            callback(200, result);
+        });
+    };
+
     return self;
 })();
 
@@ -143,6 +164,12 @@ app.get('/', function (req, res) {
                          function (status, result) {
                               res.send(status, result);
                          });
+});
+
+app.get('/all_tweets', function (req, res) {
+    app.stream.getAllTweets(function (status, result) {
+                              res.send(status, result);
+                            });
 });
 
 http.createServer(app).listen(app.get('port'), function(){
