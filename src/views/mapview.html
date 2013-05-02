@@ -41,12 +41,12 @@
 
 <div id="filter-wrapper">
     {% if user %}
-    <div class="search-filter" id="favorites-filter"> Favorites </div>
+    <button class="search-filter" id="favorites-filter"> Favorites </div>
     {% endif %}
-    <div class="search-filter" id="near-filter"> Near you </div>
+    <button class="search-filter" id="near-filter"> Near you </div>
     {# NOTE: hide the open-filter since only open things will show on the map anyways.
        Class is set to active so it will always be applied in the filter #} 
-    <div class="search-filter active" id="open-filter" style="display: none"> Open </div>
+    <button class="search-filter active" id="open-filter" style="display: none"> Open </div>
 </div>
 
 <div id="map-canvas"></div>

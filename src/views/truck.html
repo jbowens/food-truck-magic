@@ -145,12 +145,10 @@
         </select>
         <button id="open-button"> </button>
     {% endif %}
+    {% if truck.open %}
+        <div id="map-canvas"></div>
+    {% endif %}
 </div>
 
-{% if truck.open %}
-    <aside>
-        <div id="map-canvas"></div>
-    </aside>
-{% endif %}
 
 {% endblock %}

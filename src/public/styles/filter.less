@@ -25,15 +25,27 @@
 
 .search-filter {
     display: inline-block;
-    background-color: #FFF8D0;
+    color: black;
+    border-bottom: 1px solid white;
+    border-top: 1px solid white;
+    background-color: transparent;
+    font: 16px/26px 'Eames-Regular', Helvetica Neue, Arial;
+
+    border: none;
     border-radius: 0.5em;
-    padding: 0.2em;
+    padding: 0.2em 0.2em 0 0.2em;
     margin: 0.2em 0.2em 0 0.2em;
-    width: 5em;
+    width: 6em;
     text-align: center;
     cursor: pointer;
 
+    &:hover {
+        color: #333;
+    }
+
     &.active {
-        background-color: #E7DDA5;
+        color: #333;
+        background-color: #D7CEC4;
+        box-shadow: 0 1px 0 0 #e6dfd7, 0 -1px 0 0 #ccc3ba;
     }
 }
