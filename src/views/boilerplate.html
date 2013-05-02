@@ -30,7 +30,13 @@
                         {% if !user %}
                         <li><a href="/login">Login</a></li>
                         {% else %}
-                        <li><a href="/logout">Logout</a></li>
+                        <li>
+                            {% if my_truck.id %}
+                                {% truckThumbnail my_truck %}
+                            {% else %}
+                                <a href="/logout">Logout</a>
+                            {% endif %}
+                        </li>
                         {% endif %}
                     </ul>
                 </nav>
