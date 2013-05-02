@@ -32,6 +32,7 @@
 
     <div class="form-item">
         <label>Categories</label>
+        <div class="error-message" style="display:none;"></div>
         <ul class="current-categories">
             {% for cat in truckCategories %}
             <li data-catid="{{ cat.id }}">
