@@ -50,7 +50,25 @@ app.stream = (function() {
 
     self.stream = T.stream('statuses/filter', {
         //arthuryidi, jackson, chez pascal, mama kim
-        follow: [ '46545493', '798964256', '49388300', '222186274' ]
+        follow: [
+            '46545493',  //arthuryidi      
+            '798964256',  //jackson      
+            '431770435',  //ChampMelt      
+            '49388300',   //ChezPascal     
+            '459852041',  //fancheezical   
+            '316628451',  //FlourGirlsTreat
+            '143182589',  //LikeNoUdder    
+            '222186274',  //MamaKimsKbbq   
+            '325662621',  //MijosTacos     
+            '397633088',  //Paninoexpress  
+            '482343766',  //ploufplouftruck
+            '199110002',  //pocolocotacos  
+            '88734355',   //ProvCoffeeRoast
+            '521835692',  //PVDpops        
+            '518082486',  //whereisradish  
+            '185426817',  //rockettruck    
+            '1093577521'  //SproutTruck    
+        ]
     });
 
     self.stream.on('tweet', function(tweet) {
