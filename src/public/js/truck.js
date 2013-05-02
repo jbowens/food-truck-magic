@@ -41,10 +41,12 @@ foodTruckNS.truck.setupfavoriteButton = function() {
                 truckId: truckId,
                 userId: userId
             },
-            success: function() {
+            success: function(data) {
                 /* on success, update favorite button and favoriting state */
-                foodTruckNS.truck.favoriting = !foodTruckNS.truck.favoriting;
-                foodTruckNS.truck.updateFavoriteButtonText($favoriteButton);
+                if (data.success) {
+                    foodTruckNS.truck.favoriting = !foodTruckNS.truck.favoriting;
+                    foodTruckNS.truck.updateFavoriteButtonText($favoriteButton);
+                }
             }
         });
     });
