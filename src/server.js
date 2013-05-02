@@ -35,6 +35,10 @@ app.configure(function() {
         root: __dirname + '/views/',
         allowErrors : true,
         filters: require('./custom-filters.js'),
+        extensions: {
+            thumbnailer: require('./thumbnailer.js'),
+            truckstore: require('./truckstore.js')
+        },
         tags: require('./custom-tags.js')
     });
     app.set('views', __dirname + '/views/');

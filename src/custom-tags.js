@@ -11,8 +11,10 @@ var helpers = require('swig/lib/helpers');
 exports.truckThumbnail = function(indent, parser) {
     var truck = parser.parseVariable(this.args[0]),
         output = [];
+    console.log(truck);
     output.push(helpers.setVar('__truck', truck));
-    output.push('_output += "hi";');
+    /* TODO: Make this shit functional. */
+    output.push('_output += __truck.name;');
     return output.join('');
 };
 exports.truckThumbnail.ends = false;
