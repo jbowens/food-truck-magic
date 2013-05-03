@@ -27,7 +27,6 @@ foodTruckNS.query.innerLiHTML = function(truck, thumbnailSize) {
         openStatus = "open!";
     }
 
-
     var innerLi = '' +
         '<li>' +
             '<a class="truck-image" href="trucks/' + urlid + '">' +

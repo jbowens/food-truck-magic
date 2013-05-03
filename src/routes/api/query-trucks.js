@@ -8,7 +8,7 @@ var thumbnailer = require('../../thumbnailer.js').Thumbnailer;
 /* Constants */
 var THUMBNAIL_SIZE = 120;
 
-var SQL_GET_TRUCKS = 'SELECT trucks.*, st_astext(trucks.geopoint) AS geopoint, trucks.photoUploadid AS uploadid FROM trucks ' +
+var SQL_GET_TRUCKS = 'SELECT trucks.*, st_astext(trucks.geopoint) AS geopoint, trucks.photoUploadid AS uploadid, uploads.ext FROM trucks ' +
                      'LEFT JOIN uploads ON uploads.id = trucks.photoUploadid';
 
 var JOIN_FOLLOWS = ' INNER JOIN follows on follows.truckid = trucks.id';
