@@ -55,9 +55,9 @@ foodTruckNS.trucklebox.constructMenu = function() {
     var list = $('<ul />');
     $(menu).append(list);
 
-    $(list).append(foodTruckNS.trucklebox.constructMenuItem('/edit-truck/info', 'Manage your truck', 'edit-truck'));
+    $(list).append(foodTruckNS.trucklebox.constructMenuItem('/edit-truck/info', 'Manage truck', 'edit-truck'));
     $(list).append(foodTruckNS.trucklebox.constructMenuItem('/edit-truck/location', 'Update location', 'update-location'));
-    $(list).append(foodTruckNS.trucklebox.constructMenuItem('/edit-account/password', 'Edit your account', 'edit-account'));
+    $(list).append(foodTruckNS.trucklebox.constructMenuItem('/edit-account/password', 'Edit account', 'edit-account'));
     $(list).append(foodTruckNS.trucklebox.constructMenuItem('/logout', 'Log out'));
 
     $(menu).hide();
