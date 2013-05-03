@@ -75,6 +75,10 @@ foodTruckNS.trucklebox.init = function() {
         $(foodTruckNS.trucklebox.box).append(foodTruckNS.trucklebox.menu);
         foodTruckNS.trucklebox.hideMenu();
         $(foodTruckNS.trucklebox.box).click(foodTruckNS.trucklebox.toggleTrucklebox);
+        $(foodTruckNS.trucklebox.box).click(function(e) { e.stopPropagation(); });
+        $(document.body).click(function(e) {
+            foodTruckNS.trucklebox.hideMenu();
+        });
     }
 };
 
