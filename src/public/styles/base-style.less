@@ -1,7 +1,15 @@
+/*
+ * FoodTruckler Base Styles
+ * 
+ * Based on HTML5 Boilerplate styles - h5bp.com
+ */
+
 @import "colors.less";
+@import "fonts.less";
+@import "media.less";
 
 /* ==========================================================================
-   HTML5 Boilerplate styles - h5bp.com (generated via initializr.com)
+    HTML TAGS 
    ========================================================================== */
 
 html,
@@ -13,18 +21,29 @@ textarea {
 }
 
 body {
-    font-size: 1em;
-    line-height: 1.4;
+    /*font-size: 1em;*/
+    /*line-height: 1.4;*/
+    font: 16px/26px 'Eames-Regular', Georgia, serif;
+	font-weight: normal !important;
 }
 
-::-moz-selection {
-    background: #b3d4fc;
-    text-shadow: none;
+h1, h2, h3, h4 {
+	font-family: 'Eames-Bold', Georgia, serif;
+	font-weight: normal !important;
 }
 
-::selection {
-    background: #b3d4fc;
-    text-shadow: none;
+a {
+    font-family: 'Eames-Regular', Georgia, serif;
+	text-decoration: none;
+	color: @redler;
+
+	:hover, :visited {
+		color: @redler-used;
+	}
+
+	:hover {
+		text-decoration: underline;
+	}
 }
 
 hr {
@@ -50,6 +69,10 @@ textarea {
     resize: vertical;
 }
 
+/* ==========================================================================
+	MISC	
+   ========================================================================== */
+
 .chromeframe {
     margin: 0.2em 0;
     background: #ccc;
@@ -57,91 +80,35 @@ textarea {
     padding: 0.2em 0;
 }
 
+::-moz-selection {
+    background: #b3d4fc;
+    text-shadow: none;
+}
 
-/* ===== FONTS ==================================================
-	Eames Century
+::selection {
+    background: #b3d4fc;
+    text-shadow: none;
+}
+
+/* ==========================================================================
+	Boiler Styles	
    ========================================================================== */
 
-@font-face {
-	font-family: 'Eames-Regular';
-	src: url('/fonts/Eames Century Modern-Regular.eot');
-	src: url('/fonts/Eames Century Modern-Regular.woff') format('woff'),
-	     url('/fonts/Eames Century Modern-Regular.ttf') format('truetype'),
-         url('/fonts/Eames Century Modern-Regular.svg') format('svg');
-	font-weight: normal;
-	font-style: normal;
-}
 
-@font-face {
-	font-family: 'Eames-Bold';
-	src: url('/fonts/Eames Century Modern-Bold.eot');
-	src: url('/fonts/Eames Century Modern-Bold.woff') format('woff'),
-	url('/fonts/Eames Century Modern-Bold.ttf') format('truetype'),
-	url('/fonts/Eames Century Modern-Bold.svg') format('svg');
-	font-weight: normal;
-	font-style: normal;
-}
-
-/* =====  Styles ==================================================
-   Author: Arthur
-   ========================================================================== */
-
-body {
-    font: 16px/26px 'Eames-Regular', Helvetica Neue, Arial;
-	font-weight: normal !important;
-}
-
-h1, h2, h3, h4 {
-    font-family: 'Eames-Bold', Helvetica Neue, Arial;
-	font-weight: normal !important;
-}
-
-a {
-    font-family: 'Eames-Regular', Helvetica Neue, Arial;
-	text-decoration: none;
-	color: @redler;
-}
-a:hover,
-a:visited {
-    color: @redler-used;
-}
-
-a:hover {
-    text-decoration: underline;
-}
-
-.wrapper {
-    width: 90%;
-    margin: 0 5%;
-}
+/* === What is this crap? === */
 
 label .optional {
     font-size: 0.8em;
     color: #555;
 }
 
-/*  ===========  Styles  ==========================================
-    Author: j-motherfucking-bowens
-    ===============================================================
-*/
-.footer-container {
-    font-size: 0.7em;
-    font-family: verdana, arial, helvetica, sans-serif;
-    a {
-        color: #999;
-        font-family: verdana, arial, helvetica, sans-serif;
-    }
-}
+
 
 #my-truck-photo {
     text-align: center;
     padding: 1em 0 0 1em;
 }
 
-/*  ===========  Styles  ==========================================
-    Author: Alec (not really)
-    ===============================================================
-*/
 .sub-nav {
     margin: -30px 0 0 0; /* Haxxor */
     padding: 0;
@@ -165,37 +132,9 @@ label .optional {
     }
 }
 
-/* ===================
-    ALL: Orange Theme
-   =================== */
-
-.header-container,
-.footer-container,
-.main aside {
-	background-color: #FFF;
-}
-
-.header-container {
-	background-color: @redler;
-}
-
-#location-head {
-	font-size: 20px;
-	position: relative;
-	top: -5px;
-	-bottom: 20px;
-	color: @redler;
-	font-weight: normal;
-	font-style: normal;
-}
-
-.title {
-	margin-top: 29px;
-    color: #FFF;
-}
 
 /* ==============
-    MOBILE: Menu
+    Menu
    ============== */
 
 nav ul {
@@ -225,7 +164,7 @@ nav a:hover {
 }
 
 /* ==============
-    MOBILE: Main
+    Main
    ============== */
 
 .main {
@@ -246,6 +185,29 @@ nav a:hover {
 	margin-left: -40px;
 }
 
+.header-container,
+.footer-container,
+.main aside {
+	background-color: #FFF;
+}
+
+.header-container {
+	background-color: @redler;
+}
+
+#location-head {
+	font-size: 20px;
+	position: relative;
+	top: -5px;
+	margin-bottom: 20px;
+	color: @redler;
+}
+
+
+/* ==============
+    Footer
+   ============== */
+
 .footer-container footer {
     color: white;
     padding: 20px 0;
@@ -254,8 +216,39 @@ nav a:hover {
     text-align: center;
     font-size: 13px;
 }
+
 .footer-container footer a {
     padding-right: 10px;
+}
+
+.footer-container {
+    font-size: 0.7em;
+    font-family: verdana, arial, helvetica, sans-serif;
+    a {
+        color: #999;
+        font-family: verdana, arial, helvetica, sans-serif;
+    }
+}
+
+/* ===============
+   Messages 
+   =============== */
+
+.success-message, .error-message {
+    margin: 0 0 1em 0;
+    padding: 0.5em;
+    color: @successler;
+    -webkit-border-radius: 0.5em;
+    -moz-border-radius: 0.5em;
+    border-radius: 0.5em;
+    display: inline-block;
+}
+.success-message {
+    background: #F1F5ED;
+}
+.error-message {
+    background: @redler-warning;
+    color: white;
 }
 
 /* ===============
@@ -267,92 +260,13 @@ nav a:hover {
 }
 
 /* ==========================================================================
-   Media Queries
-   ========================================================================== */
-
-@media only screen and (min-width: 480px) {
-
-/* ====================
-    INTERMEDIATE: Menu
-   ==================== */
-
-    nav a {
-        float: left;
-        width: 27%;
-        margin: 0 1.7%;
-        padding: 25px 2%;
-        margin-bottom: 0;
-    }
-
-    nav li:first-child a {
-        margin-left: 0;
-    }
-
-    nav li:last-child a {
-        margin-right: 0;
-    }
-
-/* ========================
-    INTERMEDIATE: IE Fixes
-   ======================== */
-
-    nav ul li {
-        display: inline;
-    }
-
-    .oldie nav a {
-        margin: 0 0.7%;
-    }
-}
-
-@media only screen and (min-width: 768px) {
-
-
-/* ============
-    WIDE: Menu
-   ============ */
-
-    .title {
-        float: left;
-    }
-
-    nav {
-        float: right;
-        width: 38%;
-    }
-
-/* ============
-    WIDE: Main
-   ============ */
-
-    .main article {
-        float: left;
-        width: 57%;
-    }
-
-    .main aside {
-        float: right;
-        width: 28%;
-        padding: 0;
-        width: 38%;
-    }
-}
-
-@media only screen and (min-width: 1140px) {
-
-/* ===============
-    Maximal Width
-   =============== */
-
-    .wrapper {
-        width: 1026px; /* 1140px - 10% for margins */
-        margin: 0 auto;
-    }
-}
-
-/* ==========================================================================
    Helper classes
    ========================================================================== */
+
+.wrapper {
+    width: 90%;
+    margin: 0 5%;
+}
 
 .ir {
     background-color: transparent;
@@ -478,22 +392,4 @@ nav a:hover {
     }
 }
 
-/*==================================
-global success and error messages
-===================================*/
-.success-message, .error-message {
-    margin: 0 0 1em 0;
-    padding: 0.5em;
-    color: @successler;
-    -webkit-border-radius: 0.5em;
-    -moz-border-radius: 0.5em;
-    border-radius: 0.5em;
-    display: inline-block;
-}
-.success-message {
-    background: #F1F5ED;
-}
-.error-message {
-    background: @redler-warning;
-    color: white;
-}
+

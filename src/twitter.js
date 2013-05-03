@@ -5,7 +5,8 @@
 var express = require('express')
   , http = require('http')
   , anyDB = require('any-db')
-  , twit = require('twit');
+  , twit = require('twit')
+  , colors = require('colors');
 
 var SQL_INSERT_TWEET = 'INSERT INTO tweets(user_id, screen_name, created_at, data) VALUES($1, $2, $3, $4)';
 var SQL_GET_TWEETS_BYNAME = 'SELECT data FROM tweets WHERE screen_name=$1 LIMIT 20';
@@ -49,10 +50,10 @@ app.stream = (function() {
     var self = {};
 
     self.stream = T.stream('statuses/filter', {
-        //TODO: Write a script that restarts the server or restarts the stream
-        //      when new trucks are added to foodler db. Read new trucks and
-        //      fetch twitter id by screen_name.
-        //      curr solution: api.twitter.com/1/users/show.xml?screen_name=foo
+        //TODO: restart the stream when new trucks are added to foodler db
+        //      Read new trucks and fetch twitter id by screen_name. It would be
+        //      better to lookup the user id and store it in the foodler db during
+        //      registration.
 
         follow: [
             '1397819952', //FoodTruckler
@@ -92,25 +93,28 @@ app.stream = (function() {
                                console.error(err);
                        });
 
-           console.log('tweet: ' + tweet.user.screen_name);
+           console.log(String('tweet: ' + tweet.user.screen_name).green);
         } else {
-           console.error('tweet invalid: ' + tweet);
+           console.error(String('tweet invalid: ' + tweet).red);
         }
     });
 
-    //this.stream.on('limit', function(message) {
+    //self.stream.on('limit', function(message) {
     //    console.log(message);
     //});
 
-    //this.stream.on('connect', function(message) {
+    //self.stream.on('connect', function(message) {
     //    console.log('Connected');
     //});
 
-    //this.stream.on('disconnect', function(message) {
-    //    console.log('Disconnected');
-    //});
+    self.stream.on('disconnect', function(message) {
+        console.log('Disconnected from Twitter'.red);
+        console.log('It\'s Jackson, Alec, or Arthur\'s fault!\nOnly one person at a time.'.red);
 
-    //this.stream.on('warning', function(message) {
+        //TODO: if disconnected wait 10 seconds and reconnect
+    });
+
+    //self.stream.on('warning', function(message) {
     //    console.log(message);
     //});
 
@@ -155,8 +159,34 @@ app.stream = (function() {
         });
     };
 
+    self.getUserData = function(screen_name, callback) {
+        if(screen_name.length === 1) {
+            //single lookup
+            T.get('users/show', { 'screen_name' : screen_name }, function(err, data) {
+                callback(err, data);
+            });
+        } else {
+            //bulk lookup
+            T.get('users/lookup', { 'screen_name' : screen_name }, function(err, data) {
+                callback(err, data);
+            });
+        }
+    };
+
     return self;
 })();
+
+app.get('/lookup/', function (req, res) {
+    if(req.query.user_id) {
+        //TODO: implement
+    } else if(req.query.screen_name) {
+        app.stream.getUserData(req.query.screen_name.split(','), function(err, data) {
+            res.send(400, data);
+        });
+    } else {
+        res.send(400, "Unable to Process Request");
+    }
+});
 
 app.get('/', function (req, res) {
     //query truck by ?user_id=123 or ?screen_name=foo
@@ -173,5 +203,5 @@ app.get('/all_tweets', function (req, res) {
 });
 
 http.createServer(app).listen(app.get('port'), function(){
-    console.log("Twitter server listening on port " + app.get('port'));
+    console.log(String("Twitter server listening on port " + app.get('port')).blue);
 });
