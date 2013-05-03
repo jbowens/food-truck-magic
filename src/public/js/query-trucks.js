@@ -11,7 +11,23 @@
 var foodTruckNS = foodTruckNS || {};
 foodTruckNS.query = foodTruckNS.query || {};
 
-foodTruckNS.query.innerLiHTML = function(urlid, name, description, thumbnailLink, thumbnailSize) {
+foodTruckNS.query.innerLiHTML = function(truck, thumbnailSize) {
+    var name = truck.name;
+    var urlid = truck.urlid;
+    var description = "";
+    var thumbnailLink = "/images/default-truck.jpg";
+    var openStatus = "closed";
+    if (truck.description) {
+        description = truck.description;
+    }
+    if (truck.uploadid) {
+        thumbnailLink = truck.thumb;
+    }
+    if (truck.open) {
+        openStatus = "open!";
+    }
+
+
     var innerLi = '' +
         '<li>' +
             '<a class="truck-image" href="trucks/' + urlid + '">' +
@@ -24,6 +40,7 @@ foodTruckNS.query.innerLiHTML = function(urlid, name, description, thumbnailLink
             '   <a href="trucks/' + urlid + '">' +
             '       <h3 class="truck-name">' + name + '</h3>' +
             '   </a>' +
+            '   <span class="openStatus">(' + openStatus + ')</span>' +
             '   <p>' + description + '</p>' +
             '</div>' +
         '</li>';
@@ -40,16 +57,7 @@ foodTruckNS.query.listTrucks = function(trucks, thumbnailSize) {
 
     for (var i = 0; i < trucks.length; i++) {
         var truck = trucks[i];
-        var thumbnailLink = "/images/default-truck.jpg";
-        var truckDescription = "";
-        if (truck.uploadid) {
-            thumbnailLink = truck.thumb;
-        }
-        if (truck.description) {
-            truckDescription = truck.description;
-        }
-
-        containerHTML += foodTruckNS.query.innerLiHTML(truck.urlid, truck.name, truckDescription, thumbnailLink, thumbnailSize);
+        containerHTML += foodTruckNS.query.innerLiHTML(truck, thumbnailSize);
     }
 
     container.html(containerHTML);
