@@ -1,6 +1,18 @@
+/* Client-side js for the edit-truck/info page. Namely this
+ * js handles all the category elements and saving of categories
+ * through an ajax call.
+ */
+
+var foodTruckNS = foodTruckNS || {};
+foodTruckNS.editTruckInfo = foodTruckNS.editTruckInfo || {};
+
+/* Maximum allowed number of categories per truck. */
 var CATEGORY_CAP = 3;
 
-function reconstructCategories(cats) {
+/* Reconstructs the category select based on the given list of
+ * category objects.
+ */
+foodTruckNS.editTruckInfo.reconstructCategories = function(cats) {
     cats.sort(function(a, b) {
         if(a.name > b.name) {
             return 1;
@@ -18,9 +30,11 @@ function reconstructCategories(cats) {
         $(option).text(cats[i].name);
         $(select).append(option);
     }
-}
+};
 
-function getCategories(select) {
+/* Gets the categories from the given select box.
+ */
+foodTruckNS.editTruckInfo.getCategories = function(select) {
     var cats = [];
     $(select).find('option').each(function() {
         var cat = {};
@@ -29,18 +43,18 @@ function getCategories(select) {
         cats.push(cat);
     });
     return cats;
-}
+};
 
-function unselectCat(select, li) {
-    var currentCats = getCategories(select);
+foodTruckNS.editTruckInfo.unselectCat = function(select, li) {
+    var currentCats = foodTruckNS.editTruckInfo.getCategories(select);
     var catToReAdd = {};
     catToReAdd.name = $(li).find('.cat-name').text();
     catToReAdd.id = $(li).attr('data-catid');
     currentCats.push(catToReAdd);
-    reconstructCategories(currentCats);
+    foodTruckNS.editTruckInfo.reconstructCategories(currentCats);
     $(li).remove();
     $('#saveCategory').removeAttr('disabled');
-}
+};
 
 $(document).ready(function() {
     $('#saveCategory').click(function(e) {
@@ -71,7 +85,7 @@ $(document).ready(function() {
 
             $(span).click(function(e2) {
                 e2.preventDefault();
-                unselectCat(select, li);
+                foodTruckNS.editTruckInfo.unselectCat(select, li);
             });
 
             $('.current-categories').append(li);
@@ -97,6 +111,6 @@ $(document).ready(function() {
     });
     $('.remove-cat').click(function(e) {
         e.preventDefault();
-        unselectCat($('#add-category'), $(e.target).closest('li')); 
+        foodTruckNS.editTruckInfo.unselectCat($('#add-category'), $(e.target).closest('li')); 
     });
 });
