@@ -22,7 +22,7 @@ foodTruckNS.query.innerLiHTML = function(urlid, name, description, thumbnailLink
             '</a>' +
             '<div class="truck-info">' +
             '   <a href="trucks/' + urlid + '">' +
-            '       <h3 class="truck-name">' + name + '</h3' +
+            '       <h3 class="truck-name">' + name + '</h3>' +
             '   </a>' +
             '   <p>' + description + '</p>' +
             '</div>' +
