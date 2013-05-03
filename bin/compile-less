@@ -1,4 +1,6 @@
 #!/bin/bash
-for i in $(find src -name *.less);
-    do ./node_modules/less/bin/lessc -x $i > $(echo $i | sed "s/\(.*\).less/\1.css/");
+for i in $(find src -name *.less)
+do 
+	filename=$(basename "${i%.*}")
+	./node_modules/less/bin/lessc -x $i > "src/public/styles/$filename.css"
 done
