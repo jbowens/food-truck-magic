@@ -10,7 +10,25 @@ foodTruckNS.trucklebox = foodTruckNS.trucklebox || {};
 /* The event listener for toggling the display of the truckle box.
  */
 foodTruckNS.trucklebox.toggleTrucklebox = function(e) {
-    e.preventDefault();
+    if(foodTruckNS.trucklebox.menuOpen) {
+        foodTruckNS.trucklebox.hideMenu();
+    } else {
+        foodTruckNS.trucklebox.showMenu();
+    }
+};
+
+/* Hides the truckle menu.
+ */
+foodTruckNS.trucklebox.hideMenu = function() {
+    $(foodTruckNS.trucklebox.menu).hide();
+    foodTruckNS.trucklebox.menuOpen = false;
+};
+
+/* Shows the truckle menu.
+ */
+foodTruckNS.trucklebox.showMenu = function() {
+    $(foodTruckNS.trucklebox.menu).show();
+    foodTruckNS.trucklebox.menuOpen = true;
 };
 
 /* Called by constructMenu to construct menu items to populate
@@ -42,6 +60,10 @@ foodTruckNS.trucklebox.constructMenu = function() {
     $(list).append(foodTruckNS.trucklebox.constructMenuItem('/edit-account/password', 'Edit your account', 'edit-account'));
     $(list).append(foodTruckNS.trucklebox.constructMenuItem('/logout', 'Log out'));
 
+    $(menu).hide();
+    $(menu).click(function(e) {
+        e.stopPropagation();
+    });
     return menu;
 };
 
@@ -50,6 +72,8 @@ foodTruckNS.trucklebox.init = function() {
         /* Only initialize if the truckle box is on the page. */
         foodTruckNS.trucklebox.box = $("#truckle-box");
         foodTruckNS.trucklebox.menu = foodTruckNS.trucklebox.constructMenu();
+        $(foodTruckNS.trucklebox.box).append(foodTruckNS.trucklebox.menu);
+        foodTruckNS.trucklebox.hideMenu();
         $(foodTruckNS.trucklebox.box).click(foodTruckNS.trucklebox.toggleTrucklebox);
     }
 };
