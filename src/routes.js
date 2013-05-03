@@ -22,6 +22,7 @@ exports.setupRoutes = function(app) {
                         fileUploader.getUpload(truck.photouploadid, 
                             function(err, photo) {
                                 data.my_truck.photo = photo;
+                                runDataPreloader();
                             });
                     } else {
                         runDataPreloader();
