@@ -18,6 +18,9 @@
                 foodTruckNS.userId = {{user.id}};
             {% endif %}
         </script>
+        {% if my_truck.id %}
+        <script src="/js/truckle-box.js"></script>
+        {% endif %}
         {% block scripts %} {% endblock %}
     </head>
     <body>
@@ -32,13 +35,16 @@
                         <li><a href="/login">Login</a></li>
                         {% else %}
                         <li>
-                            {% if my_truck.id %}
+                        {% if my_truck.id %}
+                        <div id="truckle-box" data-truckid="{{ my_truck.id }}">
                                 <div id="my-truck-photo">
-                                    {{ macros.truckThumbnail(my_truck, 50) }}
+                                        {{ macros.truckThumbnail(my_truck, 50) }}
                                 </div>
-                            {% else %}
-                                <a href="/logout">Logout</a>
-                            {% endif %}
+                            </div>
+                        {% else %}
+                            <a href="/logout">Logout</a>
+                        {% endif %}
+                            </div>
                         </li>
                         {% endif %}
                     </ul>
