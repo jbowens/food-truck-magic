@@ -36,9 +36,9 @@
                         {% else %}
                         <li>
                         {% if my_truck.id %}
-                        <div id="truckle-box" data-truckid="{{ my_truck.id }}">
+                            <div id="truckle-box" data-truckid="{{ my_truck.id }}">
                                 <div id="my-truck-photo">
-                                        {{ macros.truckThumbnail(my_truck, 50) }}
+                                    {{ macros.truckThumbnail(my_truck, 50) }}
                                 </div>
                             </div>
                         {% else %}

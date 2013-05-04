@@ -1,7 +1,7 @@
 {% macro thumbnail photo size defaultImage alt %}
     <img src="
-    {% if thumbnail && thumbnail.id %}
-        {{ thumbnailer.Thumbnailer.getAppropriateThumbnail(photo, size) }} 
+    {% if photo && photo.id %}
+        {{ photo | thumbnailUrl(size) }} 
     {% else %}
         {{ defaultImage }}
     {% endif %}" 

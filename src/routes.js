@@ -13,7 +13,7 @@ exports.setupRoutes = function(app) {
                 user: request.session.user,
                 my_truck_id: request.session.my_truck_id
             };
-            data.thumbnailer = require('./thumbnailer.js');
+            data.thumbnailer = require('./thumbnailer.js').Thumbnailer;
             if(request.session.my_truck_id && request.session.user) {
                 truckStore.getTruckById(request.session.my_truck_id, function(err, truck) {
                     if(err) { console.error(err); }
