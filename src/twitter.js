@@ -100,6 +100,7 @@ var TwitterAPI = {
     }
 
     restart: function() {
+        console.log("twitter restart".green);
         TwitterAPI.steam.stop();
         TwitterAPI.init();
     }
