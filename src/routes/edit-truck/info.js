@@ -84,30 +84,36 @@ exports.postRoute = function(request, response, data) {
         data.enteredWebsite = request.body.website;
     }
 
-    if (request.body.twitterName) {
+    if (request.body.twittername && request.body.twittername != data.my_truck.twittername) {
         var twitterGetID = {
-            hostname:'localhost',
-            port:app.get('port_twitter'),
-            path:'/lookup/?screen_name=' + request.body.twitterName,
-            agent:false
+            hostname: 'localhost',
+            port: app.get('port_twitter'),
+            path: '/lookup/?screen_name=' + request.body.twittername,
+            agent: false
         };
 
         http.get(twitterGetID, function (res) {
             var chunks = [];
+            if (res.statusCode == 400) {
+                err = true;
+                data.badTwitter = true;
+                return updateTruckData(request, response, data, err);
+            }
+
             res.on('data', function(chunk) {
                 chunks.push(chunk);
             });
 
             res.on('end', function() {
                 request.body.twitterId = JSON.parse(chunks[0].toString()).id_str;
-                twitterGetID.path = "/update";
+                twitterGetID.path = '/update';
                 http.get(twitterGetID, function() {});
                 return updateTruckData(request, response, data, err);
             });
         }); 
     } else {
-        request.body.twitterName = null;
-        request.body.twitterId = null;
+        request.body.twittername = null;
+        request.body.twitterid = null;
         return updateTruckData(request, response, data, err);
     }
 };
@@ -118,11 +124,9 @@ var updateTruckData = function(request, response, data, err) {
     newTruckData.name = request.body.name;
     newTruckData.website = request.body.website;
     newTruckData.phone = request.body.phone;
-    newTruckData.twitterName = request.body.twitterName;
-    newTruckData.twitterId = request.body.twitterId;
+    newTruckData.twittername = request.body.twittername;
+    newTruckData.twitterid = request.body.twitterid;
     newTruckData.description = request.body.description;
-
-    console.log(newTruckData.twitterId);
 
     if(err) {
         /* There was a validation error and we shouldn't try and save

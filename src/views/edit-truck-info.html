@@ -60,7 +60,13 @@
 
     <div class="form-item">
         <label for="truck_twitter">Twitter name</label>
-        <input type="text" id="truck_twitter" name="twitterName" value="{{my_truck.twittername|default("")}}" />
+        <input type="text" id="truck_twitter" name="twittername" value="{{my_truck.twittername|default("")}}" />
+
+        {% if badTwitter %}
+        <div class="error">
+            We could not validate your Twitter name
+        </div>
+        {% endif %}
     </div>
 
     <div class="form-item">
