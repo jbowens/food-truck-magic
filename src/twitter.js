@@ -43,6 +43,7 @@ app.configure('development', function(){
 
 var TwitterAPI = {
     stream: null,
+    updated: false,
 
     init: function(twitterids) {
         TwitterAPI.stream = T.stream('statuses/filter', {
@@ -97,6 +98,11 @@ var TwitterAPI = {
             });
         }
     }
+
+    restart: function() {
+        TwitterAPI.steam.stop();
+        TwitterAPI.init();
+    }
 };
 
 config.init(function() {
@@ -125,7 +131,20 @@ app.get('/lookup/', function (req, res) {
     }
 });
 
+app.get('/update', function() {
+    TwitterAPI.updated = true;
+});
+
+
+var checkUpdateStream = function() {
+    if (TwitterAPI.updated) {
+        TwitterAPI.updated = false;
+        TwitterAPI.restart();
+    }
+}
 
 http.createServer(app).listen(app.get('port'), function(){
     console.log(String("Twitter server listening on port " + app.get('port')).blue);
+
+    setInterval(checkUpdateStream, 60 * 100);
 });
