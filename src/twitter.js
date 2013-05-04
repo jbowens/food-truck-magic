@@ -97,17 +97,16 @@ var TwitterAPI = {
                 callback(err, data);
             });
         }
-    }
+    },
 
     restart: function() {
         console.log("twitter restart".green);
-        TwitterAPI.steam.stop();
-        TwitterAPI.init();
+        TwitterAPI.stream.stop();
+        getIdsAndInit();
     }
 };
 
-config.init(function() {
-    db.init();
+var getIdsAndInit = function() {
     db.query(SQL_TWITTER_IDS, [], function(err, resp) {
         if(err)
             console.log("ohh god".red);
@@ -115,9 +114,14 @@ config.init(function() {
         TwitterAPI.init(resp.rows.map(function(row) {
             return row.twitterid; 
         }));
-        //TwitterAPI.init(resp.rows.twitterids);
     });
+};
+
+config.init(function() {
+    db.init();
+    getIdsAndInit();
 });
+
 
 app.get('/lookup/', function (req, res) {
     if(req.query.user_id) {
@@ -142,7 +146,7 @@ var checkUpdateStream = function() {
         TwitterAPI.updated = false;
         TwitterAPI.restart();
     }
-}
+};
 
 http.createServer(app).listen(app.get('port'), function(){
     console.log(String("Twitter server listening on port " + app.get('port')).blue);
