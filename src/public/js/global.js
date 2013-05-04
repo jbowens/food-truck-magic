@@ -3,12 +3,6 @@
  */
 var foodTruckNS = foodTruckNS || {};
 
-$(document).ready(function() {
-    setTimeout(function() {
-        $('.success-message').hide(1000);
-    }, 2000);
-});
-
 foodTruckNS.displayError = function(message) {
     $('.error-message').text(message);
     $('.error-message').show();
@@ -16,3 +10,19 @@ foodTruckNS.displayError = function(message) {
         $('.error-message').hide(1000);
     }, 4000);
 };
+
+foodTruckNS.initGlobalListeners = function() {
+    $('.fuploadSubmit').click(foodTruckNS.fileUploadSubmit);
+};
+
+foodTruckNS.fileUploadSubmit = function(evt) {
+    var button = evt.target;
+    $(button).val('Uploading...');
+};
+
+$(document).ready(function() {
+    setTimeout(function() {
+        $('.success-message').hide(1000);
+    }, 2000);
+    foodTruckNS.initGlobalListeners();
+});
