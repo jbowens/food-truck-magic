@@ -7,6 +7,7 @@ var truckStore = require('../truckstore.js').TruckStore;
 var categories = require('../categories.js');
 var thumbnailer = require('../thumbnailer.js').Thumbnailer;
 var fourOhFourRoute = require('./fourohfour.js').route;
+var uploader = require('../file-uploader.js');
 
 /* Constants */
 var PROF_PIC_SIZE = 240;
@@ -15,6 +16,22 @@ var PHOTO_THUMB_SIZE = 100;
 /* SQL Queries */
 var SQL_GET_TRUCK_BY_IDENTIFIER = "SELECT * FROM trucks WHERE urlid = $1 LIMIT 1";
 var SQL_GET_FOLLOWS = "SELECT * FROM FOLLOWS WHERE userid = $1 AND truckid = $2";
+
+function populateWithMenu(truck, callback) {
+    if(!truck.menuuploadid) {
+        callback();
+    } else {
+        uploader.getUpload(truck.menuuploadid, function(err, uploadData) {
+            if(err) {
+                console.error(err);
+            } else {
+                truck.menu = uploadData;
+            }
+
+            callback();
+        });
+    }
+}
 
 exports.route = function(request, response, data) {
     data.following = false;
@@ -35,7 +52,13 @@ exports.route = function(request, response, data) {
         }
        
         data.truck = res.rows[0];
-       
+        displayTruck(request, response, data);
+   });
+};
+
+function displayTruck(request, response, data) {
+    
+    populateWithMenu(data.truck, function() {
         categories.getTrucksCategories(data.truck.id, function(err, truck_cats) {
             if(err) {
                 console.error(err);
@@ -50,7 +73,6 @@ exports.route = function(request, response, data) {
                 /* Find the prof pic */
                 if(data.truck.photouploadid) {
                     for(var i = 0; i < data.photos.length; i++) {
-                        console.log(data.photos[i]);
                         if(data.photos[i].id == data.truck.photouploadid) {
                             data.profPic = data.photos[i];
                             data.profPic.profPicThumb = thumbnailer.getAppropriateThumbnail(data.photos[i],
@@ -84,4 +106,4 @@ exports.route = function(request, response, data) {
             });
         });
     });
-};
+}

@@ -3,5 +3,13 @@
 {% block innerContent %}
 <h2>{{ my_truck.name }} Menu</h2>
 
-<p>update dat menu here!!!</p>
+<p>Take a photo of your menu and upload it here.</p>
+
+<form method="post" enctype="multipart/form-data" class="standard">
+    <div class="form-item">
+        <label for="new_menu">New menu image</label>
+        <input type="file" name="menufile" id="new_menu" class="fupload" />
+    </div>
+    <input type="submit" class="submit fuploadSubmit" value="Upload" />
+</form>
 {% endblock %}
