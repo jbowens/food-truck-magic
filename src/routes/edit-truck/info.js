@@ -4,6 +4,8 @@ var sanitize = require('validator').sanitize;
 var categories = require('../../categories.js');
 var truckStore = require('../../truckstore.js').TruckStore;
 var fourohfour = require('./../fourohfour.js').route;
+var http = require('http');
+var app = require('../../server.js').app;
 
 function renderPage(response, data) {
     response.render('edit-truck-info', data);
@@ -65,7 +67,6 @@ exports.postRoute = function(request, response, data) {
     }
 
     var err = false;
-    var newTruckData = _.clone(data.my_truck);
 
     if(!request.body.name) {
         err = true; data.noName = true;
@@ -83,14 +84,43 @@ exports.postRoute = function(request, response, data) {
         data.enteredWebsite = request.body.website;
     }
 
-    /* TODO: Validate the phone number and twitter handle, plus
-     * add client-side validation. */
+    if (request.body.twitterName) {
+        var twitterGetID = {
+            hostname:'localhost',
+            port:app.get('port_twitter'),
+            path:'/lookup/?screen_name=' + request.body.twitterName,
+            agent:false
+        };
+
+        http.get(twitterGetID, function (res) {
+            var chunks = [];
+            res.on('data', function(chunk) {
+                chunks.push(chunk);
+            });
+
+            res.on('end', function() {
+                request.body.twitterId = JSON.parse(chunks[0].toString()).id_str;
+                return updateTruckData(request, response, data, err);
+            });
+        }); 
+    } else {
+        request.body.twitterName = null;
+        request.body.twitterId = null;
+        return updateTruckData(request, response, data, err);
+    }
+};
+
+var updateTruckData = function(request, response, data, err) {
+    var newTruckData = _.clone(data.my_truck);
 
     newTruckData.name = request.body.name;
     newTruckData.website = request.body.website;
     newTruckData.phone = request.body.phone;
     newTruckData.twitterName = request.body.twitterName;
+    newTruckData.twitterId = request.body.twitterId;
     newTruckData.description = request.body.description;
+
+    console.log(newTruckData.twitterId);
 
     if(err) {
         /* There was a validation error and we shouldn't try and save
@@ -109,5 +139,4 @@ exports.postRoute = function(request, response, data) {
     } else {
         renderPage(response, data);
     }
-
 };
