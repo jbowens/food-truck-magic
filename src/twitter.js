@@ -102,12 +102,11 @@ var TwitterAPI = {
     restart: function() {
         console.log("twitter restart".green);
         TwitterAPI.stream.stop();
-        TwitterAPI.init();
+        getIdsAndInit();
     }
 };
 
-config.init(function() {
-    db.init();
+var getIdsAndInit = function() {
     db.query(SQL_TWITTER_IDS, [], function(err, resp) {
         if(err)
             console.log("ohh god".red);
@@ -115,9 +114,14 @@ config.init(function() {
         TwitterAPI.init(resp.rows.map(function(row) {
             return row.twitterid; 
         }));
-        //TwitterAPI.init(resp.rows.twitterids);
     });
+};
+
+config.init(function() {
+    db.init();
+    getIdsAndInit();
 });
+
 
 app.get('/lookup/', function (req, res) {
     if(req.query.user_id) {
