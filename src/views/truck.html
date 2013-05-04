@@ -102,7 +102,14 @@
 
 		<li>
 		{{ truck.description|default("No Description Available!") }}
-		</li>
+        </li>
+
+        {% if truck.menu %}
+            <li>
+                <h5>Menu</h5>
+                {{ thumbnail(truck.menu, 100, '', 'Photo of menu') }}
+            </li>
+        {% endif %}
 
 		{#
 		{% if photos %}
