@@ -131,24 +131,6 @@ exports.postRoute = function(request, response, data) {
         }
     }
 
-    var twitterGetID = {
-        hostname:'localhost',
-        port:app.get('port_twitter'),
-        path:'/lookup/?screen_name=' + request.body.twitter,
-        agent:false
-    };
-
-    http.get(twitterGetID, function (res) {
-        var chunks = [];
-        res.on('data', function(chunks) {
-            chunks.push(chunks);
-        });
-
-        res.on('end', function() {
-            console.log(JSON.parse(chunks[0].toString()).id_str);
-        });
-    }); 
-
     var isTruck = false;
     if(request.body.type == 'truck') {
         validationData.enteredTruckName = request.body.truckname;
