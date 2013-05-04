@@ -97,11 +97,11 @@ var TwitterAPI = {
                 callback(err, data);
             });
         }
-    }
+    },
 
     restart: function() {
         console.log("twitter restart".green);
-        TwitterAPI.steam.stop();
+        TwitterAPI.stream.stop();
         TwitterAPI.init();
     }
 };
@@ -125,7 +125,11 @@ app.get('/lookup/', function (req, res) {
     } else if(req.query.screen_name) {
         //TODO: errors
         TwitterAPI.getUserData(req.query.screen_name.split(','), function(err, data) {
-            res.send(400, data);
+            if (err) {
+                res.send(400, "Bad Screen Name");
+            } else {
+                res.send(200, data);
+            }
         });
     } else {
         res.send(400, "Unable to Process Request");
@@ -142,7 +146,7 @@ var checkUpdateStream = function() {
         TwitterAPI.updated = false;
         TwitterAPI.restart();
     }
-}
+};
 
 http.createServer(app).listen(app.get('port'), function(){
     console.log(String("Twitter server listening on port " + app.get('port')).blue);
