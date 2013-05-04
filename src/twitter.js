@@ -129,7 +129,11 @@ app.get('/lookup/', function (req, res) {
     } else if(req.query.screen_name) {
         //TODO: errors
         TwitterAPI.getUserData(req.query.screen_name.split(','), function(err, data) {
-            res.send(400, data);
+            if (err) {
+                res.send(400, "Bad Screen Name");
+            } else {
+                res.send(200, data);
+            }
         });
     } else {
         res.send(400, "Unable to Process Request");
