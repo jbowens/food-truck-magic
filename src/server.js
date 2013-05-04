@@ -18,10 +18,12 @@ var routes = require('./routes.js');
 var cron = require('./cron.js');
 
 var app = express();
+exports.app = app;
 
 /* Configuration options for express */
 app.configure(function() {
     app.set('port', process.env.PORT_FOODLER || 8080);
+    app.set('port_twitter', process.env.PORT_TWITTER || 8081);
     app.use(express.bodyParser());
     app.use(express.cookieParser());
     app.use(express.session({

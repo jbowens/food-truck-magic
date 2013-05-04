@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS uploads (
     mime VARCHAR(255) NOT NULL,
     name VARCHAR(255) NOT NULL,
     ext VARCHAR(255) NOT NULL,
-    dateUploaded timestamp without time zone,
+    dateUploaded timestamp with time zone,
     uploaderUserid INTEGER
 );
 
@@ -13,17 +13,17 @@ CREATE TABLE IF NOT EXISTS trucks (
     name VARCHAR(255) NOT NULL,
     urlid VARCHAR(255) NOT NULL UNIQUE,
     twitterName VARCHAR(255),
-    twitterid BIGINT,
+    twitterid VARCHAR(255),
     phone VARCHAR(20),
     website VARCHAR(255),
-    lastSeen timestamp without time zone,
+    lastSeen timestamp with time zone,
     open boolean NOT NULL,
     geoPoint GEOGRAPHY(Point),
     textLoc VARCHAR(255),
     description VARCHAR(255),
     photoUploadid INTEGER REFERENCES uploads(id),
     menuUploadid INTEGER REFERENCES uploads(id),
-    dateClose timestamp without time zone
+    dateClose timestamp with time zone
 );
 
 CREATE TABLE IF NOT EXISTS users (
@@ -63,3 +63,8 @@ CREATE TABLE IF NOT EXISTS classified_as (
     truckid INTEGER NOT NULL REFERENCES trucks(id) ON DELETE CASCADE
 );
 
+CREATE TABLE IF NOT EXISTS tweets (
+	truckid INTEGER NOT NULL REFERENCES trucks(id) ON DELETE CASCADE,
+	createdat BIGINT,
+	data TEXT
+);

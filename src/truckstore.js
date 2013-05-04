@@ -43,8 +43,7 @@ exports.TruckStore = {
                 });
     },
 
-    /* Retrieves the photos of a truck.
-     */
+    /* Retrieves the photos of a truck. */
     getPhotos: function(truckid, callback) {
         db.query(SQL_GET_PHOTOS,
                 [truckid],

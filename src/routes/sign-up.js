@@ -7,6 +7,8 @@ var sanitize = require('validator').sanitize;
 var checkUsername = require('./api/check-username.js').checkUsername;
 var bailout = require('./fatalerror.js').bailout;
 var errorout = require('./error.js').errorout;
+var app = require('../server.js').app;
+var http = require('http');
 
 /* SQL Queries */
 var SQL_INSERT_USER = 'INSERT INTO users (name,pass,email) VALUES($1, $2, $3)';
@@ -128,6 +130,24 @@ exports.postRoute = function(request, response, data) {
             validationData.badEmail = true;
         }
     }
+
+    var twitterGetID = {
+        hostname:'localhost',
+        port:app.get('port_twitter'),
+        path:'/lookup/?screen_name=' + request.body.twitter,
+        agent:false
+    };
+
+    http.get(twitterGetID, function (res) {
+        var chunks = [];
+        res.on('data', function(chunks) {
+            chunks.push(chunks);
+        });
+
+        res.on('end', function() {
+            console.log(JSON.parse(chunks[0].toString()).id_str);
+        });
+    }); 
 
     var isTruck = false;
     if(request.body.type == 'truck') {
