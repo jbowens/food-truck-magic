@@ -106,7 +106,6 @@ exports.postRoute = function(request, response, data) {
                 twitterDb.getMostRecent(truck.id, 1, function(err, tweets) {
                     if(!err && tweets && tweets.length)  {
                         truck.tweet = tweets[0];
-                        console.log("IM GETTING A TRUCK: " + truck.name + " " + truck.tweet);
                     }
                     callback();
                 });

@@ -11,6 +11,28 @@
 var foodTruckNS = foodTruckNS || {};
 foodTruckNS.query = foodTruckNS.query || {};
 
+setInterval(function() {
+    if (foodTruckNS.query.listElements) {
+        for (var i = 0; i < foodTruckNS.query.listElements.length; i++) {
+            var li = foodTruckNS.query.listElements[i];
+            var truckId = li.classList[0];
+            $.ajax({
+                type: 'POST',
+                url: '/api/query-trucks',
+                data: {truckid: truckId},
+                success: foodTruckNS.query.intervalFunction
+            });
+        }
+    }
+}, 10000);
+
+foodTruckNS.query.intervalFunction = function(data) {
+    if (!data.error)  {
+        var truck = data.trucks[0];
+        foodTruckNS.query.truckContainer.find('li.' + truck.id + ' > .truck-info > .truck-tweet').text(truck.tweet.text);
+    }
+};
+
 foodTruckNS.query.innerLiHTML = function(truck, thumbnailSize) {
     var name = truck.name;
     var urlid = truck.urlid;
@@ -27,13 +49,14 @@ foodTruckNS.query.innerLiHTML = function(truck, thumbnailSize) {
         openStatus = "open!";
     }
     
-    var tweet = "";
+    var tweet = "<p class='truck-tweet'>";
     if (truck.tweet) {
-        tweet = "<p>" +  truck.tweet.text + "</p>";
+        tweet += truck.tweet.text;
     }
+    tweet += "</p>";
 
     var innerLi = '' +
-        '<li>' +
+        '<li class="' + truck.id + '">' +
             '<a class="truck-image" href="trucks/' + urlid + '">' +
             '   <img class="truck-thumbnail"' +
             '       src="' + thumbnailLink + '"' +
@@ -66,6 +89,7 @@ foodTruckNS.query.listTrucks = function(trucks, thumbnailSize) {
     }
 
     container.html(containerHTML);
+    foodTruckNS.query.listElements = container.children('li');
 };
 
 /*
@@ -147,6 +171,7 @@ foodTruckNS.query.processFilters = function() {
     if ($open.hasClass('active')) {
         args.open = true;
     }
+    foodTruckNS.query.prevArgs = args;
 
     if($near.hasClass('active')) {
         if (!navigator.geolocation) {
@@ -161,12 +186,14 @@ foodTruckNS.query.processFilters = function() {
             args.range.lat = pos.coords.latitude;
             args.range.lon = pos.coords.longitude;
             args.range.distance = 50;
-            foodTruckNS.query.getTrucks(args);
+            foodTruckNS.query.prevArgs = args;
+            foodTruckNS.query.getTrucks(args, true);
         }, function(error) {
             foodTruckNS.displayError('Error occurred trying to get geolocation data. Please reload the page and try again');
         }, {timeout: 8000});
     } else {
-        foodTruckNS.query.getTrucks(args);
+        foodTruckNS.query.prevArgs = args;
+        foodTruckNS.query.getTrucks(args, true);
     }
 };
 
