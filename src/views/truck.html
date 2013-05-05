@@ -78,10 +78,10 @@
 	</div>
 
     {% if photos %}
-        <div class="photo-preview">
+        <div class="photo-preview clearfix">
         {% for photo in photos %}
             <div class="photo">
-                <a href="/uploads/{{ photo.id }}{{ photo.ext }}" rel="lightbox">
+                <a href="/uploads/{{ photo.id }}{{ photo.ext }}" rel="lightbox[truckphotos]">
                     <img src="{{ photo.thumb }}" width="{{ photoThumbSize }}" height="{{ photoThumbSize }}" />
                 </a>
             </div>
@@ -122,7 +122,7 @@
         </li>
 
         {% if truck.menu %}
-        <li><a href="/uploads/{{ truck.menu.id }}{{ truck.menu.ext }}" rel="lightbox">menu</a></li>
+        <li><a href="/uploads/large/{{ truck.menu.id }}{{ truck.menu.ext }}" rel="lightbox">menu</a></li>
         {% endif %}
 	</ul>
 </div>

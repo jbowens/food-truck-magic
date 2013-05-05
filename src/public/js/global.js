@@ -25,4 +25,9 @@ $(document).ready(function() {
         $('.success-message').hide(1000);
     }, 2000);
     foodTruckNS.initGlobalListeners();
+
+    //menu
+    $('#menu-icon').click(function() {
+        $('.header-container').toggleClass('header-expand');
+    });
 });
