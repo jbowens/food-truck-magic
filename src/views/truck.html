@@ -155,6 +155,12 @@
     {% if truck.open %}
         <div id="map-canvas"></div>
     {% endif %}
+
+    {% if truck.tweets %} 
+        {% for tweet in truck.tweets %}
+            <p> {{tweet.text}} </p>
+        {% endfor %}
+    {% endif %}
 </div>
 
 

@@ -63,7 +63,7 @@ function displayTruck(request, response, data) {
             return fourOhFourRoute(request, response, data);
         }
 
-        data.tweets = tweets;
+        data.truck.tweets = tweets;
         populateWithMenu(data.truck, function() {
             categories.getTrucksCategories(data.truck.id, function(err, truck_cats) {
                 if(err) {
