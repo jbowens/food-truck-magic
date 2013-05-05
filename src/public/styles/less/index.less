@@ -2,10 +2,6 @@
     height: 300px;
 }
 
-.truck-thumbnail {
-	width: 60px;
-	height: 60px;
-}
 
 ul#open-trucks {
     list-style: none;
@@ -33,6 +29,15 @@ ul#open-trucks {
 	left: 0;
 }
 
+#truckle-box {
+	margin-top: 10px;
+}
+
+.truck-thumbnail {
+	width: 60px;
+	height: 60px;
+}
+
 .truck-info {
 	padding-left: 80px;
 	min-height: 120px;
@@ -48,4 +53,16 @@ ul#open-trucks {
     p {
         word-wrap: break-word;
     }
+}
+
+@media only screen and (min-width: 480px) {
+	.truck-thumbnail {
+		width: 120px;
+		height: 120px;
+	}
+
+	.truck-info {
+		padding-left: 120px + 20px;
+		min-height: 120px;
+	}
 }
