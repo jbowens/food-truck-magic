@@ -12,7 +12,7 @@ var twitterDb = require('../twitterDb.js');
 
 /* Constants */
 var PROF_PIC_SIZE = 240;
-var PHOTO_THUMB_SIZE = 100;
+var PHOTO_THUMB_SIZE = 45;
 
 /* SQL Queries */
 var SQL_GET_TRUCK_BY_IDENTIFIER = "SELECT * FROM trucks WHERE urlid = $1 LIMIT 1";

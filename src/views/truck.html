@@ -72,6 +72,16 @@
 		/>
 	</div>
 
+    {% if photos %}
+        <div class="photo-preview">
+        {% for photo in photos %}
+            <div class="photo">
+                <img src="{{ photo.thumb }}" width="{{ photoThumbSize }}" height="{{ photoThumbSize }}" />
+            </div>
+        {% endfor %}
+        </div>
+    {% endif %}
+
 	<ul id="truck-data">
 		{% if truck.phone %}
 			<li class="data-item phone">
@@ -110,18 +120,6 @@
                 <img src="{{ truck.menu | thumbnailUrl(100) }}" width="100" height="100" alt="Photo of menu" />
             </li>
         {% endif %}
-
-		{#
-		{% if photos %}
-		<div class="photo-preview">
-		{% for photo in photos %}
-		<div class="photo">
-			<img src="{{ photo.thumb }}" width="{{ photoThumbSize }}" height="{{ photoThumbSize }}" />
-		</div>
-		{% endfor %}
-		</div>
-		{% endif %}
-		#}
 	</ul>
 </div>
 
