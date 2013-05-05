@@ -119,10 +119,7 @@
         </li>
 
         {% if truck.menu %}
-            <li>
-                <h5>Menu</h5>
-                <img src="{{ truck.menu | thumbnailUrl(100) }}" width="100" height="100" alt="Photo of menu" />
-            </li>
+        <li><a href="/uploads/{{ truck.menu.id }}{{ truck.menu.ext }}" rel="lightbox">menu</a></li>
         {% endif %}
 	</ul>
 </div>
