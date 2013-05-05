@@ -13,9 +13,10 @@ foodTruckNS.query = foodTruckNS.query || {};
 
 foodTruckNS.query.intervalFunction = function(data) {
     if (!data.error)  {
-        var truck = data.trucks[0];
-        if (truck.tweet) {
-            foodTruckNS.query.truckContainer.find('li.' + truck.id + ' > .truck-info > .truck-tweet').text(truck.tweet.text);
+        var truckid = data.truckid;
+        var tweets = data.tweets;
+        if (tweets.length) {
+            foodTruckNS.query.truckContainer.find('li.' + truckid + ' > .truck-info > .truck-tweet').text(tweets[0].text);
         }        
     }
 };
@@ -217,12 +218,7 @@ foodTruckNS.query.setupFilters = function() {
 foodTruckNS.query.init = function(truckContainer) {
     foodTruckNS.query.truckContainer = truckContainer; 
     
-    /* Timer to update the trucklist dynamically.
-     * Unfortunately, the way it does this is by hitting the query-trucks
-     * endpoint, which is clearly NOT meant to be used like this.
-     * TODO: make a better endpoint specifically to handle this
-     */
-
+    /* Arguably not the best thing in the world, fix later maybe */
     if (truckContainer) {
         setInterval(function() {
             if (foodTruckNS.query.listElements) {
@@ -231,9 +227,10 @@ foodTruckNS.query.init = function(truckContainer) {
                     var truckId = li.classList[0];
                     $.ajax({
                         type: 'POST',
-                        url: '/api/query-trucks',
+                        url: '/api/get-truck-tweets',
                         data: {
-                            truckid: truckId
+                            truckid: truckId,
+                            count: 1
                         },
                         success: foodTruckNS.query.intervalFunction
                     });

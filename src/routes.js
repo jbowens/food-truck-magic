@@ -83,6 +83,7 @@ exports.setupRoutes = function(app) {
     post('/api/delete-photo', './routes/api/delete-photo.js');
     post('/api/save-categories', './routes/api/save-categories.js');
     post('/api/query-trucks', './routes/api/query-trucks.js');
+    post('/api/get-truck-tweets', './routes/api/get-truck-tweets.js');
     get('/api/get-favorites/:userId', './routes/api/get-favorites.js');
     get('*', './routes/fourohfour.js');
     post('*', './routes/fourohfour.js');

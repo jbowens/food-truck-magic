@@ -18,18 +18,21 @@
     <script type="text/javascript" src="/js/include/lightbox.js"></script>
     <script type="text/javascript" src="/js/truck.js"></script>
 
-    {% if user %}
     <script type="text/javascript">
         var foodTruckNS = foodTruckNS || {};
         foodTruckNS.truck = foodTruckNS.truck || {};
         foodTruckNS.truck.favoriting = {{following}};
         foodTruckNS.truck.truckid = {{truck.id}};
+        {% if user %}
         foodTruckNS.truck.userid = {{user.id}};
+        {% endif %}
         $(function() {
-            foodTruckNS.truck.init();
+            {% if user %}
+            foodTruckNS.truck.setupFavoriteButton();
+            {% endif %}
+            foodTruckNS.truck.setupTweetList();
         });
     </script>
-    {% endif %}
 
     {% if truck.open %}
     <script type="text/javascript" src="/js/mapview.js"></script>
@@ -156,9 +159,7 @@
     {% endif %}
 
     {% if truck.tweets %} 
-        {% for tweet in truck.tweets %}
-            <p> {{tweet.text}} </p>
-        {% endfor %}
+        <div id="tweet-list"></div>
     {% endif %}
 </div>
 
