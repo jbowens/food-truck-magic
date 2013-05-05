@@ -4,6 +4,8 @@
 
 var db = require('../../db.js').Database;
 var thumbnailer = require('../../thumbnailer.js').Thumbnailer;
+var twitterDb = require('../../twitterDb.js');
+var async = require('async');
 
 /* Constants */
 var THUMBNAIL_SIZE = 120;
@@ -89,17 +91,30 @@ exports.postRoute = function(request, response, data) {
             return;
         }
 
-        data.trucks = res.rows;
         data.thumbnailSize = THUMBNAIL_SIZE;
-        for (var i = 0; i < data.trucks.length; i++) {
-            if (data.trucks[i].uploadid) {
-                data.trucks[i].thumb = thumbnailer.getAppropriateThumbnail({
-                    'id': data.trucks[i].uploadid,
-                    'ext': data.trucks[i].ext
+        data.trucks = [];
+
+        async.each(res.rows, function(truck, callback) {
+            if (truck.uploadid) {
+                truck.thumb = thumbnailer.getAppropriateThumbnail({
+                    'id': truck.uploadid,
+                    'ext': truck.ext
                 }, THUMBNAIL_SIZE);
             }
-        }
 
-        response.json(data);
+            if (truck.twitterid) {
+                twitterDb.getMostRecent(truck.id, 1, function(err, tweets) {
+                    if(!err && tweets && tweets.length)  {
+                        truck.tweet = tweets[0];
+                    }
+                });
+            }
+
+            data.trucks.push(truck);
+            callback();
+        }, function(err) {
+            response.json(data);
+        });
+
     });
 };
