@@ -205,15 +205,24 @@ foodTruckNS.query.setupFilters = function() {
     if ('userId' in foodTruckNS) {
         var $favorites = $('#favorites-filter');
         $favorites.click(function() {
-            $favorites.toggleClass('active');
+             _.debounce(function() { 
+                $favorites.toggleClass('active');
+                foodTruckNS.query.processFilters();
+            }, 300, true)();
         });
     }
 
     $near.click(function() {
-        $near.toggleClass('active');
+         _.debounce(function() { 
+            $near.toggleClass('active');
+            foodTruckNS.query.processFilters();
+        }, 300, true)();
     });
     $open.click(function() {
-        $open.toggleClass('active');
+         _.debounce(function() { 
+            $open.toggleClass('active');
+            foodTruckNS.query.processFilters();
+        }, 300, true)();
     });
 };
 
