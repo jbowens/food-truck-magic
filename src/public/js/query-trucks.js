@@ -85,6 +85,14 @@ foodTruckNS.query.getTrucks = function(args) {
             if (data.error)  {
                 foodTruckNS.displayError("Couldn't load trucks");
             } else {
+                data.trucks.sort(function(a, b) {
+                    if (a.open) {
+                        return -1;
+                    } else if (b.open) {
+                        return 1;
+                    }
+                    return 0;
+                });
                 if (foodTruckNS.query.truckContainer !== null) {
                     foodTruckNS.query.listTrucks(data.trucks, data.thumbnailSize);
                 }
