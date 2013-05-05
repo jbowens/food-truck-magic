@@ -17,37 +17,29 @@ var SQL_INSERT_VENDOR = 'INSERT INTO vendors (userid, truckid) VALUES($1, $2);';
 var SQL_GET_ID = 'SELECT id FROM users WHERE name = $1 LIMIT 1';
 
 function createUser(data, callback) {
-    db.get(function(err, conn) {
+
+    var hashedPassword = require('../hasher.js').hash(data.pass);
+
+    db.query(SQL_INSERT_USER, [data.name, hashedPassword, data.email], function(err, res) {
+
         if(err) {
-            callback(err, null);
+            return callback(err, null);
+        }
+        
+        if(res && res.hasOwnProperty('rowCount') && res.rowCount) {
+            // Insertion was successful. Get the id of the new user.
+            db.query(SQL_GET_ID, [data.name], function(err, res) {
+                if(err || !res || !res.rows || ! res.rows[0]) {
+                    return callback(err, null);
+                } else {
+                    data.id = res.rows[0].id;
+                    return callback(null, data);
+                }
+            });
+        } else {
+            return callback(null, null);
         }
 
-        var hashedPassword = require('../hasher.js').hash(data.pass);
-
-        conn.query(SQL_INSERT_USER, [data.name, hashedPassword, data.email], function(err, res) {
-
-            if(err) {
-                db.release(conn);
-                callback(err, null);
-            }
-            
-            if(res && res.hasOwnProperty('rowCount') && res.rowCount) {
-                // Insertion was successful. Get the id of the new user.
-                conn.query(SQL_GET_ID, [data.name], function(err, res) {
-                    db.release(conn);
-                    if(err || !res || !res.rows || ! res.rows[0]) {
-                        callback(err, null);
-                    } else {
-                        data.id = res.rows[0].id;
-                        callback(null, data);
-                    }
-                });
-            } else {
-                db.release(conn);
-                callback(null, null);
-            }
-
-        });
     });
 }
 
