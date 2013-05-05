@@ -154,17 +154,16 @@ nav {
 
 		color: white;
 		background-color: @redler;
+
+		&:hover, &:visited {
+			color: white;
+		}
+
+		&:hover {
+			text-decoration: underline;
+		}
 	}
 
-}
-
-nav a:hover,
-nav a:visited {
-    color: white;
-}
-
-nav a:hover {
-    text-decoration: underline;
 }
 
 #nav-truck-photo {
@@ -296,6 +295,10 @@ nav a:hover {
     }
 }
 
+.wrapper {
+    width: 90%;
+    margin: 0 5%;
+}
 /* ===============
    Messages 
    =============== */
@@ -335,10 +338,7 @@ nav a:hover {
    Helper classes
    ========================================================================== */
 
-.wrapper {
-    width: 90%;
-    margin: 0 5%;
-}
+
 
 .ir {
     background-color: transparent;

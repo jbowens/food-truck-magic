@@ -17,23 +17,31 @@
 		display: none;
 	}
 
-    nav a {
-        float: left;
-        width: 27%;
-        margin: 0 1.7%;
-        padding: 25px 2%;
-        margin-bottom: 0;
-		text-align: center;
-		clear: none;
+    nav {
+
+        float: right;
+        width: 52%;
+
+		a {
+			float: left;
+			width: 27%;
+			margin: 0 1.7%;
+			padding: 25px 2%;
+			margin-bottom: 0;
+			text-align: center;
+			clear: none;
+		}
+
+		li:first-child a {
+			margin-left: 0;
+		}
+
+		li:last-child a {
+			margin-right: 0;
+		}
+
     }
 
-    nav li:first-child a {
-        margin-left: 0;
-    }
-
-    nav li:last-child a {
-        margin-right: 0;
-    }
 
 /* ========================
     IE Fixes
@@ -59,10 +67,9 @@
         float: left;
     }
 
-    nav {
-        float: right;
-        width: 38%;
-    }
+	nav {
+		width: 38%;
+	}
 
 /* ============
     WIDE: Main
