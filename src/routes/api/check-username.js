@@ -11,27 +11,17 @@ var SQL_CHECK_USERNAME = "SELECT id FROM users WHERE name LIKE $1 LIMIT 1";
 /* Checks if the given username is in use.
  */
 exports.checkUsername = function(username, callback) {
-
-    db.get(function(err, conn) {
+    db.query(SQL_CHECK_USERNAME, [username], function(err, res) {
         if(err) {
-            callback(err, null);
+            console.error(err);
+            return callback(err, null);
         }
 
-        conn.query(SQL_CHECK_USERNAME, [username], function(err, res) {
-            db.release(conn);
+        var userExists = !! res.rows.length;
 
-            if(err) {
-                callback(err, null);
-            }
-
-            var userExists = !! res.rows.length;
-
-            callback(null, userExists);
-
-        });
+        callback(null, userExists);
 
     });
-
 };
 
 exports.route = function(request, response, data) {
