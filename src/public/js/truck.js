@@ -20,7 +20,7 @@ foodTruckNS.truck.updateFavoriteButtonText = function($button) {
 /* 
  * setup click handler for the favorite button
  */
-foodTruckNS.truck.setupfavoriteButton = function() {
+foodTruckNS.truck.setupFavoriteButton = function() {
     var truckId = foodTruckNS.truck.truckid;
     var userId = foodTruckNS.truck.userid;
 
@@ -52,6 +52,35 @@ foodTruckNS.truck.setupfavoriteButton = function() {
     });
 };
 
-foodTruckNS.truck.init = function() {
-    foodTruckNS.truck.setupfavoriteButton();
+foodTruckNS.truck.setupTweetList = function() {
+    /* tweet-list will only be present if the truck has a twitterid */
+    var $tweetList = $('#tweet-list');
+    if ($tweetList.length) {
+        foodTruckNS.truck.updateTweetList();
+        setInterval(foodTruckNS.truck.updateTweetList, 15000);
+    }
+};
+
+foodTruckNS.truck.updateTweetList = function() {
+    var $tweetList = $('#tweet-list');
+    $.ajax({
+        type: 'POST',
+        url: '/api/get-truck-tweets',
+        data: {
+            truckid: foodTruckNS.truck.truckid,
+            count: 10
+        },
+        success: function(data) {
+            if (!data.error) {
+                var innerHtml = '<ul>';
+                var tweets = data.tweets;
+                for (var i = 0; i < tweets.length; i++) {
+                    innerHtml += '<li>' + tweets[i].text + '</li>';
+                }
+
+                innerHtml += '</ul>';
+                $tweetList.html(innerHtml);
+            }
+        }
+    });
 };

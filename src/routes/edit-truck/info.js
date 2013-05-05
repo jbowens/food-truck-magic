@@ -20,7 +20,7 @@ function hasPermission(request, response, data) {
  */
 exports.preloader = function(request, response, data, callback) {
     if(!data.my_truck) {
-        return;
+        return callback();
     }
     categories.getAllCategories(function(err, cats) {
         categories.getTrucksCategories(data.my_truck.id, function(err, truck_cats) {

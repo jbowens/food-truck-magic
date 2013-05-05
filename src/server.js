@@ -24,6 +24,10 @@ exports.app = app;
 app.configure(function() {
     app.set('port', process.env.PORT_FOODLER || 8080);
     app.set('port_twitter', process.env.PORT_TWITTER || 8081);
+
+    app.use(express.static(__dirname +'/public'));
+    app.use('/uploads', express.static(__dirname +'/../uploads'));
+
     app.use(express.bodyParser());
     app.use(express.cookieParser());
     app.use(express.session({
@@ -44,8 +48,6 @@ app.configure(function() {
         tags: require('./custom-tags.js')
     });
     app.set('views', __dirname + '/views/');
-    app.use(express.static(__dirname +'/public'));
-    app.use('/uploads', express.static(__dirname +'/../uploads'));
 });
 
 

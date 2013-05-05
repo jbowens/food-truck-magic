@@ -18,18 +18,21 @@
     <script type="text/javascript" src="/js/include/lightbox.js"></script>
     <script type="text/javascript" src="/js/truck.js"></script>
 
-    {% if user %}
     <script type="text/javascript">
         var foodTruckNS = foodTruckNS || {};
         foodTruckNS.truck = foodTruckNS.truck || {};
         foodTruckNS.truck.favoriting = {{following}};
         foodTruckNS.truck.truckid = {{truck.id}};
+        {% if user %}
         foodTruckNS.truck.userid = {{user.id}};
+        {% endif %}
         $(function() {
-            foodTruckNS.truck.init();
+            {% if user %}
+            foodTruckNS.truck setupFavoriteButton();
+            {% endif %}
+            foodTruckNS.truck.setupTweetList();
         });
     </script>
-    {% endif %}
 
     {% if truck.open %}
     <script type="text/javascript" src="/js/mapview.js"></script>
@@ -75,10 +78,10 @@
 	</div>
 
     {% if photos %}
-        <div class="photo-preview">
+        <div class="photo-preview clearfix">
         {% for photo in photos %}
             <div class="photo">
-                <a href="/uploads/{{ photo.id }}{{ photo.ext }}" rel="lightbox">
+                <a href="/uploads/{{ photo.id }}{{ photo.ext }}" rel="lightbox[truckphotos]">
                     <img src="{{ photo.thumb }}" width="{{ photoThumbSize }}" height="{{ photoThumbSize }}" />
                 </a>
             </div>
@@ -119,7 +122,7 @@
         </li>
 
         {% if truck.menu %}
-        <li><a href="/uploads/{{ truck.menu.id }}{{ truck.menu.ext }}" rel="lightbox">menu</a></li>
+        <li><a href="/uploads/large/{{ truck.menu.id }}{{ truck.menu.ext }}" rel="lightbox">menu</a></li>
         {% endif %}
 	</ul>
 </div>
@@ -155,10 +158,8 @@
         <div id="map-canvas"></div>
     {% endif %}
 
-    {% if truck.tweets %} 
-        {% for tweet in truck.tweets %}
-            <p> {{tweet.text}} </p>
-        {% endfor %}
+    {% if truck.twitterid %} 
+        <div id="tweet-list"></div>
     {% endif %}
 </div>
 
