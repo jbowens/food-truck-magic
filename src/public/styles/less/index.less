@@ -2,6 +2,13 @@
     height: 300px;
 }
 
+/*aside {*/
+	/*position: fixed;*/
+	/*height: 30%;*/
+	/*width: 100%;*/
+	/*bottom: 0px;*/
+	/*left: 0px;*/
+/*}*/
 
 ul#open-trucks {
     list-style: none;
@@ -10,9 +17,10 @@ ul#open-trucks {
     margin-top: 1em;
 
 	li {
-		margin-bottom: 1em;	
-		padding: 0;
 		position:relative;
+
+		padding-top: 1em;
+		padding-bottom: 1em;
 		border-bottom: 1px solid #ccc;
 	}
 }
@@ -36,6 +44,8 @@ ul#open-trucks {
 .truck-thumbnail {
 	width: 60px;
 	height: 60px;
+	border-radius: 100%;
+	margin-top: 2em;
 }
 
 .truck-info {
@@ -65,4 +75,22 @@ ul#open-trucks {
 		padding-left: 120px + 20px;
 		min-height: 120px;
 	}
+
+	.main aside {
+		color: black;
+		/*padding: 0px 5% 10px;*/
+
+		/*position: static;*/
+		/*width: 300px;*/
+		/*height: 300px;*/
+
+		/*bottom: auto;*/
+		/*left: auto;*/
+
+	}
+
+	.main aside ul {
+		margin-left: -40px;
+	}
+
 }
