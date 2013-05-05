@@ -105,7 +105,7 @@ exports.postRoute = function(request, response, data) {
             });
 
             res.on('end', function() {
-                request.body.twitterId = JSON.parse(chunks[0].toString()).id_str;
+                request.body.twitterid = JSON.parse(chunks[0].toString()).id_str;
                 twitterGetID.path = '/update';
                 http.get(twitterGetID, function() {});
                 return updateTruckData(request, response, data, err);

@@ -26,6 +26,11 @@ foodTruckNS.query.innerLiHTML = function(truck, thumbnailSize) {
     if (truck.open) {
         openStatus = "open!";
     }
+    
+    var tweet = "";
+    if (truck.tweet) {
+        tweet = "<p>" +  truck.tweet.text + "</p>";
+    }
 
     var innerLi = '' +
         '<li>' +
@@ -41,6 +46,7 @@ foodTruckNS.query.innerLiHTML = function(truck, thumbnailSize) {
             '   </a>' +
             '   <span class="openStatus">(' + openStatus + ')</span>' +
             '   <p>' + description + '</p>' +
+                tweet +
             '</div>' +
         '</li>';
     
