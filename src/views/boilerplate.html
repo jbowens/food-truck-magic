@@ -4,6 +4,10 @@
     <head>
         <title>{% block title %}FoodTruckYoloSwagMagic{%endblock%}</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta name="google" value="notranslate" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black" />
 
         {% block stylesheets %}
         <link rel="stylesheet" href="/styles/normalize.css" />
@@ -27,6 +31,7 @@
         <div class="header-container">
             <header class="wrapper clearfix">
                 <a href="/"><h1 class="title">Foodtruckler</h1></a>
+				<span id="menu-icon" class="iconic iconic-list"></span>
                 <nav>
                     <ul>
                         <li><a href="/">Trucks</a></li>

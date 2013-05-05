@@ -31,23 +31,26 @@
 
 {% block content %}
     <article>
+		{# 
         {% if not user %}
             <p class="alert-message"> Log in to follow your favorite food trucks! </p>
         {% endif %}
+		#}
 
-        <h2> Trucklers </h2>
+        <h2> Find your Truck! </h2>
         <div id="search-wrapper">
             <div class="error-message" style="display:none;"></div>
-			<div class="arrow-right"></div>
+			<a id="truck-search-button">
+				<span class="iconic iconic-magnifying-glass"></span>
+			</a>
             <input type="text" id="truck-search" placeholder="Search trucks"></input>
-            <button id="truck-search-button"> Search </button>
         </div>
         <div id="filter-wrapper">
             {% if user %}
-            <button class="search-filter" id="favorites-filter"> Favorites </button>
+            <a class="search-filter" id="favorites-filter"> Favorites </a>
             {% endif %}
-            <button class="search-filter" id="near-filter"> Near you </button>
-            <button class="search-filter" id="open-filter"> Open </button>
+            <a class="search-filter" id="near-filter"> Near you </a>
+            <a class="search-filter" id="open-filter"> Open </a>
         </div>
 
         <ul id="open-trucks">
