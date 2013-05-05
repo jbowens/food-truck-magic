@@ -53,6 +53,7 @@ foodTruckNS.truck.setupfavoriteButton = function() {
 };
 
 foodTruckNS.truck.setupTweetList = function() {
+    /* tweet-list will only be present if the truck has a twitterid */
     var $tweetList = $('#tweet-list');
     if ($tweetList.length) {
         foodTruckNS.truck.updateTweetList();

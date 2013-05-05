@@ -11,12 +11,16 @@
 var foodTruckNS = foodTruckNS || {};
 foodTruckNS.query = foodTruckNS.query || {};
 
+/*
+ * Function called on the interval timer that grabs new tweets.
+ */
 foodTruckNS.query.intervalFunction = function(data) {
     if (!data.error)  {
-        var truckid = data.truckid;
+        var id = data.truckid;
         var tweets = data.tweets;
-        if (tweets.length) {
-            foodTruckNS.query.truckContainer.find('li.' + truckid + ' > .truck-info > .truck-tweet').text(tweets[0].text);
+        if (tweets.length && id in foodTruckNS.query.twitterLiElements) {
+            var li = foodTruckNS.query.twitterLiElements[id];
+            li.find('.truck-info > .truck-tweet').text(tweets[0].text);
         }        
     }
 };
@@ -69,15 +73,19 @@ foodTruckNS.query.innerLiHTML = function(truck, thumbnailSize) {
  */
 foodTruckNS.query.listTrucks = function(trucks, thumbnailSize) {
     var container = foodTruckNS.query.truckContainer;
-    var containerHTML = '';
+    container.html('');
+    foodTruckNS.query.twitterLiElements = {}; /* key: truck id, val: html */
 
     for (var i = 0; i < trucks.length; i++) {
         var truck = trucks[i];
-        containerHTML += foodTruckNS.query.innerLiHTML(truck, thumbnailSize);
-    }
+        var $innerLiHTML = $(foodTruckNS.query.innerLiHTML(truck, thumbnailSize));
+        container.append($innerLiHTML);
 
-    container.html(containerHTML);
-    foodTruckNS.query.listElements = container.children('li');
+        /* for all trucks with twitter id's, lets check for more tweets */
+        if (truck.twitterid) {
+           foodTruckNS.query.twitterLiElements[truck.id] = $innerLiHTML;
+        }
+    }
 };
 
 /*
@@ -221,15 +229,14 @@ foodTruckNS.query.init = function(truckContainer) {
     /* Arguably not the best thing in the world, fix later maybe */
     if (truckContainer) {
         setInterval(function() {
-            if (foodTruckNS.query.listElements) {
-                for (var i = 0; i < foodTruckNS.query.listElements.length; i++) {
-                    var li = foodTruckNS.query.listElements[i];
-                    var truckId = li.classList[0];
+            if (foodTruckNS.query.twitterLiElements) {
+                for (var id in foodTruckNS.query.twitterLiElements) {
+                    var li = foodTruckNS.query.twitterLiElements[id];
                     $.ajax({
                         type: 'POST',
                         url: '/api/get-truck-tweets',
                         data: {
-                            truckid: truckId,
+                            truckid: id,
                             count: 1
                         },
                         success: foodTruckNS.query.intervalFunction
