@@ -8,7 +8,8 @@ exports.route = function(request, response, data) {
         return errorout(request, response, data, "You're not logged in!");
     }
 
-    request.session.user = null;
+    request.session.user = false;
+    request.session.my_truck_id = false;
     
     response.redirect('/');
 };
