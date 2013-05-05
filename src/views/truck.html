@@ -15,7 +15,7 @@
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA0uRmvgWbp3WBxVaCqf1WkZpu5nSibMpc&sensor=false"></script>
     {% endif %}
 
-    <script type="text/javascript" src="/js/includes/lightbox.js"></script>
+    <script type="text/javascript" src="/js/include/lightbox.js"></script>
     <script type="text/javascript" src="/js/truck.js"></script>
 
     {% if user %}
@@ -78,7 +78,9 @@
         <div class="photo-preview">
         {% for photo in photos %}
             <div class="photo">
-                <img src="{{ photo.thumb }}" width="{{ photoThumbSize }}" height="{{ photoThumbSize }}" />
+                <a href="/uploads/{{ photo.id }}{{ photo.ext }}" rel="lightbox">
+                    <img src="{{ photo.thumb }}" width="{{ photoThumbSize }}" height="{{ photoThumbSize }}" />
+                </a>
             </div>
         {% endfor %}
         </div>
