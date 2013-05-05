@@ -20,7 +20,7 @@ function hasPermission(request, response, data) {
  */
 exports.preloader = function(request, response, data, callback) {
     if(!data.my_truck) {
-        return;
+        return callback();
     }
     categories.getAllCategories(function(err, cats) {
         categories.getTrucksCategories(data.my_truck.id, function(err, truck_cats) {
@@ -105,7 +105,7 @@ exports.postRoute = function(request, response, data) {
             });
 
             res.on('end', function() {
-                request.body.twitterId = JSON.parse(chunks[0].toString()).id_str;
+                request.body.twitterid = JSON.parse(chunks[0].toString()).id_str;
                 twitterGetID.path = '/update';
                 http.get(twitterGetID, function() {});
                 return updateTruckData(request, response, data, err);

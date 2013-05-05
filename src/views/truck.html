@@ -5,6 +5,7 @@
 {% block stylesheets %}
     {% parent %}
     <link rel="stylesheet" href="/styles/truck.css" />
+    <link rel="stylesheet" href="/styles/lightbox.css" />
 {% endblock %}
 
 {% block scripts %}
@@ -14,6 +15,7 @@
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA0uRmvgWbp3WBxVaCqf1WkZpu5nSibMpc&sensor=false"></script>
     {% endif %}
 
+    <script type="text/javascript" src="/js/include/lightbox.js"></script>
     <script type="text/javascript" src="/js/truck.js"></script>
 
     {% if user %}
@@ -72,6 +74,18 @@
 		/>
 	</div>
 
+    {% if photos %}
+        <div class="photo-preview clearfix">
+        {% for photo in photos %}
+            <div class="photo">
+                <a href="/uploads/{{ photo.id }}{{ photo.ext }}" rel="lightbox[truckphotos]">
+                    <img src="{{ photo.thumb }}" width="{{ photoThumbSize }}" height="{{ photoThumbSize }}" />
+                </a>
+            </div>
+        {% endfor %}
+        </div>
+    {% endif %}
+
 	<ul id="truck-data">
 		{% if truck.phone %}
 			<li class="data-item phone">
@@ -105,23 +119,8 @@
         </li>
 
         {% if truck.menu %}
-            <li>
-                <h5>Menu</h5>
-                {{ thumbnail(truck.menu, 100, '', 'Photo of menu') }}
-            </li>
+        <li><a href="/uploads/large/{{ truck.menu.id }}{{ truck.menu.ext }}" rel="lightbox">menu</a></li>
         {% endif %}
-
-		{#
-		{% if photos %}
-		<div class="photo-preview">
-		{% for photo in photos %}
-		<div class="photo">
-			<img src="{{ photo.thumb }}" width="{{ photoThumbSize }}" height="{{ photoThumbSize }}" />
-		</div>
-		{% endfor %}
-		</div>
-		{% endif %}
-		#}
 	</ul>
 </div>
 
@@ -154,6 +153,12 @@
     {% endif %}
     {% if truck.open %}
         <div id="map-canvas"></div>
+    {% endif %}
+
+    {% if truck.tweets %} 
+        {% for tweet in truck.tweets %}
+            <p> {{tweet.text}} </p>
+        {% endfor %}
     {% endif %}
 </div>
 

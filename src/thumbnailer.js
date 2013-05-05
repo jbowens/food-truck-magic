@@ -27,6 +27,12 @@ var thumbnailSizes = [
         width: 300,
         height: 300,
         crop: true
+    },
+    {
+        name: 'large',
+        width: 600,
+        height: 600,
+        crop: false
     }
 ];
 
@@ -55,7 +61,7 @@ exports.Thumbnailer = {
             /* Generate that shit */
             var dest = __dirname + '/../uploads/' + size.name + "/" +
                     photo.id.toString() + photo.ext;
-            if(size.width == size.height) {
+            if(size.crop && size.width == size.height) {
                 /* It's a square thumbnail, so let's just use easyimage's thumbnail
                  * function. */
                 easyimage.thumbnail({
@@ -68,8 +74,20 @@ exports.Thumbnailer = {
                     return c(err);
                 });
             } else {
-                /* TODO: Math and shit. */
-                return c(null);
+                if(size.crop) {
+                    /* TODO: Shit. */
+                    return c(null);
+                } else {
+                    easyimage.resize({
+                        width: size.width,
+                        height: size.height,
+                        src: original,
+                        dst: dest
+                    }, function(err, image) {
+                        if(err) { console.error(err); }
+                        return c(null);
+                    });
+                }
             }
         }, function(err) {
             callback(err);   

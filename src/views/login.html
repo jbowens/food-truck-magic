@@ -5,15 +5,21 @@
 <link rel="stylesheet" href="/styles/login.css" />
 {% endblock %}
 
+{% block scripts %}
+    {% parent %}
+    <script type="text/javascript">
+        {% if badLoginCredentials %}
+            $(function() {
+                foodTruckNS.displayError("Invalid username/password combination");
+            });
+        {% endif %}
+    </script>
+{% endblock %}
+
 {% block content %}
 
 <h2>Log in</h2>
-
-{% if badLoginCredentials %}
-    <div class="error">
-        Invalid login credentials
-    </div>
-{% endif %}
+<div class="error-message" style="display:none;"> </div>
 
 <form method="post" action="/login" id="login" class="standard">
 

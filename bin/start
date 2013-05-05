@@ -5,8 +5,8 @@ then
     echo "Compiling less..."
     ./bin/compile-less
     echo "Starting server..."
-	#export PORT_FOODLER=8080
-	#export PORT_TWITTER=8081
     node ./src/twitter.js &
+    # TODO: Check if mac os x
+    # say "FoodTruckler is now online" &
     node ./src/server.js "$@"
 fi
