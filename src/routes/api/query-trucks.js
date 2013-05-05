@@ -107,13 +107,14 @@ exports.postRoute = function(request, response, data) {
                     if(!err && tweets && tweets.length)  {
                         truck.tweet = tweets[0];
                     }
+                    data.trucks.push(truck);
                     callback();
                 });
             } else {
+                data.trucks.push(truck);
                 callback();
             }
 
-            data.trucks.push(truck);
         }, function(err) {
             response.json(data);
         });

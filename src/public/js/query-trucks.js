@@ -11,25 +11,12 @@
 var foodTruckNS = foodTruckNS || {};
 foodTruckNS.query = foodTruckNS.query || {};
 
-setInterval(function() {
-    if (foodTruckNS.query.listElements) {
-        for (var i = 0; i < foodTruckNS.query.listElements.length; i++) {
-            var li = foodTruckNS.query.listElements[i];
-            var truckId = li.classList[0];
-            $.ajax({
-                type: 'POST',
-                url: '/api/query-trucks',
-                data: {truckid: truckId},
-                success: foodTruckNS.query.intervalFunction
-            });
-        }
-    }
-}, 10000);
-
 foodTruckNS.query.intervalFunction = function(data) {
     if (!data.error)  {
         var truck = data.trucks[0];
-        foodTruckNS.query.truckContainer.find('li.' + truck.id + ' > .truck-info > .truck-tweet').text(truck.tweet.text);
+        if (truck.tweet) {
+            foodTruckNS.query.truckContainer.find('li.' + truck.id + ' > .truck-info > .truck-tweet').text(truck.tweet.text);
+        }        
     }
 };
 
@@ -229,6 +216,31 @@ foodTruckNS.query.setupFilters = function() {
  */
 foodTruckNS.query.init = function(truckContainer) {
     foodTruckNS.query.truckContainer = truckContainer; 
+    
+    /* Timer to update the trucklist dynamically.
+     * Unfortunately, the way it does this is by hitting the query-trucks
+     * endpoint, which is clearly NOT meant to be used like this.
+     * TODO: make a better endpoint specifically to handle this
+     */
+
+    if (truckContainer) {
+        setInterval(function() {
+            if (foodTruckNS.query.listElements) {
+                for (var i = 0; i < foodTruckNS.query.listElements.length; i++) {
+                    var li = foodTruckNS.query.listElements[i];
+                    var truckId = li.classList[0];
+                    $.ajax({
+                        type: 'POST',
+                        url: '/api/query-trucks',
+                        data: {
+                            truckid: truckId
+                        },
+                        success: foodTruckNS.query.intervalFunction
+                    });
+                }
+            }
+        }, 15000);
+    }
     foodTruckNS.query.setupFilters();
     foodTruckNS.query.setupSearch();
 };
