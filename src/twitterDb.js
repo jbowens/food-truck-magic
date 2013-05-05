@@ -19,7 +19,7 @@ exports.getMostRecent = function(truckid, tweetsToGet, callback) {
     
                 callback(null, res.rows.map(function(x) {
                     return JSON.parse(x.data);            
-                });
+                }));
                 
             });
 
