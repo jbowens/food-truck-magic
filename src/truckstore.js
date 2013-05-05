@@ -34,7 +34,7 @@ exports.TruckStore = {
      */
     updateTruck: function(truckid, newTruckData, callback) {
         db.query(SQL_UPDATE_TRUCK_DATA,
-                [newTruckData.twitterName, newTruckData.twitterId, newTruckData.phone, 
+                [newTruckData.twittername, newTruckData.twitterid, newTruckData.phone, 
                  newTruckData.website, newTruckData.name, 
                  newTruckData.description, truckid],
                 function(err) {
