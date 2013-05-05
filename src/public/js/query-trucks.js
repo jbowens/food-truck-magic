@@ -132,15 +132,15 @@ foodTruckNS.query.setupSearch = function() {
     var $searchBar = $('#truck-search');
     var $searchButton = $('#truck-search-button');
 
+    var debouncedProcessFilters = _.debounce(foodTruckNS.query.processFilters, 300, true);
+
     $searchBar.keyup(function(e) {
         if (e.keyCode == 13) {
-            foodTruckNS.query.processFilters();
+            debouncedProcessFilters();
         }
     });
 
-    $searchButton.click(function() {
-        foodTruckNS.query.processFilters();
-    });
+    $searchButton.click(debouncedProcessFilters);
 };
 
 
