@@ -20,7 +20,7 @@ foodTruckNS.truck.updateFavoriteButtonText = function($button) {
 /* 
  * setup click handler for the favorite button
  */
-foodTruckNS.truck.setupfavoriteButton = function() {
+foodTruckNS.truck.setupFavoriteButton = function() {
     var truckId = foodTruckNS.truck.truckid;
     var userId = foodTruckNS.truck.userid;
 
