@@ -1,5 +1,5 @@
 {% macro thumbnail photo size defaultImage alt %}
-    <img src="
+    <img class="truck-login-thumbnail" src="
     {% if photo && photo.id %}
         {{ photo | thumbnailUrl(size) }} 
     {% else %}
