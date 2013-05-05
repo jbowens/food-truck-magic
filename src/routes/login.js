@@ -14,28 +14,19 @@ function getUser(username, password, callback) {
 
     var hashedPassword = hash(password);
 
-    db.get(function(err, conn) {
+    db.query(SQL_GET_USER, [username, hashedPassword], function(err, res) {
         if(err) {
+            console.error(err);
             return callback(err, null);
         }
 
-        conn.query(SQL_GET_USER, [username, hashedPassword], function(err, res) {
-            db.release(conn);
-            
-            if(err) {
-                console.error(err);
-                callback(err, null);
-            }
+        console.log(res);
 
-            console.log(res);
-
-            if(res && res.rowCount) {
-                callback(null, res.rows[0]);
-            } else {
-                callback(null, null);
-            }
-
-        });
+        if(res && res.rowCount) {
+            callback(null, res.rows[0]);
+        } else {
+            callback(null, null);
+        }
     });
 
 }
