@@ -112,8 +112,6 @@ exports.postRoute = function(request, response, data) {
             });
         }); 
     } else {
-        request.body.twittername = null;
-        request.body.twitterid = null;
         return updateTruckData(request, response, data, err);
     }
 };
