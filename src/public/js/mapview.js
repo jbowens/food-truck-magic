@@ -174,7 +174,7 @@ foodTruckNS.mapview.showMyTruck = function(truckId) {
 };
 
 foodTruckNS.mapview.displayUser = function(userPos) {
-    if (!userPos) {
+    if (!userPos && foodTruckNS.mapview.userMarker) {
         foodTruckNS.mapview.userMarker.setMap(null);
     } else {
         var lat = userPos.coords.latitude;
