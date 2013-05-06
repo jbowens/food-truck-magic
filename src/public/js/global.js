@@ -10,7 +10,7 @@ foodTruckNS.displayError = function(message) {
         $('.error-message').animate({
             height: 0,
             opacity: 0
-        }, 1000);
+        }, 1000, function() { $(this).hide(); });
     }, 4000);
 };
 
