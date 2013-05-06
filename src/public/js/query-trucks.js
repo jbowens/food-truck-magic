@@ -206,7 +206,7 @@ foodTruckNS.query.processFilters = function() {
             args.range = {};
             args.range.lat = pos.coords.latitude;
             args.range.lon = pos.coords.longitude;
-            args.range.distance = 50;
+            args.range.distance = 1600;
             foodTruckNS.query.prevArgs = args;
             foodTruckNS.query.getTrucks(args, true);
         }, function(error) {
