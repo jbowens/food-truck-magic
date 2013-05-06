@@ -227,7 +227,7 @@ foodTruckNS.query.processFilters = function() {
     } else {
         foodTruckNS.mapview.displayUser(null);
         foodTruckNS.query.prevArgs = args;
-        foodTruckNS.query.getTrucks(args, true);
+        foodTruckNS.query.getTrucks(args);
     }
 };
 
