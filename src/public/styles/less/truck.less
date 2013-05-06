@@ -1,5 +1,7 @@
+@import "colors.less";
+
 #map-canvas {
-    height: 300px;
+    height: 200px;
 }
 
 #truck-data {
@@ -18,6 +20,7 @@
 #truck-sidebar {
 	max-width: auto;
 }
+
 #photos {
 	position: relative;
 	left: 15%;
@@ -29,16 +32,6 @@
 }
 
 .info {
-	margin-left: 3em;
-	font-size: 0.6em;
-}
-
-.info .open {
-	color: #B89933;
-}
-
-.info .closed {
-    color: #555;
 }
 
 .photo {
@@ -48,6 +41,23 @@
 
 #truck-name {
 	display: none;
+}
+
+#tweet-list {
+	ul {
+		margin: 0;
+		padding: 0;
+
+		li {
+			list-style-type:none;
+			padding-left: 0.8em;
+			border-left: solid 2px fadeout(@redler, 50%);
+			font-size: 0.9em;
+			line-height: 1.6em;
+			color: @redler-used;
+			margin-bottom: 10px;
+		}
+	}
 }
 
 @media only screen and (min-width: 681px) {

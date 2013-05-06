@@ -94,22 +94,37 @@
 	<div id="truck-name-mobile">
 		<h2> {{ truck.name }} </h2>
 
-		{% if truck.id == my_truck_id %} 
-		<span class="info"> This is your truck! </span>
-		{%endif%} 
 		<span class="info">
-			{% if truck.open %} 
-			<span class="iconic iconic-clock open"></span>
-			<span class="open">Open</span>
-			{% else %} 
-			<span class="iconic iconic-clock closed"></span>
-			<span class="closed">Closed</span>
-			{%endif%}
+		{% if truck.open %} 
+	        <span class="iconic iconic-clock open"></span>
+	        <span class="open">Open</span>
+		{% else %} 
+	        <span class="iconic iconic-clock closed"></span>
+	        <span class="closed">Closed</span>
+		{%endif%}
+		{% if truck.id == my_truck_id %} 
+			<span class="your-truck">| This is your truck! </span>
+		{%endif%} 
 		</span>
 	<p>{{ truck.description|default("No Description Available!") }}</p>
 	</div>
 
 	<ul id="truck-data">
+		{% if user %}
+			<li>
+				<a href="#" id="favorite" style="display:none">
+					<span id="favorite-button" class="iconic iconic-pin follow"></span>
+				</a>
+			</li>
+		{% else %}
+			<li>
+				<a href="/login" id="favorite">
+					<span id="favorite-button" class="iconic iconic-pin follow"></span>
+					Login to Follow!
+				</a>
+			</li>
+        {% endif %}
+
 		{% if truck.phone %}
 			<li class="data-item phone">
 				Phone: <a href="tel:{{ truck.phone }}">{{ truck.phone }}</a>
@@ -127,23 +142,6 @@
             </li>
         {% endif %}
 
-		{% if user %}
-			<li>
-				<a href="#" id="favorite" style="display:none">
-					<span id="favorite-button" class="iconic iconic-pin follow"></span>
-				</a>
-			</li>
-		{% else %}
-			<li>
-				<a href="#" id="favorite">
-					<span id="favorite-button" class="iconic iconic-pin follow"></span>
-					Login to Follow!
-				</a>
-			</li>
-        {% endif %}
-
-
-
         {% if truck.menu %}
         <li><a href="/uploads/large/{{ truck.menu.id }}{{ truck.menu.ext }}" rel="lightbox">Menu</a></li>
         {% endif %}
@@ -154,9 +152,6 @@
 	<div id="truck-name">
 	<h2> {{ truck.name }} </h2>
 		
-		{% if truck.id == my_truck_id %} 
-			<span class="info"> This is your truck! </span>
-		{%endif%} 
 		<span class="info">
 		{% if truck.open %} 
 	        <span class="iconic iconic-clock open"></span>
@@ -165,7 +160,11 @@
 	        <span class="iconic iconic-clock closed"></span>
 	        <span class="closed">Closed</span>
 		{%endif%}
+		{% if truck.id == my_truck_id %} 
+			<span class="your-truck">| This is your truck! </span>
+		{%endif%} 
 		</span>
+
 	<p>{{ truck.description|default("No Description Available!") }}</p>
 	</div>
 
@@ -185,6 +184,7 @@
     {% endif %}
 
     {% if truck.twitterid %} 
+		<h3>Recent Tweets</h3>
         <div id="tweet-list"></div>
     {% endif %}
 </div>

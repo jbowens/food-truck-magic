@@ -68,7 +68,7 @@ foodTruckNS.truck.updateTweetList = function() {
         url: '/api/get-truck-tweets',
         data: {
             truckid: foodTruckNS.truck.truckid,
-            count: 10
+            count: 5
         },
         success: function(data) {
             if (!data.error) {
