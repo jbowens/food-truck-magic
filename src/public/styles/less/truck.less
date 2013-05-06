@@ -16,13 +16,16 @@
 }
 
 #truck-sidebar {
-	float: left;
-	margin-right: 1em;
-    max-width: 240px;
+	max-width: auto;
+}
+#photos {
+	position: relative;
+	left: 15%;
 }
 
 #truck-content {
 	float: left;
+	width: 100%;
 }
 
 .info {
@@ -41,4 +44,34 @@
 .photo {
 	margin: 0.25em 0.25em 0.25em 0;
     float: left;
+}
+
+#truck-name {
+	display: none;
+}
+
+@media only screen and (min-width: 681px) {
+
+	#truck-sidebar {
+		float: left;
+		margin-right: 2em;
+		max-width: 240px;
+		height: 100%;
+	}
+	#photos {
+		position: static;
+		left: auto;
+	}
+
+	#truck-name {
+		display: block;
+	}
+
+	#truck-name-mobile {
+		display: none;
+	}
+	#truck-content {
+		float: left;
+		width: 50%;
+	}
 }

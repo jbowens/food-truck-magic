@@ -10,9 +10,9 @@ foodTruckNS.truck = foodTruckNS.truck || { favoriting: false};
  */
 foodTruckNS.truck.updateFavoriteButtonText = function($button) {
     if (foodTruckNS.truck.favoriting) {
-        $button.html("Stop favoriting this truck");
+        $button.html('<span id="favorite-button" class="iconic iconic-pin unfollow"></span> Unfollow');
     } else {
-        $button.html("favorite this truck!");
+        $button.html('<span id="favorite-button" class="iconic iconic-pin follow"></span> Follow!');
     }
 };
 

@@ -65,29 +65,49 @@
 
 {% block content %}
 <div id="truck-sidebar">
-	<div id="prof-pic">
-		<img width="{{ profPicSize }}" 
-			 height="{{ profPicSize }}"
+	<div id="photos">
+		<div id="prof-pic">
+			<img width="{{ profPicSize }}" 
+			height="{{ profPicSize }}"
 			{% if profPic %}
-				 src="{{ profPic.profPicThumb }}"
+			src="{{ profPic.profPicThumb }}"
 			{% else %}
-				 src="/images/default-truck.jpg"
+			src="/images/default-truck.jpg"
 			{% endif %}
 			alt="{{ truck.name }}"
-		/>
+			/>
+		</div>
+
+		{% if photos %}
+		<div class="photo-preview clearfix">
+			{% for photo in photos %}
+			<div class="photo">
+				<a href="/uploads/{{ photo.id }}{{ photo.ext }}" rel="lightbox[truckphotos]">
+					<img src="{{ photo.thumb }}" width="{{ photoThumbSize }}" height="{{ photoThumbSize }}" />
+				</a>
+			</div>
+			{% endfor %}
+		</div>
+		{% endif %}
 	</div>
 
-    {% if photos %}
-        <div class="photo-preview clearfix">
-        {% for photo in photos %}
-            <div class="photo">
-                <a href="/uploads/{{ photo.id }}{{ photo.ext }}" rel="lightbox[truckphotos]">
-                    <img src="{{ photo.thumb }}" width="{{ photoThumbSize }}" height="{{ photoThumbSize }}" />
-                </a>
-            </div>
-        {% endfor %}
-        </div>
-    {% endif %}
+	<div id="truck-name-mobile">
+		<h2> {{ truck.name }} </h2>
+
+		{% if truck.id == my_truck_id %} 
+		<span class="info"> This is your truck! </span>
+		{%endif%} 
+		<span class="info">
+			{% if truck.open %} 
+			<span class="iconic iconic-clock open"></span>
+			<span class="open">Open</span>
+			{% else %} 
+			<span class="iconic iconic-clock closed"></span>
+			<span class="closed">Closed</span>
+			{%endif%}
+		</span>
+	<p>{{ truck.description|default("No Description Available!") }}</p>
+	</div>
 
 	<ul id="truck-data">
 		{% if truck.phone %}
@@ -109,39 +129,45 @@
 
 		{% if user %}
 			<li>
-				<button type="button" id="favorite" style="display:none;"></button>
+				<a href="#" id="favorite" style="display:none">
+					<span id="favorite-button" class="iconic iconic-pin follow"></span>
+				</a>
 			</li>
 		{% else %}
 			<li>
-				(Log in to favorite this truck)
+				<a href="#" id="favorite">
+					<span id="favorite-button" class="iconic iconic-pin follow"></span>
+					Login to Follow!
+				</a>
 			</li>
         {% endif %}
 
-		<li>
-		{{ truck.description|default("No Description Available!") }}
-        </li>
+
 
         {% if truck.menu %}
-        <li><a href="/uploads/large/{{ truck.menu.id }}{{ truck.menu.ext }}" rel="lightbox">menu</a></li>
+        <li><a href="/uploads/large/{{ truck.menu.id }}{{ truck.menu.ext }}" rel="lightbox">Menu</a></li>
         {% endif %}
 	</ul>
 </div>
 
 <div id="truck-content">
-	<h2>
-		{{ truck.name }}
+	<div id="truck-name">
+	<h2> {{ truck.name }} </h2>
 		
 		{% if truck.id == my_truck_id %} 
 			<span class="info"> This is your truck! </span>
 		{%endif%} 
 		<span class="info">
 		{% if truck.open %} 
-	        <span class="open">(open!)</span>
+	        <span class="iconic iconic-clock open"></span>
+	        <span class="open">Open</span>
 		{% else %} 
-			<span class="closed">(closed)</span>
+	        <span class="iconic iconic-clock closed"></span>
+	        <span class="closed">Closed</span>
 		{%endif%}
 		</span>
-	</h2>
+	<p>{{ truck.description|default("No Description Available!") }}</p>
+	</div>
 
     {% if user and user.admin %}
         {# hidden select's necessary so edit-loc can work properly #}

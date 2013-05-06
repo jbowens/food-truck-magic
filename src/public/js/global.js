@@ -33,4 +33,14 @@ $(document).ready(function() {
     $('#menu-icon').click(function() {
         $('.header-container').toggleClass('header-expand');
     });
+
+    $(window).resize(function(){
+        var width = $(window).width();
+        if(width >= 480){
+            $('.header-container').removeClass('header-expand');
+        } else {
+            $('#truckle-menu').hide();
+        }
+    })
+    .resize();
 });

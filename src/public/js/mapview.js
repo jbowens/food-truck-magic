@@ -176,7 +176,7 @@ foodTruckNS.mapview.showMyTruck = function(truckId) {
 foodTruckNS.mapview.displayUser = function(userPos) {
     if (!userPos && foodTruckNS.mapview.userMarker) {
         foodTruckNS.mapview.userMarker.setMap(null);
-    } else {
+    } else if (userPos) {
         var lat = userPos.coords.latitude;
         var lon = userPos.coords.longitude;
         var marker = new google.maps.Marker({
