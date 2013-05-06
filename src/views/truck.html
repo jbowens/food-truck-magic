@@ -28,7 +28,7 @@
         {% endif %}
         $(function() {
             {% if user %}
-            foodTruckNS.truck setupFavoriteButton();
+            foodTruckNS.truck.setupFavoriteButton();
             {% endif %}
             foodTruckNS.truck.setupTweetList();
         });
