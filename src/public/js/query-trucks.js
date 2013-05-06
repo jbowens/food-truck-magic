@@ -217,12 +217,15 @@ foodTruckNS.query.processFilters = function() {
             args.range.lat = pos.coords.latitude;
             args.range.lon = pos.coords.longitude;
             args.range.distance = 1600;
+
+            foodTruckNS.mapview.displayUser(pos);
             foodTruckNS.query.prevArgs = args;
-            foodTruckNS.query.getTrucks(args, true);
+            foodTruckNS.query.getTrucks(args);
         }, function(error) {
             foodTruckNS.displayError('Error occurred trying to get geolocation data. Please reload the page and try again');
         }, {timeout: 8000});
     } else {
+        foodTruckNS.mapview.displayUser(null);
         foodTruckNS.query.prevArgs = args;
         foodTruckNS.query.getTrucks(args, true);
     }

@@ -80,7 +80,7 @@ foodTruckNS.mapview.placeMarkers = function(trucks) {
         var infowindow = new google.maps.InfoWindow({
             maxWidth: 230,
             content: "<a href='/trucks/" + truck.urlid + "'>" + truck.name + "</a>" + 
-                     "<br/> <p style='word-break:break-word'>" + truck.description + "</p>" 
+                     "<br/> <p style='word-break:break-word; font-size:13px;'>" + truck.description + "</p>" 
         });
 
         if (foodTruckNS.mapview.addInfoWindows) {
@@ -171,5 +171,32 @@ foodTruckNS.mapview.showMyTruck = function(truckId) {
             }
         } 
     });
+};
+
+foodTruckNS.mapview.displayUser = function(userPos) {
+    if (!userPos) {
+        foodTruckNS.mapview.userMarker.setMap(null);
+    } else {
+        var lat = userPos.coords.latitude;
+        var lon = userPos.coords.longitude;
+        var marker = new google.maps.Marker({
+            position: new google.maps.LatLng(lat, lon),
+            map: foodTruckNS.mapview.map,
+            title: "You!",
+            icon: {
+                path: google.maps.SymbolPath.CIRCLE,
+                strokeColor: '#C10B0B',
+                fillColor: '#C10B0B',
+                fillOpacity: 1,
+                scale: 3
+            }
+        });
+        var infowindow = new google.maps.InfoWindow({
+            content: "You!"
+        });
+
+        foodTruckNS.mapview.attachClickHandler(marker, infowindow, foodTruckNS.mapview.map);
+        foodTruckNS.mapview.userMarker = marker;
+    }
 };
 
