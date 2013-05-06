@@ -115,6 +115,10 @@ label .optional {
 	margin-top: 29px;
 	color: #FFF;
 	float: left;
+
+	&:hover {
+		color: #FFF;
+	}
 }
 
 #menu-icon {
@@ -184,10 +188,12 @@ nav {
 #truckle-menu {
     position: absolute;
     left: 0;
+	margin-top: 15px;
     z-index: 1000;
-    background: #FFF;
-    border: 1px #777 solid;
-    width: 8em;
+    background: @redler;
+	padding: 1em;
+	border-top: solid 4px white;
+
     ul {
         list-style: none;
         padding: 0;
@@ -196,14 +202,10 @@ nav {
             float: none;
             width: auto;
             margin: 0;
-            padding: 0.25em;
+            padding: 0.5em;
             background: none;
-            color: #333;
-            text-align: right;
-        }
-        a:hover {
-            text-decoration: none;
-            background: #EEE;
+            color: white;
+            text-align: left;
         }
     }
 }
@@ -241,8 +243,6 @@ nav {
     font-size: 2em;
     margin-bottom: 1.5em;
 }
-
-
 
 .header-container {
 	background-color: @redler;
