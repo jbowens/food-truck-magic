@@ -7,7 +7,10 @@ foodTruckNS.displayError = function(message) {
     $('.error-message').text(message);
     $('.error-message').show();
     setTimeout(function() {
-        $('.error-message').hide(1000);
+        $('.error-message').animate({
+            height: 0,
+            opacity: 0
+        }, 1000, function() { $(this).hide(); });
     }, 4000);
 };
 

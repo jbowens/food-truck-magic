@@ -32,11 +32,13 @@
 {% endblock %}
 
 {% block content %}
+<h2> Where is my truck?! </h2>
 <div id="search-wrapper">
     <div class="error-message" style="display:none;"></div>
-    <a id="truck-search-button">
-        <span class="iconic iconic-magnifying-glass"></span>
-    </a>
+    <div class="arrow-right"></div>
+	<a id="truck-search-button">
+		<span class="iconic iconic-magnifying-glass"></span>
+	</a>
     <input type="text" id="truck-search" placeholder="Search trucks"></input>
 </div>
 <div id="filter-wrapper">
@@ -46,7 +48,7 @@
     <a class="search-filter" id="near-filter"> Near you </a>
     {# NOTE: hide the open-filter since only open things will show on the map anyways.
        Class is set to active so it will always be applied in the filter #} 
-    <a class="search-filter active" id="open-filter" style="display: none;"> Open </a>
+    <a class="search-filter active" id="open-filter" style="display: none"> Open </a>
 </div>
 
 <div id="map-canvas"></div>
