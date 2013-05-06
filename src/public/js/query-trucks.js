@@ -136,10 +136,15 @@ foodTruckNS.query.getTrucks = function(args) {
                 foodTruckNS.displayError("Couldn't load trucks");
             } else {
                 data.trucks.sort(function(a, b) {
-                    if (a.open) {
+                    /* sorting function. prioritize open trucks first, then tweeting trucks */
+                    if (a.open && !b.open) {
                         return -1;
-                    } else if (b.open) {
+                    } else if (!a.open && b.open) {
                         return 1;
+                    } else if (a.tweet && !b.tweet) {
+                        return -1;
+                    } else if (!a.tweet && b.tweet) {
+                        return 1 ;
                     }
                     return 0;
                 });
