@@ -101,6 +101,11 @@ foodTruckNS.query.listTrucks = function(trucks, thumbnailSize) {
     container.html('');
     foodTruckNS.query.twitterLiElements = {}; /* key: truck id, val: html */
 
+
+    if (trucks.length === 0) {
+        container.html("No trucks where found :(");
+    }
+
     for (var i = 0; i < trucks.length; i++) {
         var truck = trucks[i];
         var $innerLiHTML = $(foodTruckNS.query.innerLiHTML(truck, thumbnailSize));
