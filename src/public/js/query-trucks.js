@@ -30,7 +30,10 @@ foodTruckNS.query.innerLiHTML = function(truck, thumbnailSize) {
     var urlid = truck.urlid;
     var description = "";
     var thumbnailLink = "/images/default-truck.jpg";
-    var openStatus = "closed";
+    var openStatus = "Closed";
+    var openStatusClass = "closed";
+    var openLocation = "";
+
     if (truck.description) {
         description = truck.description;
     }
@@ -38,7 +41,25 @@ foodTruckNS.query.innerLiHTML = function(truck, thumbnailSize) {
         thumbnailLink = truck.thumb;
     }
     if (truck.open) {
-        openStatus = "open!";
+        openStatus = "Open";
+        openStatusClass = "open";
+
+        //google maps location link
+        var points = truck.geopoint.split('(')[1];
+        points = points.substring(0, points.length-1).split(' ');
+        points[0] = parseFloat(points[0]);
+        points[1] = parseFloat(points[1]);
+        var googleMapsLink = 'http://maps.google.com/maps?hl=en&q=to+' +
+                points[0] +
+                '%2C' +
+                points[1] +
+                '&z=17';
+
+        openLocation = '' + 
+            '<a class="location" target="_blank" href="' + googleMapsLink + '">' +
+            '    <span class="iconic iconic-map-pin-fill"></span>' +
+            '    Go!' + 
+            '</a>';
     }
     
     var tweet = "<p class='truck-tweet'>";
@@ -59,7 +80,11 @@ foodTruckNS.query.innerLiHTML = function(truck, thumbnailSize) {
             '   <a href="trucks/' + urlid + '">' +
             '       <h3 class="truck-name">' + name + '</h3>' +
             '   </a>' +
-            '   <span class="openStatus">(' + openStatus + ')</span>' +
+            '   <div class="truck-status">' +
+            '       <span class="iconic iconic-clock ' + openStatusClass + '"></span>' +
+            '       <span class="' + openStatusClass + '">' + openStatus + '</span>' +
+            ''      + openLocation +
+            '   </div>' +
             '   <p>' + description + '</p>' +
                 tweet +
             '</div>' +

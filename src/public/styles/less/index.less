@@ -1,3 +1,5 @@
+@import "colors.less";
+
 #map-canvas {
     height: 300px;
 }
@@ -22,6 +24,10 @@ ul#open-trucks {
 		padding-top: 1em;
 		padding-bottom: 1em;
 		border-bottom: 1px solid #ccc;
+
+		&:last-child {
+			border-bottom: none;
+		}
 	}
 }
 
@@ -59,6 +65,30 @@ ul#open-trucks {
     p {
         word-wrap: break-word;
     }
+}
+
+.truck-status {
+	.iconic {
+		font-size: 1.2em;
+		padding-left: 2px;
+		padding-right: 2px;
+	}
+
+	.location {
+		padding-left: 6px;
+	}
+	.closed {
+		color: gray;
+	}
+}
+
+.truck-tweet {
+	padding-left: 2em;
+	border-left: solid 2px fadeout(@redler, 50%);
+	margin-left: 2px;
+	font-size: 0.9em;
+	line-height: 1.6em;
+	color: @redler-used;
 }
 
 @media only screen and (min-width: 480px) {
