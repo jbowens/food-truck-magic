@@ -102,6 +102,9 @@
 	        <span class="iconic iconic-clock closed"></span>
 	        <span class="closed">Closed</span>
 		{%endif%}
+        {% if truck_cats && truck_cats.length %}
+            <span class="category">| {{ truck_cats_names | commasep }}</span>
+        {% endif %}
 		{% if truck.id == my_truck_id %} 
 			<span class="your-truck">| This is your truck! </span>
 		{%endif%} 
@@ -127,23 +130,21 @@
 
 		{% if truck.phone %}
 			<li class="data-item phone">
-				Phone: <a href="tel:{{ truck.phone }}">{{ truck.phone }}</a>
+				<span class="iconic iconic-iphone"></span> <a href="tel:{{ truck.phone }}">{{ truck.phone }}</a>
 			</li>
 		{% endif %}
 		{% if truck.website %}
 			<li class="data-item website">
-				Website: <a href="{{ truck.website }}" class="truck-website">{{ truck.website }}</a>
+				<span class="iconic iconic-link"></span><a href="{{ truck.website }}" class="truck-website">Website</a>
 			</li>
         {% endif %}
         
-        {% if truck_cats && truck_cats.length %}
-            <li class="data-item categories">
-                {{ truck_cats_names | commasep }}
-            </li>
-        {% endif %}
+
 
         {% if truck.menu %}
-        <li><a href="/uploads/large/{{ truck.menu.id }}{{ truck.menu.ext }}" rel="lightbox">Menu</a></li>
+			<li>
+				<span class="iconic iconic-book-alt2"></span><a href="/uploads/large/{{ truck.menu.id }}{{ truck.menu.ext }}" rel="lightbox">Menu</a>
+			</li>
         {% endif %}
 	</ul>
 </div>
@@ -160,6 +161,9 @@
 	        <span class="iconic iconic-clock closed"></span>
 	        <span class="closed">Closed</span>
 		{%endif%}
+        {% if truck_cats && truck_cats.length %}
+            <span class="category">| {{ truck_cats_names | commasep }}</span>
+        {% endif %}
 		{% if truck.id == my_truck_id %} 
 			<span class="your-truck">| This is your truck! </span>
 		{%endif%} 
