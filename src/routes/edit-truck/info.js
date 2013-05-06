@@ -112,6 +112,11 @@ exports.postRoute = function(request, response, data) {
             });
         }); 
     } else {
+        /* hack so twitter id isn't erased if twittername didnt change */
+        if (request.body.twittername && data.my_truck.twittername && 
+                request.body.twittername == data.my_truck.twittername) {
+            request.body.twitterid = data.my_truck.twitterid;
+        }
         return updateTruckData(request, response, data, err);
     }
 };
