@@ -103,7 +103,7 @@ foodTruckNS.query.listTrucks = function(trucks, thumbnailSize) {
 
 
     if (trucks.length === 0) {
-        container.html("No trucks where found :(");
+        container.html("No trucks were found :(");
     }
 
     for (var i = 0; i < trucks.length; i++) {
