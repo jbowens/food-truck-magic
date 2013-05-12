@@ -5,7 +5,7 @@ then
     echo "Compiling less..."
     ./bin/compile-less
     echo "Starting server..."
-    node ./src/twitter.js &
+    # node ./src/twitter.js &
     # TODO: Check if mac os x
     # say "FoodTruckler is now online" &
     node ./src/server.js "$@"

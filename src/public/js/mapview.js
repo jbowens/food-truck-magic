@@ -62,6 +62,13 @@ foodTruckNS.mapview.placeMarkers = function(trucks) {
         points[0] = parseFloat(points[0]);
         points[1] = parseFloat(points[1]);
 
+        //add location to truck object
+        truck.locationLink = 'http://maps.google.com/maps?hl=en&q=to+' +
+                points[0] +
+                '%2C' +
+                points[1] +
+                '&z=17';
+
         /* add marker to the map */
         var marker = new google.maps.Marker({
             position: new google.maps.LatLng(points[0], points[1]),
