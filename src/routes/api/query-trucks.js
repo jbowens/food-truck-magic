@@ -6,6 +6,7 @@ var db = require('../../db.js').Database;
 var thumbnailer = require('../../thumbnailer.js').Thumbnailer;
 var twitterDb = require('../../twitterDb.js');
 var async = require('async');
+var colors = require('colors');
 
 /* Constants */
 var THUMBNAIL_SIZE = 120;
@@ -69,7 +70,6 @@ var appendFilters = function(body) {
     return [sql, args];
 };
 
-
 /*
  * Expects request.body to have the following parameters:
  * open - (optional) boolean specifying whether to query open/closed
@@ -119,5 +119,10 @@ exports.postRoute = function(request, response, data) {
             response.json(data);
         });
 
+    });
+
+    response.on('error', function(e) {
+        console.log("FIX THIS SHIT: api/query-trucks.js".red);
+        console.log(e.stack.red);
     });
 };
