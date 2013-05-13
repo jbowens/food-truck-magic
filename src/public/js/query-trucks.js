@@ -74,6 +74,7 @@ foodTruckNS.query.listTrucks = function(trucks, thumbnailSize) {
  */
 foodTruckNS.query.getTrucks = function(args) {
     if (foodTruckNS.query.truckContainer !== null) {
+        foodTruckNS.query.truckContainer.hide();
         foodTruckNS.query.truckContainer.fadeIn("slow");
     }
 
