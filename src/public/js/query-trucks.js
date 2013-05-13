@@ -20,8 +20,10 @@ foodTruckNS.query.intervalFunction = function(data) {
         var tweets = data.tweets;
         if (tweets.length && id in foodTruckNS.query.twitterLiElements) {
             var li = foodTruckNS.query.twitterLiElements[id];
-            li.find('.truck-info > .truck-tweet').text(tweets[0].text);
-        }        
+            li.find('.truck-info > .truck-tweet')
+                .html(foodTruckNS.twitter.parseTweet(tweets[0]));
+            li.find('time.tweet-timeago').timeago();
+        }
     }
 };
 
@@ -63,6 +65,8 @@ foodTruckNS.query.listTrucks = function(trucks, thumbnailSize) {
            foodTruckNS.query.twitterLiElements[truck.id] = $innerLiHTML;
         }
     }
+
+    $("time.tweet-timeago").timeago();
 };
 
 /*
@@ -70,7 +74,6 @@ foodTruckNS.query.listTrucks = function(trucks, thumbnailSize) {
  */
 foodTruckNS.query.getTrucks = function(args) {
     if (foodTruckNS.query.truckContainer !== null) {
-        foodTruckNS.query.truckContainer.hide();
         foodTruckNS.query.truckContainer.fadeIn("slow");
     }
 

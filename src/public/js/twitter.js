@@ -8,5 +8,5 @@ foodTruckNS.twitter = foodTruckNS.twitter || {};
 
 foodTruckNS.twitter.parseTweet = function(tweet) {
     //TODO: parse tweets info
-    return foodTruckNS.templates.tweet({ text: tweet.text });
+    return foodTruckNS.templates.tweet({ tweet: tweet });
 };

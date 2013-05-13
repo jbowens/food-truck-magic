@@ -3,7 +3,6 @@
  *
  */
 
-var foodTruckNS = foodTruckNS || {};
 foodTruckNS.templates = foodTruckNS.templates || {};
 
 //Adjust underscore templating to match mustache
@@ -13,9 +12,10 @@ _.templateSettings = {
 };
 
 foodTruckNS.templates.tweet = _.template([
-    '<p class="truck-tweet">',
-        '{{ text }}',
-    '</p>'
+    '<p class="tweet-text">',
+        '{{ tweet.text }}',
+    '</p>',
+    '<time class="tweet-timeago" datetime="{{ tweet.created_at }}"></time>'
 ].join('\n'));
 
 foodTruckNS.templates.truckList = _.template([
@@ -45,7 +45,9 @@ foodTruckNS.templates.truckList = _.template([
 
             '<p>{{ truck.description }}</p>',
 
-            '{{ tweet }}',
+            '<div class="truck-tweet">',
+                '{{ tweet }}',
+            '</div>',
         '</div>',
     '</li>'
 ].join('\n'));
