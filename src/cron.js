@@ -36,7 +36,7 @@ var deleteOldTweets = function() {
 
 exports.startCronJobs = function() {
     deleteOldTweets();
-    setInterval(autoCloseTrucks, 24*60*60*1000); /* every 24 hours */
+    setInterval(deleteOldTweets, 24*60*60*1000); /* every 24 hours */
 
     autoCloseTrucks();
     setInterval(autoCloseTrucks, 5*60*1000); /* every 5 minutes */
