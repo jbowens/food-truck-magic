@@ -120,9 +120,4 @@ exports.postRoute = function(request, response, data) {
         });
 
     });
-
-    response.on('error', function(e) {
-        console.log("FIX THIS SHIT: api/query-trucks.js".red);
-        console.log(e.stack.red);
-    });
 };

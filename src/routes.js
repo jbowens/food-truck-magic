@@ -9,6 +9,15 @@ exports.setupRoutes = function(app) {
 
     var r = function(routeFilename, route) {
         return function(request, response) {
+            /* 
+             * generic catchall for response errors.
+             * TODO: this might be a bit aggressive to catch all of them
+             */
+            response.on('error', function(e) {
+                console.log("SOCKET HANGUP".red);
+                console.log(e.stack.red);
+            });
+
             var data = {
                 user: request.session.user,
                 my_truck_id: request.session.my_truck_id
