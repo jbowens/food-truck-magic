@@ -66,6 +66,7 @@ foodTruckNS.query.listTrucks = function(trucks, thumbnailSize) {
         }
     }
 
+    foodTruckNS.linker.linkify(container[0]);
     $("time.tweet-timeago").timeago();
 };
 
