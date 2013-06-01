@@ -22,6 +22,7 @@ foodTruckNS.query.intervalFunction = function(data) {
             var li = foodTruckNS.query.twitterLiElements[id];
             li.find('.truck-info > .truck-tweet')
                 .html(foodTruckNS.twitter.parseTweet(tweets[0]));
+            foodTruckNS.linker.linkify(li.find('.truck-info > .truck-tweet')[0]);
             li.find('time.tweet-timeago').timeago();
         }
     }
@@ -66,6 +67,7 @@ foodTruckNS.query.listTrucks = function(trucks, thumbnailSize) {
         }
     }
 
+    foodTruckNS.linker.linkify(container[0]);
     $("time.tweet-timeago").timeago();
 };
 

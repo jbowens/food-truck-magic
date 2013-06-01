@@ -82,6 +82,7 @@ foodTruckNS.truck.updateTweetList = function() {
 
                 innerHtml += '</ul>';
                 $tweetList.html(innerHtml);
+                foodTruckNS.linker.linkify($tweetList[0]);
             }
         }
     });
