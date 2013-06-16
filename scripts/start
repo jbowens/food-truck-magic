@@ -1,9 +1,9 @@
 #!/bin/sh
-verified=./bin/verify-js
+verified=./scripts/verify-js
 if $verified
 then
     echo "Compiling less..."
-    ./bin/compile-less
+    ./scripts/compile-less
     echo "Starting server..."
     # node ./src/twitter.js &
     # TODO: Check if mac os x

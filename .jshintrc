@@ -12,7 +12,6 @@
         "alert"
     ],
 
-    "es5"           : true,
     "globalstrict"  : true,
     "strict"        : false,
 	"laxcomma"		: true
