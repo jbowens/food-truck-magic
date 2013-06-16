@@ -76,8 +76,7 @@ foodTruckNS.query.listTrucks = function(trucks, thumbnailSize) {
  */
 foodTruckNS.query.getTrucks = function(args) {
     if (foodTruckNS.query.truckContainer !== null) {
-        foodTruckNS.query.truckContainer.hide();
-        foodTruckNS.query.truckContainer.fadeIn("slow");
+        foodTruckNS.query.truckContainer.html("Loading trucks...");
     }
 
     $.ajax({
@@ -103,6 +102,7 @@ foodTruckNS.query.getTrucks = function(args) {
                 });
                 if (foodTruckNS.query.truckContainer !== null) {
                     foodTruckNS.query.listTrucks(data.trucks, data.thumbnailSize);
+                    foodTruckNS.query.truckContainer.fadeIn("slow");
                 }
 
                 /* Update the map to show only the newly listed trucks */
@@ -111,7 +111,7 @@ foodTruckNS.query.getTrucks = function(args) {
                     return truck.open;
                 }));
             }
-        } 
+        }
     });
 };
 
