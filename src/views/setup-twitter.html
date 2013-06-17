@@ -5,6 +5,11 @@
 <link rel="stylesheet" href="/styles/setup-twitter.css" />
 {% endblock %}
 
+{% block scripts %}
+    {% parent %}
+    <script type="text/javascript" src="/js/setup-twitter.js"></script>
+{% endblock %}
+
 {% block content %}
 <h2>I bet you tweet&hellip;</h2>
 
