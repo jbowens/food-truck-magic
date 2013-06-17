@@ -2,6 +2,7 @@
  * behalf of trucks. This is part of the setup flow. Most of the actual
  * work happens on other endpoints through ajax calls.
  */
+var fourohfour = require('../fourohfour.js').route;
 
 /* It only makes sense for truck owners to hit this page.
  */
