@@ -1,8 +1,8 @@
 {% extends 'boilerplate.html' %}
 
 {% block stylesheets %}
-{% parent %}
-<link rel="stylesheet" href="/styles/setup-twitter.css" />
+    {% parent %}
+    <link rel="stylesheet" href="/styles/setup-twitter.css" />
 {% endblock %}
 
 {% block scripts %}
@@ -14,14 +14,16 @@
 <h2>I bet you tweet&hellip;</h2>
 
 <p>Foodtruckler supports twitter integration. When you update your location on Foodtruckler,
-you can simultaneously tweet your location and hours to your twitter followers.</p>
+you can simultaneously tweet your location and hours to your twitter followers. If you
+want this feature, you'll need to authorize us. Otherwise, you can 
+<a href="#" class="skip">skip</a>.</p>
 
 <form id="setup-twitter">
     <span class="at-sign">@</span><input type="text" id="twitter-handle" name="twitterHandle"
     placeholder="your_awesome_foodtruck" maxlength="18" />
     <div class="button-row">
         <button class="skip" id="skip-twitter">Skip</button>
-        <input type="submit" value="Save twitter" />
+        <input type="submit" value="Authorize" />
     </div>
 </form>
 

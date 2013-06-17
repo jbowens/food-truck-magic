@@ -95,6 +95,7 @@ exports.setupRoutes = function(app) {
     post('/api/query-trucks', './routes/api/query-trucks.js');
     post('/api/get-truck-tweets', './routes/api/get-truck-tweets.js');
     get('/api/get-favorites/:userId', './routes/api/get-favorites.js');
+    post('/api/start-twitter-setup', './routes/api/start-twitter-setup.js');
     get('*', './routes/fourohfour.js');
     post('*', './routes/fourohfour.js');
 };

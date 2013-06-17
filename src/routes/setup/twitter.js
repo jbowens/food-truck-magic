@@ -10,6 +10,10 @@ function hasPermission(request, response, data) {
     return !!(data.user && data.my_truck);
 }
 
+// TODO: Update route to handle case where the truck already has a
+// twitter handle but has not yet setup OAuth so that we can tweet
+// on their behalf.
+
 exports.route = function(request, response, data) {
     if(!hasPermission(request, response, data)) {
         fourohfour(request, response, data);

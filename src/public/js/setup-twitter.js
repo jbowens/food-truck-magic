@@ -7,8 +7,11 @@ foodTruckNS.setupTwitter = foodTruckNS.setupTwitter || {};
 foodTruckNS.saveTwitterHandle = function(evt) {
     evt.preventDefault();
     var twitterHandle = $('#twitter-handle').val();
-    alert(twitterHandle);
-    // TODO: ajax up in hurr
+    $.post('/api/start-twitter-setup', {
+        twitterName: twitterHandle
+    }, function(xhr) {
+        alert('yay!');    
+    });
 };
 
 $(document).ready(function(evt) {
