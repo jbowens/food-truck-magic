@@ -75,6 +75,7 @@ exports.setupRoutes = function(app) {
     post('/login', './routes/login.js');
     get('/login', './routes/login.js');
     get('/trucks/:truckidentifier', './routes/truck.js');
+    get('/setup/twitter', './routes/setup/twitter.js');
     get('/edit-truck/info', './routes/edit-truck/info.js');
     post('/edit-truck/info', './routes/edit-truck/info.js');
     get('/edit-truck/photos', './routes/edit-truck/photos.js');
