@@ -2,5 +2,4 @@
 ================
 :truck: Foodtruckler.com :truck:
 
-
-Leave while you still can!
+R.I.P. :hurtrealbad:
